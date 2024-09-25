@@ -1,0 +1,24 @@
+<table style="text-align: center; align-items: center;">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>CompaÑia</th>
+            <th>Teléfono</th>
+            <th>Correo</th>
+            <th>Servicio</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (contact of contacts; track contact.id) {
+        <tr>
+            <td>{{ contact.name }}</td>
+            <td>{{ contact.company }}</td>
+            <td>{{ contact.phone }}</td>
+            <td>{{ contact.email }}</td>
+            <td>{{ contact.service }}</td>
+            <td>{{ contact.status }}</td>
+        </tr>
+        }
+    </tbody>
+</table>

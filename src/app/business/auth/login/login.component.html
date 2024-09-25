@@ -1,0 +1,52 @@
+<div class="grid grid-nogutter surface-section text-800">
+    <div class="col-12 md:col-9 p-6 text-center md:text-left flex align-items-center">
+
+        <div class="surface-card p-4 w-full lg:w-20">
+            <div class="text-center mb-5">
+                <img src="./assets/login/auto.png" alt="carro" height="50" class="mb-3">
+                <div class="text-900 text-3xl font-medium mb-3">¡Bienvenido de vuelta! 👋</div>
+                <p style="text-align: center;" class="font-normal no-underline ml-2">
+                    Hoy es un nuevo día. Es tu día. Tú le das forma.
+                    <span>Inicia sesión para comenzar a gestionar tu flotilla.</span> 
+                </p>
+            </div>
+            <!-- Formulario para iniciar sesión -->
+            <form [formGroup]="loginForm" (ngSubmit)="login()">
+                <div>
+                    <label for="email" class="block text-900 font-medium mb-2">Correo electrónico</label>
+                    <input id="email" type="text" placeholder="mi@empresa.ex" style="background-color: #F7FBFF; color: #8897AD;"
+                        pInputText formControlName="email" class="w-full">
+                    @if (email?.invalid && email?.touched) {
+                    <small class="fadein p-error animation-duration-1000">Ingrese un
+                        correo válido</small>
+                    }
+        
+                    <label for="password" class="block text-900 font-medium mt-2 mb-2">Contraseña</label>
+                    <input id="password" type="password" placeholder="••••••••••••••"
+                        style="background-color: #F7FBFF; color: #8897AD;" formControlName="password" pInputText class="w-full">
+                    @if (password?.invalid && password?.touched) {
+                    <small class="fadein p-error animation-duration-1000">Ingrese una contraseña válida</small>
+                    }
+        
+                    <div class="flex align-items-center justify-content-between mt-3 mb-3">
+                        <a class="font-medium ml-2 text-blue-500 text-right cursor-pointer">Olvidé mi contraseña</a>
+                    </div>
+        
+                    <button pButton pRipple label="Iniciar Sesión" class="font-normal w-full custom-button"
+                        [disabled]="loginForm.invalid"></button>
+        
+                    <div class="text-center mt-4">
+                        <span class="text-600 font-medium">¿No cuenta con un correo de su empresa?</span>
+                        <a class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Revise esta publicación</a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <div class="md:col-6 flex justify-content-between">
+            <img src="./assets/login/login-car.png" alt="s" class="block w-full h-auto md:h-full"
+                style="margin-left: 280px;">
+        </div>
+    </div>
+</div>
