@@ -53,4 +53,8 @@ export class LoginComponent {
   get password() {
     return this.loginForm.get('password');
   }
+
+  recuperarContra() {
+    console.log('hola')
+    }
 }

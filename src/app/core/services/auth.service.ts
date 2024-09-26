@@ -53,6 +53,7 @@ export class Auth {
 
         const payload = JSON.parse(atob(token.split('.')[1]));
         const exp = payload.exp * 1000;
+        console.log(exp)
         return Date.now() < exp;
     }
 

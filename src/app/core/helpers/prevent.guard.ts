@@ -7,7 +7,7 @@ export const PreventGuard: CanActivateFn = (route, state) =>{
   const router = inject(Router);
 
   if (authService.isAuthenticated()) {
-    return router.navigate(['']);
+    return router.navigate(['/dashboard']);
   } else {
     return true;
   }
