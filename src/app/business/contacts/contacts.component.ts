@@ -10,7 +10,7 @@ import { TableModule } from 'primeng/table';
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.css'
 })
-export class ContactsComponent implements OnInit {
+export default class ContactsComponent implements OnInit {
   contacts?: Contacts[];
   by: any;
   
