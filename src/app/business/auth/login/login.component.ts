@@ -18,18 +18,20 @@ import { Router } from '@angular/router';
 export class LoginComponent {
 
   loginForm: FormGroup;
+  isRecoveryPassword = false;
 
   constructor(
     private auth: Auth,
     private router: Router,
-    private fb: FormBuilder 
+    private fb: FormBuilder
   ) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]], 
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4)]]
     });
   }
 
+  // método para iniciar sesion
   login() {
     if (this.loginForm.valid) {
       const creds: Credentials = {
@@ -42,7 +44,7 @@ export class LoginComponent {
         this.router.navigate(['/dashboard']);
       });
     } else {
-      console.log('Formulario inválido');
+      console.log('formulario inválido');
     }
   }
 
@@ -54,7 +56,7 @@ export class LoginComponent {
     return this.loginForm.get('password');
   }
 
-  recuperarContra() {
-    console.log('hola')
-    }
+  recoveryPassword() {
+    this.isRecoveryPassword = !this.isRecoveryPassword;
+  }
 }
