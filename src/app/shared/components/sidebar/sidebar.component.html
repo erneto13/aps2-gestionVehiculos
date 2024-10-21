@@ -1,1 +1,116 @@
-<p>sidebar works!</p>
+<div class="w-64 px-1 bg-sidebargray h-screen">
+    <div class="h-16 flex items-center pt-12">
+        <a
+            class="w-48 mx-auto flex items-center justify-start text-gray-100 py-2 rounded space-x-2 transition duration-150">
+            <img src="./assets/logo.png">
+            <span class="text-xl"><b>CARRILLOs</b></span>
+        </a>
+    </div>
+    <div class="px-2 pt-8 pb-8">
+        <ul class="space-y-2">
+            <li>
+                <a class="hover:bg-gray-500 hover:bg-opacity-10 hover:text-customgreen flex items-center text-customgray py-1.5 px-4 rounded space-x-2 cursor-pointer"
+                    routerLink="/dashboard" routerLinkActive="text-customgreen font-semibold">
+                    <span class="flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
+                        </svg>
+                        <span>Panel</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a class="hover:bg-gray-500 hover:bg-opacity-10 hover:text-customgreen flex items-center text-customgray py-1.5 px-4 rounded space-x-2 cursor-pointer"
+                    routerLink="/vehiculos" routerLinkActive="text-customgreen font-semibold">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                    </svg>
+                    <span>Vehículos</span>
+                </a>
+            </li>
+            <li>
+                <a class="hover:bg-gray-500 hover:bg-opacity-10 hover:text-customgreen flex items-center text-customgray py-1.5 px-4 rounded space-x-2 cursor-pointer"
+                    routerLink="/asuntos" routerLinkActive="text-customgreen font-semibold">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
+                    </svg>
+                    <span>Asuntos</span>
+                </a>
+            </li>
+            <li>
+                <a class="hover:bg-gray-500 hover:bg-opacity-10 hover:text-customgreen flex items-center text-customgray py-1.5 px-4 rounded space-x-2 cursor-pointer"
+                    routerLink="/recordatorios" routerLinkActive="text-customgreen font-semibold">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                </svg>
+                <span>Recordatorios</span>
+                </a>
+            </li>
+            <li>
+                <a class="hover:bg-gray-500 hover:bg-opacity-10 hover:text-customgreen flex items-center text-customgray py-1.5 px-4 rounded space-x-2 cursor-pointer"
+                    routerLink="/contactos" routerLinkActive="text-customgreen font-semibold">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                    <span>Contactos</span>
+                </a>
+            </li>
+            <li>
+                <a class="hover:bg-gray-500 hover:bg-opacity-10 hover:text-customgreen flex items-center justify-between text-customgray py-1.5 px-4 rounded space-x-2 cursor-pointer"
+                    routerLink="/rutas" routerLinkActive="text-customgreen font-semibold">
+                    <span class="flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                        </svg>
+                        <span>Rutas</span>
+                    </span>
+                </a>
+            </li>
+            <br>
+            <br>
+            <br>
+            <div class="border-b border-divider"></div>
+            <br class="bg-white">
+            <li>
+                <a class="hover:bg-gray-500 hover:bg-opacity-10 hover:text-customgreen flex items-center text-customgray py-1.5 px-4 rounded space-x-2 cursor-pointer"
+                    routerLink="/ajustes" routerLinkActive="text-customgreen font-semibold">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 0 1 1.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.559.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.894.149c-.424.07-.764.383-.929.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 0 1-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.398.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 0 1-.12-1.45l.527-.737c.25-.35.272-.806.108-1.204-.165-.397-.506-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.108-1.204l-.526-.738a1.125 1.125 0 0 1 .12-1.45l.773-.773a1.125 1.125 0 0 1 1.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                    <span>Ajustes</span>
+                </a>
+            </li>
+            <li>
+                <a
+                    class="hover:bg-red-500 hover:bg-opacity-10 hover:text-red-400 flex items-center text-red-700 py-1.5 px-4 rounded space-x-2 cursor-pointer"
+                    (click)="logout()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                    </svg>
+                    <span>Cerrar sesión</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

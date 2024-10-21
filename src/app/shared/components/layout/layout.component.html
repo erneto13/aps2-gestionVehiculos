@@ -1,1 +1,12 @@
-<p>layout works!</p>
+<div class="w-full bg-white flex">
+    <!-- componente sidebar -->
+    <app-sidebar></app-sidebar>
+    <div class="flex-1 px-7">
+        <!-- componente header -->
+        <app-header></app-header>
+        <div class="mb-6">
+            <!-- componente del contenido -->
+             <router-outlet/>
+        </div>
+    </div>
+</div>
