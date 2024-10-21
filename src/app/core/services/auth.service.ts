@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 
 export class Auth {
 
-    private LOGIN_URL = 'http://localhost:8080/api/auth/login'
+    private LOGIN_URL = 'http://localhost:8080/api/v1/auth/login'
     private TOKEN_KEY = 'token';
 
     constructor(
@@ -23,13 +23,14 @@ export class Auth {
             observe: 'response'
         }).pipe(map((response: HttpResponse<any>) => {
             const body = response.body;
-            const headers = response.headers;
 
-            const bearerToken = headers.get('Authorization')!;
-            const token = bearerToken.replace('Bearer ', '');
-
-            localStorage.setItem('token', token);
-            return body;
+            if (body && body.token) {
+                const token = body.token.replace('Bearer ', '');
+                localStorage.setItem(this.TOKEN_KEY, token);
+                return body;
+            } else {
+                throw new Error("los zetas estan afuera atte: el chapo");
+            }
         }));
     }
 
