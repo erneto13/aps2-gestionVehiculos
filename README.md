@@ -1,1 +1,1 @@
-# hola 🐄
+qeloke bro te habla mitel vi asi mimo mitel vi te llamo para infolmalte de que tu ere uno de lo ganadore de lo diemil dolal asi e bro de lo diemil dolal te llamo para dalte sielto requisito y para felisitalte te felisito apunta ete numero pa que no ponga una recarga de dosiento oye ocho veintinueve tre pal de frito un ala y un mulito apunta ese numero para una recalga de dosiento
