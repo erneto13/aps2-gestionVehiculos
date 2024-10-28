@@ -59,7 +59,7 @@ export const routes: Routes = [
     // Otherwise redirect to dashboard
     {
         path: '**',
-        redirectTo: 'dashboard'
+        redirectTo: 'panel'
     }
 ]
 
