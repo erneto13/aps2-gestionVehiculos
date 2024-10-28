@@ -18,20 +18,29 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         children: [
             {
-                path: 'dashboard',
+                path: 'panel',
                 loadComponent: () => import('./business/dashboard/dashboard.component')
             },
             {
                 path: 'vehiculos',
                 loadComponent: () => import('./business/vehicles/vehicles.component')
-            },            {
+            },
+            {
+                path: 'vehiculos/documentacion',
+                loadComponent: () => import('./business/vehicles/documentation/documentation.component')
+            },
+            {
+                path: 'vehiculos/mantenimiento',
+                loadComponent: () => import('./business/vehicles/maintenance/maintenance.component')
+            },
+            {
                 path: 'asuntos',
                 loadComponent: () => import('./business/issues/issues.component')
             },
             {
                 path: 'recordatorios',
                 loadComponent: () => import('./business/reminders/reminders.component')
-            },            {
+            }, {
                 path: 'contactos',
                 loadComponent: () => import('./business/contacts/contacts.component')
             },
@@ -41,7 +50,7 @@ export const routes: Routes = [
             },
             {
                 path: '',
-                redirectTo: 'dashboard',
+                redirectTo: 'panel',
                 pathMatch: 'full'
             }
         ]
