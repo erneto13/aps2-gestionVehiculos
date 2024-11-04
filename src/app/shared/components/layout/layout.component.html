@@ -1,12 +1,9 @@
-<div class="w-full bg-white flex">
-    <!-- componente sidebar -->
-    <app-sidebar></app-sidebar>
-    <div class="flex-1 px-7">
-        <!-- componente header -->
-        <app-header></app-header>
-        <div class="mb-6">
-            <!-- componente del contenido -->
-             <router-outlet/>
+<div class="flex w-full bg-white">
+    <app-sidebar class="w-64 bg-gray-200"></app-sidebar>
+    <div class="flex-1 flex flex-col">
+        <app-header class="ml-8"></app-header>
+        <div class="scrollable-content flex-1">
+            <router-outlet></router-outlet>
         </div>
     </div>
 </div>
