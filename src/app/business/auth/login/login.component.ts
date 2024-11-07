@@ -6,11 +6,15 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { Credentials } from '../../../core/interfaces/credentials';
 import { Auth } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { LoadingService } from '../../../core/services/loading.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ButtonModule, PasswordModule, InputTextModule, ReactiveFormsModule],
+  imports: [ButtonModule, PasswordModule,
+    InputTextModule, ReactiveFormsModule,
+    CommonModule],
   providers: [],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -23,7 +27,8 @@ export class LoginComponent {
   constructor(
     private auth: Auth,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public loadingService: LoadingService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
