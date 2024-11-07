@@ -4,6 +4,7 @@ import { Contacts } from '../../core/interfaces/contacts';
 import { ContactsService } from '../../business/contacts/services/contacts.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { LoadingService } from '../../core/services/loading.service';
 
 @Component({
   selector: 'app-contacts',
@@ -12,6 +13,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.css'
 })
+
 export default class ContactsComponent implements OnInit {
   contacts: Contacts[] = [];
   columnas: any[] = ["Nombre", "Compania", "Teléfono", "Correo", "Servicio", "Status"];
@@ -31,8 +33,10 @@ export default class ContactsComponent implements OnInit {
   showContactModal: boolean = false;
   initials: string = '';
 
+  // constructor 
   constructor(
-    private cs: ContactsService
+    private cs: ContactsService,
+    public loadingService: LoadingService
   ) { }
 
   ngOnInit(): void {
@@ -126,7 +130,6 @@ export default class ContactsComponent implements OnInit {
       }
     }
   }
-
 
   closeContactModal(): void {
     this.showContactModal = false;

@@ -12,6 +12,10 @@ export class ContactsService {
     private http: HttpClient
   ) { }
 
+  getContacts(): Observable<Contacts[]> {
+    return this.http.get<Contacts[]>('http://localhost:8080/api/v1/contact-list');
+  }
+
   addContact(): Observable<Contacts> {
     return this.http.post<Contacts>('http://localhost:8080/api/v1/contact', {});
   }
@@ -22,10 +26,6 @@ export class ContactsService {
 
   updateContact(): Observable<Contacts> {
     return this.http.put<Contacts>('http://localhost:8080/api/v1/contact', {});
-  }
-
-  getContacts(): Observable<Contacts[]> {
-    return this.http.get<Contacts[]>('http://localhost:8080/api/v1/contact-list');
   }
 
 }
