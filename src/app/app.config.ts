@@ -8,6 +8,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { AuthInterceptor } from '././core/interceptors/auth.interceptor';
 import { Auth } from '././core/services/auth.service';
+import { HttpRequestInterceptor } from './core/interceptors/spinner.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,6 +19,11 @@ export const appConfig: ApplicationConfig = {
       useClass: AuthInterceptor,
       multi: true,
       deps: [Auth]
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpRequestInterceptor,
+      multi: true
     },
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
