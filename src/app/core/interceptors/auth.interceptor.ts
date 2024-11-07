@@ -9,10 +9,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  
-  constructor(
-    private auth: Auth
-  ) { }
+
+  constructor(private auth: Auth) { }
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.auth.getToken();
 
