@@ -7,11 +7,12 @@ import { AuthGuard } from './core/helpers/auth.guard';
 
 
 export const routes: Routes = [
+
     // Auth Paths
     { path: 'login', component: LoginComponent, canActivate: [PreventGuard] },  // Login route
 
     // Dashboard Paths
-    { path: 'sidebar', component: LayoutComponent },
+    { path: '', component: LayoutComponent },
     {
         path: '',
         loadComponent: () => import('./shared/components/layout/layout.component'),
@@ -35,7 +36,7 @@ export const routes: Routes = [
             },
             {
                 path: 'asuntos',
-                loadComponent: () => import('./business/issues/issues.component')
+                loadComponent: () => import('./business/issues/issues.component'),
             },
             {
                 path: 'recordatorios',
@@ -59,7 +60,7 @@ export const routes: Routes = [
     // Otherwise redirect to dashboard
     {
         path: '**',
-        redirectTo: 'panel'
+        redirectTo: 'panel',
     }
 ]
 
