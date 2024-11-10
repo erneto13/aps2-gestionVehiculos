@@ -10,11 +10,9 @@ export class LoadingService {
 
   show() {
     this.lSubject.next(true);
-    console.log('mostrando spinner');
   }
 
   hide() {
     this.lSubject.next(false);
-    console.log('ocultando spinner');
   }
 }
