@@ -5,11 +5,12 @@ import { ContactsService } from '../../business/contacts/services/contacts.servi
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LoadingService } from '../../core/services/loading.service';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-contacts',
   standalone: true,
-  imports: [TableModule, FormsModule, CommonModule],
+  imports: [TableModule, FormsModule, CommonModule, DialogModule],
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.css'
 })

@@ -192,57 +192,42 @@
 
             <!-- modal popup -->
             @if (showContactModal) {
-            <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                <div class="w-full max-w-md p-4 bg-white rounded-lg shadow-lg">
-                    <!-- Encabezado del Modal -->
-                    <div class="flex items-center justify-between border-b border-gray-700 pb-4 mb-4">
-                        <h2 class="text-lg font-semibold text-gray-800">Información del Contacto</h2>
-                        <button class="text-gray-400 hover:text-red-600" (click)="closeContactModal()">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
+            <p-dialog header="Información del Contacto" [modal]="true" [draggable]="false" [(visible)]="showContactModal"
+                [style]="{ width: '30rem', backgroundColor: '#c1c1c1' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" >
 
-                    <!-- Contenido del Modal -->
-                    <div class="flex items-center gap-4">
-                        <div
-                            class="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
-                            {{ initials }}
-                        </div>
-                        <div class="flex-1">
-                            <h3 class="text-lg font-semibold text-gray-800">{{ selectedRowData?.name }}</h3>
-                            <p class="text-sm text-gray-400">
-                                Servicio de {{ selectedRowData?.service }} de {{ selectedRowData?.company }}
-                            </p>
-                        </div>
+                <div class="flex items-center gap-4">
+                    <div
+                        class="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
+                        {{ initials }}
                     </div>
-
-                    <!-- Botones de acción -->
-                    <div class="mt-4 flex gap-2">
-                        <button
-                            class="flex-1 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-md transition duration-300 ease-in-out">
-                            Enviar correo
-                        </button>
-                        <button
-                            class="flex-1 px-4 py-2 bg-orange-200 hover:bg-orange-300 text-orange-900 font-medium rounded-md transition duration-300 ease-in-out">
-                            Marcar por teléfono
-                        </button>
-                        <button
-                            class="p-2 bg-red-500 hover:bg-red-600 text-red-100 rounded-md transition duration-300 ease-in-out">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            <span class="sr-only">Eliminar</span>
-                        </button>
+                    <div class="flex-1">
+                        <h3 class="text-lg font-semibold text-gray-800">{{ selectedRowData?.name }}</h3>
+                        <p class="text-sm text-gray-400">
+                            Servicio de {{ selectedRowData?.service }} de {{ selectedRowData?.company }}
+                        </p>
                     </div>
                 </div>
-            </div>
+
+                <div class="mt-4 flex gap-2">
+                    <button
+                        class="flex-1 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-md transition duration-300 ease-in-out">
+                        Enviar correo
+                    </button>
+                    <button
+                        class="flex-1 px-4 py-2 bg-orange-200 hover:bg-orange-300 text-orange-900 font-medium rounded-md transition duration-300 ease-in-out">
+                        Marcar por teléfono
+                    </button>
+                    <button
+                        class="p-2 bg-red-500 hover:bg-red-600 text-red-100 rounded-md transition duration-300 ease-in-out">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span class="sr-only">Eliminar</span>
+                    </button>
+                </div>
+            </p-dialog>
             <!-- fin modal popup -->
             }
         </div>
