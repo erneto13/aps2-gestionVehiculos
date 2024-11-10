@@ -1,16 +1,16 @@
 <div class="grid min-h-screen w-full lg:grid-cols-[250px_1fr]">
     <!-- sidebar -->
     <div class="hidden border-r bg-gray-100/40 lg:block">
-        <app-issues-sidebar />
+        <app-issues-sidebar (selectedIssueType)="onIssueTypeSelected($event)" />
     </div>
 
     <!-- main content -->
-    <div class="flex flex-col">
+    <div class="flex flex-col h-screen">
         <!-- header -->
-        <app-issues-header />
+        <app-issues-header [issueType]="selectedIssueType" />
 
-        <!-- main grid card -->
-        <main class="flex-1 p-6 bg-gray-100 h-screen">
+        <!-- main grid card (scrollable) -->
+        <main class="flex-1 p-6 bg-gray-100 overflow-y-auto">
             <!-- vista de las vistas -->
             <router-outlet />
         </main>

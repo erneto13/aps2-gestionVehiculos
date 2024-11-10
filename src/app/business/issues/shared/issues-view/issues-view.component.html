@@ -1,0 +1,33 @@
+@if (issues.length === 0) {
+<div class="flex items-center justify-center h-full">
+    <div class="text-center">
+        <h1 class="text-2xl font-bold text-gray-700">Sin asuntos</h1>
+        <p class="text-gray-500">No se ha encontrado ningun asunto.</p>
+    </div>
+</div>
+} @else {
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    @for (issue of issues; track $index) {
+    <div class="max-w-[300px] mx-auto bg-white rounded-xl shadow-md overflow-hidden m-4 cursor-pointer">
+        <div class="p-4">
+            <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold mb-1">
+                <p>#{{issue.idissues}}</p>
+            </div>
+            <h2 class="block mt-1 text-lg leading-tight font-medium text-black">
+                {{issue.title}}</h2>
+
+            <p class="mt-2 uppercase tracking-wide text-sm text-indigo-500 font-semibold">Descripción</p>
+            <p class="text-gray-500"> {{ issue.description | slice:0:70 }}{{ issue.description.length > 70 ? '...' :
+                ''
+                }}
+            </p>
+            <div class="mt-4 flex justify-between items-center">
+                <span
+                    class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">{{issue.status}}</span>
+            </div>
+
+        </div>
+    </div>
+    }
+</div>
+}
