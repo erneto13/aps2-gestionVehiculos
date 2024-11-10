@@ -1,6 +1,24 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "primeng/resources/themes/bootstrap4-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+
+@layer tailwind-base, primeng, tailwind-utilities;
+
+@layer tailwind-base {
+    @tailwind base;
+}
+
+@layer primeng {}
+
+@layer tailwind-utilities {
+    @tailwind components;
+    @tailwind utilities;
+}
+
+.scrollable-content {
+    overflow-y: auto;
+    max-height: calc(100vh - 65px);
+}
 
 ::-webkit-scrollbar {
     display: none;
