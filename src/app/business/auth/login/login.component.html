@@ -10,8 +10,9 @@
         <!-- Heading -->
         <img src="./assets/login/auto.png" class="mb-3" alt="">
         <h1 class="text-xl font-semibold">¡Bienvenido de vuelta! 👋</h1>
-        <small class="text-gray-400">Hoy es un nuevo día. Es tu día. Tu le das forma. Inicia sesión para comenzar a
-          gestionar tu flotilla.</small>
+        <small class="text-gray-400 block">Hoy es un nuevo día. Es tu día. Tú le das forma.</small>
+        <small class="text-gray-400 -mt-1 block">Inicia sesión para comenzar a gestionar tu flotilla.</small>
+
 
         <!-- Form -->
         <form class="mt-4" [formGroup]="loginForm" (ngSubmit)="login()">
@@ -19,24 +20,16 @@
             <label class="mb-2 block text-xs font-semibold">Correo electrónico</label>
             <input pInputText formControlName="email" type="email" placeholder="micorreo@empresa.mx"
               class="block w-full rounded-md border border-gray-300 focus:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-700 py-1 px-1.5 text-gray-500" />
-            @if (email?.invalid && email?.touched) {
-            <small class="text-red-700">Ingrese un
-              correo electrónico válido aa</small>
-            }
           </div>
 
           <div class="mb-3">
             <label class="mb-2 block text-xs font-semibold">Contraseña</label>
             <input formControlName="password" pInputText type="password" placeholder="••••••••"
               class="block w-full rounded-md border border-gray-300 focus:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-700 py-1 px-1.5 text-gray-500" />
-            @if (password?.invalid && password?.touched) {
-            <small class="text-red-700">Ingrese una contraseña válida</small>
-            }
           </div>
 
           <div class="mb-3 flex flex-wrap content-center">
-
-            <a class="text-xs font-bold text-blue-500" style="cursor: pointer;" (click)="recoveryPassword()">Olvidé mi
+            <a class="text-xs font-bold text-blue-500" style="cursor: pointer;">Olvidé mi
               contraseña</a>
           </div>
 

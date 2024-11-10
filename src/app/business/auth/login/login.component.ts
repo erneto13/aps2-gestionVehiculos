@@ -1,13 +1,19 @@
+// Angular
 import { Component } from '@angular/core';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
+// Core 
+import { Credentials } from '../../../core/interfaces/credentials';
+import { Auth } from '../../../core/services/auth.service';
+import { LoadingService } from '../../../core/services/loading.service';
+
+// PrimeNG
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Credentials } from '../../../core/interfaces/credentials';
-import { Auth } from '../../../core/services/auth.service';
-import { Router } from '@angular/router';
-import { LoadingService } from '../../../core/services/loading.service';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-login',
@@ -22,7 +28,6 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
 
   loginForm: FormGroup;
-  isRecoveryPassword = false;
 
   constructor(
     private auth: Auth,
@@ -51,17 +56,5 @@ export class LoginComponent {
     } else {
       console.log('formulario inválido');
     }
-  }
-
-  get email() {
-    return this.loginForm.get('email');
-  }
-
-  get password() {
-    return this.loginForm.get('password');
-  }
-
-  recoveryPassword() {
-    this.isRecoveryPassword = !this.isRecoveryPassword;
   }
 }
