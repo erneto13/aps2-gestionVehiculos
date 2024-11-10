@@ -9,9 +9,11 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { AuthInterceptor } from '././core/interceptors/auth.interceptor';
 import { Auth } from '././core/services/auth.service';
 import { HttpRequestInterceptor } from './core/interceptors/spinner.interceptor';
+import { provideAnimationsAsync  } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideAnimationsAsync(),
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi(), withFetch()),
     {
