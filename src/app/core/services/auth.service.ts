@@ -35,7 +35,7 @@ export class Auth {
                 this.setRefreshToken(refreshToken);
 
                 this.autoRefreshToken();
-                
+
                 return body;
             } else {
                 throw new Error("Error: No se recibieron los tokens.");
@@ -109,6 +109,22 @@ export class Auth {
         console.log(exp)
         return Date.now() < exp;
     }
+
+    getUserRole(): string | null {
+        const token = this.getToken();
+        if (!token) {
+            return null;
+        }
+
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            return payload.role || null;
+        } catch (error) {
+            console.error("Error al decodificar el token:", error);
+            return null;
+        }
+    }
+
 
     logout(): void {
         localStorage.removeItem(this.TOKEN_KEY);

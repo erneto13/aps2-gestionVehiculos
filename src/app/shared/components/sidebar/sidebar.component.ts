@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Auth } from '../../../core/services/auth.service';
 import { SharedService } from '../../../core/services/shared.service';
@@ -10,11 +10,15 @@ import { SharedService } from '../../../core/services/shared.service';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
+  constructor(private auth: Auth, private sharedService: SharedService) { }
 
   submenuOpen: boolean = false
+  role: string | null = null
 
-  constructor(private auth: Auth, private sharedService: SharedService) { }
+  ngOnInit(): void {
+    this.role = this.auth.getUserRole()
+  }
 
   // cerrar sesión
   logout(): void {
