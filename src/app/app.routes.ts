@@ -57,10 +57,16 @@ export const routes: Routes = [
                 loadComponent: () => import('./business/routes/routes.component'),
                 data: { title: 'Rutas' }
             },
-            { path: '', redirectTo: 'panel', pathMatch: 'full' }
+            {
+                path: 'mis-rutas',
+                loadComponent: () => import('./business/routes/user/my-routes/my-routes.component'),
+            },
+            {
+                path: '', redirectTo: 'panel', pathMatch: 'full'
+            }
         ]
     },
-    { path: '**', redirectTo: 'panel' }
+    { path: '**', redirectTo: 'panel' },
 ];
 
 export class AppRoutingModule { }
