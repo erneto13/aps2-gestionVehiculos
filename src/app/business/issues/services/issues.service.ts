@@ -16,7 +16,7 @@ export class IssuesService {
   }
 
   getIssueByType(type: string): Observable<Issues[]> {
-    return this.http.get<Issues[]>(`${this.apiUrl}/${type}`);
+    return this.http.get<Issues[]>(`${this.apiUrl}/type/${type}`);
   }
 
   getIssueByStatus(status: string): Observable<Issues[]> {

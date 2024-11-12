@@ -1,14 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Issues } from '../../../../core/interfaces/issues';
 import { IssuesService } from '../../services/issues.service';
 import { ActivatedRoute } from '@angular/router';
 
+import { DialogModule } from 'primeng/dialog';
+
+
 @Component({
   selector: 'app-issues-view',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DialogModule],
   templateUrl: './issues-view.component.html',
   styleUrl: './issues-view.component.css'
 })
@@ -16,6 +19,9 @@ export default class IssuesViewComponent implements OnInit {
 
   issues: Issues[] = [];
   issueType: string = '';
+
+  selectedIssue: Issues | null = null;
+  modalData: boolean = false;
 
   constructor(private is: IssuesService, private activeRoute: ActivatedRoute) { }
 
@@ -41,4 +47,10 @@ export default class IssuesViewComponent implements OnInit {
       this.issues = issues;
     });
   }
+
+  onCardClick(issue: Issues): void {
+    this.selectedIssue = issue;
+    this.modalData = true;
+  }
+
 }
