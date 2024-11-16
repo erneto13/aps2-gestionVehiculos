@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
     }
     if (this.authService.isAuthenticated()) {
       this.authService.autoRefreshToken();
+      this.authService.getDetailUser().subscribe();
     }
   }
 }
