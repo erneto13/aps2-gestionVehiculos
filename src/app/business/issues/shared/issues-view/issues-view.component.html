@@ -19,7 +19,7 @@
             </h2>
             <p class="mt-2 uppercase tracking-wide text-sm text-indigo-500 font-semibold">Descripción</p>
             <p class="text-gray-500">
-                {{ issue.description | slice:0:70 }}{{ issue.description.length > 70 ? '...' : '' }}
+                {{ issue.description | truncate }}
             </p>
             <div class="mt-4 flex justify-between items-center">
                 <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
@@ -58,12 +58,26 @@
             <p class="text-gray-500">{{ selectedIssue?.status }}</p>
             <p class="mt-4 uppercase tracking-wide text-sm text-indigo-500 font-semibold">Evidencia</p>
         </div>
-
-        @if (!(selectedIssue?.status === 'CLOSED')) {
+        @switch (selectedIssue?.status) {
+        @case ('CLOSED'){
         <div class="mt-4">
-            <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Cerrar
+            <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Borrar
+                Asunto</button>
+            {{selectedIssue?.idissues}}
+        </div>
+        }
+        @case ('IN_PROGRESS') {
+        <div class="mt-4">
+            <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Resolver
+                asunto</button>
+        </div>
+        }
+        @case ('PENDING') {
+        <div class="mt-4">
+            <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Reclamar
                 Asunto</button>
         </div>
+        }
         }
     </p-dialog>
     <!-- fin modal popup -->
