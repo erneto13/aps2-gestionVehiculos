@@ -58,10 +58,6 @@ export const routes: Routes = [
                 data: { title: 'Rutas' }
             },
             {
-                path: 'mis-rutas',
-                loadComponent: () => import('./business/routes/user/my-routes/my-routes.component'),
-            },
-            {
                 path: '', redirectTo: 'panel', pathMatch: 'full'
             }
         ]
