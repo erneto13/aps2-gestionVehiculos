@@ -1,8 +1,9 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Credentials } from '../../core/interfaces/credentials';
-import { map, Observable, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { User } from '../interfaces/user';
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +16,9 @@ export class Auth {
 
     private REFRESH_URL = 'http://localhost:8080/api/v1/auth/refresh'
     private REFRESH_TOKEN_KEY = 'refreshToken';
+
+    private userSubject = new BehaviorSubject<User | null>(null);
+    user$ = this.userSubject.asObservable();
 
     constructor(
         private http: HttpClient,
@@ -35,6 +39,7 @@ export class Auth {
                 this.setRefreshToken(refreshToken);
 
                 this.autoRefreshToken();
+                this.getDetailUser();
 
                 return body;
             } else {
@@ -55,7 +60,6 @@ export class Auth {
         }
     }
 
-
     setRefreshToken(token: string): void {
         localStorage.setItem(this.REFRESH_TOKEN_KEY, token);
     }
@@ -73,7 +77,6 @@ export class Auth {
         return this.http.post<any>(this.REFRESH_URL, { refreshToken }).pipe(
             tap((response) => {
                 if (response.token) {
-                    console.log(response.token)
                     this.setToken(response.token);
                     this.setRefreshToken(response.refreshToken);
                     this.autoRefreshToken();
@@ -106,7 +109,6 @@ export class Auth {
 
         const payload = JSON.parse(atob(token.split('.')[1]));
         const exp = payload.exp * 1000;
-        console.log(exp)
         return Date.now() < exp;
     }
 
@@ -115,7 +117,6 @@ export class Auth {
         if (!token) {
             return null;
         }
-
         try {
             const payload = JSON.parse(atob(token.split('.')[1]));
             return payload.role || null;
@@ -125,10 +126,16 @@ export class Auth {
         }
     }
 
+    getDetailUser(): Observable<User> {
+        return this.http.get<User>('http://localhost:8080/api/v1/driver/profile').pipe(
+            tap(user => this.userSubject.next(user))
+        );
+    }
 
     logout(): void {
         localStorage.removeItem(this.TOKEN_KEY);
         localStorage.removeItem(this.REFRESH_TOKEN_KEY);
+        this.userSubject.next(null); // limpiar el usuario
         this.router.navigate(['/login']);
     }
 }
