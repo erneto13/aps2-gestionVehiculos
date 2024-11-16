@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { KnobModule } from 'primeng/knob';
+import { Auth } from '../../core/services/auth.service';
+import { User } from '../../core/interfaces/user';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,6 +12,9 @@ import { KnobModule } from 'primeng/knob';
   styleUrl: './dashboard.component.css'
 })
 export default class DashboardComponent {
-  value!: number;
 
+  constructor(private auth: Auth) { }
+
+  ngOnInit(): void {
+  }
 }

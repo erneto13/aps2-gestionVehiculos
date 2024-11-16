@@ -120,8 +120,7 @@
         <button
             class="bg-blue-500 hover:bg-blue-600 text-gray-800 font-medium py-2 px-4 rounded inline-flex items-center">
             <svg class="fill-current w-4 h-4 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path
-                    d="M15 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5zm0 2c-3.73 0-7 2.134-7 4v2h14v-2c0-1.866-3.27-4-7-4zm-9-4h-2v2h2v2h2v-2h2v-2h-2v-2h-2v2z" />
+                <path d="M15 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5zm0 2c-3.73 0-7 2.134-7 4v2h14v-2c0-1.866-3.27-4-7-4zm-9-4h-2v2h2v2h2v-2h2v-2h-2v-2h-2v2z" />
             </svg>
             <span class="font-medium text-white">Agregar contacto</span>
         </button>
@@ -192,8 +191,9 @@
 
             <!-- modal popup -->
             @if (showContactModal) {
-            <p-dialog header="Información del Contacto" [modal]="true" [draggable]="false" [(visible)]="showContactModal"
-                [style]="{ width: '30rem', backgroundColor: '#c1c1c1' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" >
+            <p-dialog header="Información del Contacto" [modal]="true" [draggable]="false"
+                [(visible)]="showContactModal" [style]="{ width: '30rem', backgroundColor: '#c1c1c1' }"
+                [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
 
                 <div class="flex items-center gap-4">
                     <div

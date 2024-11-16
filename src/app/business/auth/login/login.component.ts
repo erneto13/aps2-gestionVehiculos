@@ -1,19 +1,13 @@
-// Angular
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
-// Core 
 import { Credentials } from '../../../core/interfaces/credentials';
 import { Auth } from '../../../core/services/auth.service';
 import { LoadingService } from '../../../core/services/loading.service';
-
-// PrimeNG
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-
 
 @Component({
   selector: 'app-login',
@@ -21,12 +15,10 @@ import { PasswordModule } from 'primeng/password';
   imports: [ButtonModule, PasswordModule,
     InputTextModule, ReactiveFormsModule,
     CommonModule],
-  providers: [],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-
   loginForm: FormGroup;
 
   constructor(
@@ -41,7 +33,6 @@ export class LoginComponent {
     });
   }
 
-  // método para iniciar sesion
   login() {
     if (this.loginForm.valid) {
       const creds: Credentials = {
@@ -49,9 +40,11 @@ export class LoginComponent {
         password: this.loginForm.value.password
       };
 
-      console.log('form value', creds);
-      this.auth.login(creds).subscribe((response) => {
-        this.router.navigate(['/dashboard']);
+      this.auth.login(creds).subscribe(() => {
+        this.auth.getDetailUser().subscribe({
+          next: () => this.router.navigate(['/panel']),
+          error: (err) => console.error('Error fetching driver profile:', err)
+        });
       });
     } else {
       console.log('formulario inválido');
