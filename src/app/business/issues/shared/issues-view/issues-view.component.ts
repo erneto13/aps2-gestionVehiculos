@@ -1,17 +1,23 @@
+// Bodriular
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
+// Interfaces, Services, Pipes and Directives
 import { Issues } from '../../../../core/interfaces/issues';
 import { IssuesService } from '../../services/issues.service';
-import { ActivatedRoute } from '@angular/router';
 import { Auth } from '../../../../core/services/auth.service';
-import { DialogModule } from 'primeng/dialog';
 import { TruncatePipe } from '../../../../core/pipes/truncate.pipe';
+import { MediaService } from '../../../../core/services/media.service';
+
+// PrimeNG
+import { ImageModule } from 'primeng/image';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-issues-view',
   standalone: true,
-  imports: [CommonModule, DialogModule, TruncatePipe],
+  imports: [CommonModule, DialogModule, TruncatePipe, ImageModule],
   templateUrl: './issues-view.component.html',
   styleUrl: './issues-view.component.css'
 })
@@ -28,8 +34,9 @@ export default class IssuesViewComponent implements OnInit {
   constructor(
     private is: IssuesService,
     private activeRoute: ActivatedRoute,
-    private authService: Auth
-  ) {}
+    private authService: Auth,
+    private ms: MediaService
+  ) { }
 
   ngOnInit(): void {
     this.userRole = this.authService.getUserRole();
