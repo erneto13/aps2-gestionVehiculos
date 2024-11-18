@@ -15,8 +15,8 @@
 <div class="card flex justify-content-center">
     <p-dialog [(visible)]="visible" [header]="'Reporte del asunto'" [modal]="true" [style]="{ width: '30rem' }"
         [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false">
-        <h3 class="text-md font-bold leading-3 text-gray-900 -mt-4">INFORMACION</h3>
-        <span class="p-text-secondary block mb-5 leading-none">
+        <h3 class="text-md font-semibold -mt-4">INFORMACION</h3>
+        <span class="p-text-secondary block mb-3 leading-tight">
             Si tuviste algún problema en el transcurso de tu trabajo reportalo para que los administradores lo
             resuelvan.
         </span>
@@ -34,21 +34,36 @@
                 </textarea>
             </div>
             <div class="mb-3">
-                <label class="mb-2 block text-sm font-semibold">Descripción del asunto</label>
+                <label class="mb-2 block text-sm font-semibold">Categoría de asuntos:</label>
                 <p-dropdown formControlName="selectedIssueType" [options]="issueTypes"
-                    placeholder="Selecciona un tipo de asunto" />
+                    placeholder="Selecciona un tipo de asunto">
+                </p-dropdown>
             </div>
             <div class="mb-3">
                 <label class="mb-2 block text-sm font-semibold">Subir evidencias</label>
-                <input type="file" multiple class="w-full text-gray-400 font-semibold text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 file:mr-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-gray-500 rounded
+                <input type="file" (change)="upload($event)" multiple class="w-full text-gray-400 font-semibold text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 file:mr-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-gray-500 rounded
          pl-3" />
+                <input type="hidden" formControlName="evidenceValidation">
                 <p class="text-xs text-gray-400 mt-2">Puedes subir archivos PNG o JPG.</p>
+                @if (uploadedFiles.length > 0) {
+                <div class="mt-2">
+                    <p class="mb-1 block text-sm font-semibold">Archivos subidos:</p>
+                    <ul class="list-none list-inside">
+                        @for (file of uploadedFiles; track $index) {
+                        <li class="text-xs text-gray-600">
+                            {{ file.split('/').pop() }}
+                        </li>
+                        }
+                    </ul>
+                </div>
+                }
             </div>
             <div class="mb-3">
                 <button
                     class="mb-1.5 block w-full text-center text-white bg-slate-700 hover:bg-slate-900 px-2 py-1.5 rounded-md"
-                    [disabled]="newIssueForm.invalid">Subir reporte</button>
+                    [disabled]="!canSubmit">Subir reporte</button>
             </div>
         </form>
     </p-dialog>
 </div>
+<p-toast />
