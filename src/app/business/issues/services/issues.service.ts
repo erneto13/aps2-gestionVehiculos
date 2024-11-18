@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Issues } from '../../../core/interfaces/issues';
+import { Issues, NewIssues } from '../../../core/interfaces/issues';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -24,6 +24,11 @@ export class IssuesService {
   // pal admin
   getIssueByStatus(status: string): Observable<Issues[]> {
     return this.http.get<Issues[]>(`${this.apiUrl}/status/${status}`);
+  }
+
+  // pal admin
+  pushIssue(issue: NewIssues): Observable<any> {
+    return this.http.post(this.apiUrl+'/pull-issue/', issue);
   }
 
   // per user
