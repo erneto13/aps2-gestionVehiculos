@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Issues, NewIssues } from '../../../core/interfaces/issues';
-import { Observable } from 'rxjs';
+import { Issues, IssueUpdate, NewIssues } from '../../../core/interfaces/issues';
+import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,7 @@ export class IssuesService {
 
   // pal admin
   pushIssue(issue: NewIssues): Observable<any> {
-    return this.http.post(this.apiUrl+'/pull-issue/', issue);
+    return this.http.post(this.apiUrl + '/pull-issue/', issue);
   }
 
   // per user
@@ -40,4 +40,36 @@ export class IssuesService {
   getClosedIssuesByUser(user: string): Observable<Issues[]> {
     return this.http.get<Issues[]>(`${this.apiUrl}/closed/user/${user}`);
   }
+
+  // todos estos pal admin
+  updateStatusIssue(id: number, status: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/update-status/${id}`, { status }, { responseType: 'text' as 'json' }).pipe(
+      catchError((error) => {
+        console.error('error actualizar:', error);
+        return throwError('error tirado', error);
+      })
+    );
+  }
+
+  updateIssueResolution(issue: IssueUpdate): Observable<any> {
+    return this.http.patch(
+      `${this.apiUrl}/resolve/${issue.idissues}`,
+      issue
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    let errorMessage = 'Ocurrió un error en la operación';
+
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      errorMessage = `Código de error: ${error.status}, mensaje: ${error.error}`;
+    }
+    console.error(errorMessage);
+    return throwError(() => errorMessage);
+  }
+
 }

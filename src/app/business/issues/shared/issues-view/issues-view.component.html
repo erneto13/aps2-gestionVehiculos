@@ -29,6 +29,7 @@
         </div>
     </div>
     }
+    <p-messages />
 
     @if (modalData) {
     <p-dialog header="Detalles del Asunto" [modal]="true" [(visible)]="modalData" [draggable]="false"
@@ -57,34 +58,49 @@
             <p class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Descripción</p>
             <p class="text-gray-500" style="height: 5rem; overflow-y: auto; overflow-wrap: break-word;">{{
                 selectedIssue?.description }}</p>
-            <p class="mt-4 uppercase tracking-wide text-sm text-indigo-500 font-semibold">Estado</p>
+            <p class="mt-2 uppercase tracking-wide text-sm text-indigo-500 font-semibold">Estado</p>
             <p class="text-gray-500">{{ selectedIssue?.status }}</p>
             <p class="mt-4 uppercase tracking-wide text-sm text-indigo-500 font-semibold">Evidencia</p>
-            @for (evidence of selectedIssue?.evidence; track $index) {
-            {{ evidence }}
-            }
         </div>
 
+        @if (userRole === 'admin') {
         <!-- Condiciones de estado con botones y acciones -->
         @switch (selectedIssue?.status) {
         @case ('CLOSED') {
         <div class="mt-4">
-            <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Borrar
+            <p class="mt-4 uppercase tracking-wide text-sm text-indigo-500 font-semibold">Comentarios</p>
+            <p class="text-gray-500" style="height: 5rem; overflow-y: auto; overflow-wrap: break-word;">
+                {{ selectedIssue?.comments }}
+            </p>
+            <button
+                class="mb-1.5 block w-full text-center text-white bg-slate-700 hover:bg-slate-900 px-2 py-1.5 rounded-md">Borrar
                 Asunto</button>
             {{selectedIssue?.idissues}}
         </div>
         }
         @case ('IN_PROGRESS') {
-        <div class="mt-4">
-            <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Resolver
-                asunto</button>
-        </div>
+        <form [formGroup]="updateIssues" (ngSubmit)="updateIssueComplete()">
+            <div class="mt-4">
+                <p class="mt-4 uppercase tracking-wide text-sm text-indigo-500 font-semibold">Comentarios</p>
+                <textarea rows="5" cols="20" [autoResize]="false" pInputTextarea formControlName="comments"
+                    class="block w-80 rounded-md border border-gray-300 focus:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-700 py-1 px-1.5 text-gray-500">
+                </textarea>
+            </div>
+            <div class="mt-4">
+                <button [disabled]="updateIssues.invalid"
+                    class="mb-1.5 block w-full text-center text-white bg-slate-700 hover:bg-slate-900 px-2 py-1.5 rounded-md">Resolver
+                    asunto</button>
+            </div>
+        </form>
+
         }
         @case ('PENDING') {
         <div class="mt-4">
-            <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Reclamar
+            <button (click)="updateIssueStatus(selectedIssue?.idissues, 'IN_PROGRESS')"
+                class="mb-1.5 block w-full text-center text-white bg-slate-700 hover:bg-slate-900 px-2 py-1.5 rounded-md">Reclamar
                 Asunto</button>
         </div>
+        }
         }
         }
     </p-dialog>

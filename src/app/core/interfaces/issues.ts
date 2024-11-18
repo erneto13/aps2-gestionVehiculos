@@ -25,6 +25,14 @@ export interface NewIssues {
     resolvedDate: string | null;
 }
 
+export interface IssueUpdate {
+    idissues: number;
+    status: string;
+    resolvedBy: string;
+    resolvedDate: string;
+    comments: string;
+}
+
 export enum IssueType {
     Vehiculos,
     Asignacion_de_Vehiculos,
