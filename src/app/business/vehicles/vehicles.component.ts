@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { VehiclesheaderComponent } from "./shared/vehicles-header/vehiclesheader.component";
+import { VehiclesstatisticComponent } from "./shared/vehicles-statistic/vehiclesstatistic.component";
+import { VehiclecardComponent } from './shared/vehicle-card/vehiclecard.component';
 
 interface Vehicle {
   id: number;
@@ -14,7 +17,7 @@ interface Vehicle {
 @Component({
   selector: 'app-vehicles',
   standalone: true,
-  imports: [],
+  imports: [VehiclesheaderComponent, VehiclesstatisticComponent, VehiclecardComponent],
   templateUrl: './vehicles.component.html',
   styleUrl: './vehicles.component.css'
 })
