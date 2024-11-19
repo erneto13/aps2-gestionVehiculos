@@ -1,22 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { VehicleApiService } from '../../services/vehicle-api.service';
+import { Component, Input } from '@angular/core';
 import { Vehicle } from '../../../../core/interfaces/vehicle';
+
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-vehiclecard',
   standalone: true,
-  imports: [],
+  imports: [TagModule],
   templateUrl: './vehiclecard.component.html',
 })
-export class VehiclecardComponent implements OnInit {
-
-  vehicles!: Vehicle[];
-  constructor(private vs: VehicleApiService) { }
-
-  ngOnInit(): void {
-    this.vs.getVehicles().subscribe((data) => {
-      this.vehicles = data;
-    });
-  }
-
+export class VehiclecardComponent {
+  @Input() vehicle!: any;
 }

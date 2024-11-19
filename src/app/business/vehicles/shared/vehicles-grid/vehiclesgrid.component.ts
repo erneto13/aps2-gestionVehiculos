@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Vehicle } from '../../../../core/interfaces/vehicle';
 
 @Component({
   selector: 'app-vehiclesgrid',
@@ -7,5 +8,6 @@ import { Component } from '@angular/core';
   templateUrl: './vehiclesgrid.component.html',
 })
 export class VehiclesgridComponent {
+  @Input() vehicles: Vehicle[] = [];
 
 }
