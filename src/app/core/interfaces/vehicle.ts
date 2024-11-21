@@ -29,5 +29,5 @@ export enum VehiclesType {
     Suv = 'Suv',
     TodoTerreno = 'TodoTerreno',
     Pickup = 'Pickup',
-    Camion = 'Camion'
+    Camion = 'Camión'
 }
