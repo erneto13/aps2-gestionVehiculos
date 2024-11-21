@@ -10,6 +10,12 @@ export class MediaService {
   private readonly baseUrl = `http://localhost:8080/api/v1/media`;
   constructor(private http: HttpClient) { }
 
+  // sube un solo archivo
+  uploadSingleFile(formData: FormData): Observable<any> {
+    return this.http.post(`${this.baseUrl}/upload`, formData);
+  }
+
+  // sube muchas imagenes pero ya me da weba cambiarlo
   uploadFile(formData: FormData): Observable<any> {
     return this.http.post(`${this.baseUrl}/upload-files`, formData);
   }

@@ -61,12 +61,12 @@ export class IssuesService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    let errorMessage = 'Ocurrió un error en la operación';
+    let errorMessage = 'problema del ';
 
     if (error.error instanceof ErrorEvent) {
-      errorMessage = `Error: ${error.error.message}`;
+      errorMessage = `front: ${error.error.message}`;
     } else {
-      errorMessage = `Código de error: ${error.status}, mensaje: ${error.error}`;
+      errorMessage = `back con codigo: ${error.status}, y mensaje ${error.error}`;
     }
     console.error(errorMessage);
     return throwError(() => errorMessage);

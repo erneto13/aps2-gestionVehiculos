@@ -1,0 +1,53 @@
+<form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+    <div class="flex flex-col items-center">
+        <div
+            class="w-48 h-48 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center overflow-hidden">
+            <img [src]="url" alt="lplplpl">
+            <ng-template #uploadPrompt>
+                <div class="text-center">
+                    <p class="mt-1 text-sm text-gray-600">Subir imagen</p>
+                </div>
+            </ng-template>
+        </div>
+        <input type="file" id="vehicle-image" accept="image/*" class="hidden" (change)="upload($event)" />
+        <label for="vehicle-image"
+            class="mt-2 cursor-pointer bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Seleccionar imagen
+        </label>
+    </div>
+    <div>
+        <label for="licensePlate" class="block mb-2 text-sm font-medium text-gray-700">Placa</label>
+        <div class="relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="pi pi-truck text-gray-400"></i>
+            </div>
+            <input id="licensePlate" type="text" formControlName="licensePlate"
+                class="pl-10 block w-full sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" />
+        </div>
+    </div>
+    <div class="grid grid-cols-2 gap-4 mt-2 mb-2">
+        <div>
+            <label for="make" class="block mb-2 text-sm font-medium text-gray-700">Marca</label>
+            <input id="make" type="text" formControlName="make"
+                class="block w-full sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" />
+        </div>
+        <div>
+            <label for="model" class="block mb-2 text-sm font-medium text-gray-700">Modelo</label>
+            <input id="model" type="text" formControlName="model"
+                class="block w-full sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" />
+        </div>
+    </div>
+    <div class="mt-2">
+        <label class="block mb-2 text-sm font-medium text-gray-700">Tipo de Vehículo</label>
+        <select formControlName="type_vehicle"
+            class="block w-full sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+            @for (type of vehicleTypes; track $index) {
+            <option [value]="type">{{type}}</option>
+            }
+        </select>
+    </div>
+    <button type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-150 ease-in-out mt-2">
+        Registrar Vehículo
+    </button>
+</form>

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Vehicle } from '../../../core/interfaces/vehicle';
+import { NewVehicle, Vehicle } from '../../../core/interfaces/vehicle';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -15,7 +15,11 @@ export class VehicleApiService {
   Método para retornar una lista de
   vehículos con todos los atributos
   */
-  getVehicles(): Observable<Vehicle[]> { 
+  getVehicles(): Observable<Vehicle[]> {
     return this.http.get<Vehicle[]>(`${this.apiUrl}/get-all`);
+  }
+
+  addVehicle(vehicle: NewVehicle): Observable<NewVehicle> {
+    return this.http.post<NewVehicle>(`${this.apiUrl}/new-vehicle`, vehicle);
   }
 }
