@@ -5,11 +5,7 @@
         (click)="cardClick.emit(vehicle)">
         <div class="md:flex flex-col h-full">
             <div class="md:flex-shrink-0">
-                @defer (on hover) {
                 <img class="h-32 w-full object-cover" src="{{ vehicle.imageUrl }}" alt="hola" />
-                } @placeholder {
-                    <p>alomiguel</p>
-                }
             </div>
             <div class="p-4 flex-1 flex flex-col justify-between">
                 <div>
