@@ -48,9 +48,9 @@ export const routes: Routes = [
                 data: { title: 'Recordatorios' }
             },
             {
-                path: 'contactos',
+                path: 'clientes',
                 loadComponent: () => import('./business/contacts/contacts.component'),
-                data: { title: 'Contactos' }
+                data: { title: 'Clientes' }
             },
             {
                 path: 'rutas',
