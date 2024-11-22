@@ -2,7 +2,7 @@
     <div class="flex flex-col items-center">
         <div
             class="w-48 h-48 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center overflow-hidden">
-            <img [src]="url" alt="lplplpl">
+            <img [src]="url" alt="">
             <ng-template #uploadPrompt>
                 <div class="text-center">
                     <p class="mt-1 text-sm text-gray-600">Subir imagen</p>
@@ -21,9 +21,12 @@
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <i class="pi pi-truck text-gray-400"></i>
             </div>
-            <input id="licensePlate" type="text" formControlName="licensePlate"
+            <input id="licensePlate" type="text" formControlName="licensePlate" maxlength="9"
                 class="pl-10 block w-full sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" />
         </div>
+        <small>
+            La placa debe tener el siguiente formato: ABC-123-D
+        </small>
     </div>
     <div class="grid grid-cols-2 gap-4 mt-2 mb-2">
         <div>
