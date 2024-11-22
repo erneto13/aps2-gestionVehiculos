@@ -19,4 +19,8 @@ export class VehiclesheaderComponent {
   onAddVehicle() {
     this.display = true;
   }
+
+  onCloseModal() {
+    this.display = false;
+  }
 }

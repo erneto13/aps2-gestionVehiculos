@@ -33,5 +33,5 @@
 
 <p-dialog header="Registro de Vehículo" [modal]="true" [(visible)]="display" [style]="{ width: '23rem' }"
     [draggable]="false">
-    <app-vehicle-add />
+    <app-vehicle-add (closeModal)="onCloseModal()" />
 </p-dialog>
