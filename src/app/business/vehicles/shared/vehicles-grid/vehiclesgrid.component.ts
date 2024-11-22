@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CommonModule, DatePipe } from '@angular/common';
 
@@ -13,6 +13,7 @@ import { VehicleApiService } from '../../services/vehicle-api.service';
   templateUrl: './vehiclesgrid.component.html',
 })
 export class VehiclesgridComponent implements OnInit, OnDestroy {
+  @Output() cardClick = new EventEmitter<any>();
   vehicles: Vehicle[] = [];
   vehicleAddedSubscription!: Subscription;
 

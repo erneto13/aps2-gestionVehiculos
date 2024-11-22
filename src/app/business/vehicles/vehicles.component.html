@@ -1,3 +1,12 @@
-<app-vehiclesheader />
-<app-vehiclesstatistic />
-<app-vehiclesgrid />
+@if (!showVehicleDetail) {
+<div>
+    <app-vehiclesheader></app-vehiclesheader>
+    <app-vehiclesstatistic></app-vehiclesstatistic>
+    <app-vehiclesgrid (cardClick)="onCardClick($event)"></app-vehiclesgrid>
+</div>
+}
+@if (showVehicleDetail) {
+<div>
+    <app-vehicle-details [vehicle]="selectedVehicle" (back)="onBack()" />
+</div>
+}

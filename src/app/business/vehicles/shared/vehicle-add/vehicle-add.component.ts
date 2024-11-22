@@ -55,7 +55,6 @@ export class VehicleAddComponent {
       make: ['', [Validators.required]],
       model: ['', [Validators.required]],
       type_vehicle: ['', [Validators.required]],
-      image_url: ['hola', [Validators.required]]
     });
   }
 
@@ -70,7 +69,6 @@ export class VehicleAddComponent {
 
   onSubmit(): void {
     if (this.vehicleForm.invalid) {
-      // Muestra los errores específicos de cada campo
       Object.keys(this.vehicleForm.controls).forEach(controlName => {
         const control = this.vehicleForm.get(controlName);
         if (control?.invalid) {
