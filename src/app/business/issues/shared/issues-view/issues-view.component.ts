@@ -2,16 +2,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 // Interfaces, Services, Pipes and Directives
 import { Issues, IssueUpdate } from '../../../../core/interfaces/issues';
 import { IssuesService } from '../../services/issues.service';
 import { Auth } from '../../../../core/services/auth.service';
 import { TruncatePipe } from '../../../../core/pipes/truncate.pipe';
+import { SharedService } from '../../../../core/services/shared.service';
 
 // PrimeNG
-import { ImageModule } from 'primeng/image';
+import { GalleriaModule } from 'primeng/galleria';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MessageService } from 'primeng/api';
@@ -20,7 +21,7 @@ import { MessagesModule } from 'primeng/messages';
 @Component({
   selector: 'app-issues-view',
   standalone: true,
-  imports: [CommonModule, DialogModule, TruncatePipe, ImageModule,
+  imports: [CommonModule, DialogModule, TruncatePipe, GalleriaModule,
     InputTextareaModule, ReactiveFormsModule, MessagesModule
   ],
   providers: [MessageService],
@@ -36,6 +37,7 @@ export default class IssuesViewComponent implements OnInit {
 
   userRole: string | null = null;
   userName: string | null = null;
+  responsiveOptions: any[] | undefined;
 
   updateIssues!: FormGroup;
 
@@ -44,7 +46,8 @@ export default class IssuesViewComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private authService: Auth,
     private fb: FormBuilder,
-    private msgs: MessageService
+    private msgs: MessageService,
+    private shared: SharedService
   ) {
     this.updateIssues = this.fb.group({
       comments: ['', [Validators.required, Validators.nullValidator]],
@@ -103,6 +106,7 @@ export default class IssuesViewComponent implements OnInit {
   }
 
   onCardClick(issue: Issues): void {
+    console.log(issue.evidence);
     this.selectedIssue = issue;
     this.modalData = true;
   }
@@ -128,7 +132,7 @@ export default class IssuesViewComponent implements OnInit {
 
   updateIssueComplete() {
     if (this.updateIssues.valid && this.selectedIssue?.idissues) {
-      const currentTimestamp = this.getMySQLTimestamp();
+      const currentTimestamp = this.shared.getMySQLTimestamp();
 
       const issueAttributes: IssueUpdate = {
         idissues: this.selectedIssue.idissues,
@@ -176,22 +180,23 @@ export default class IssuesViewComponent implements OnInit {
     }
   }
 
-  /**
-   * Obtiene el timestamp actual en formato MySQL
-   * @returns string en formato 'YYYY-MM-DD HH:mm:ss'
-   * Ejemplo: '2024-11-06 10:15:00'
-   */
-  getMySQLTimestamp(): string {
-    const now = new Date();
-
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  loadResponsiveOptions(): void {
+    this.responsiveOptions = [
+      {
+        breakpoint: '1024px',
+        numVisible: 3,
+        numScroll: 3
+      },
+      {
+        breakpoint: '768px',
+        numVisible: 2,
+        numScroll: 2
+      },
+      {
+        breakpoint: '560px',
+        numVisible: 1,
+        numScroll: 1
+      }
+    ];
   }
-
 }

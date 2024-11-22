@@ -60,6 +60,17 @@
             <p class="mt-2 uppercase tracking-wide text-sm text-indigo-500 font-semibold">Estado</p>
             <p class="text-gray-500">{{ selectedIssue?.status }}</p>
             <p class="mt-4 uppercase tracking-wide text-sm text-indigo-500 font-semibold">Evidencia</p>
+            <div
+                class="flex overflow-x-auto gap-4 p-4 w-full scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 hover:scrollbar-thumb-gray-500">
+                <div class="flex gap-4 min-w-min">
+                    @for (evidence of selectedIssue?.evidence; track $index) {
+                    <div
+                        class="flex-shrink-0 w-[110px] h-[110px] hover:scale-105 transition-transform duration-300 shadow-lg">
+                        <img src="{{ evidence }}" alt="evidence" class="w-full h-full object-cover rounded-lg" />
+                    </div>
+                    }
+                </div>
+            </div>
             @if (selectedIssue?.comments) {
             <p class="mt-4 uppercase tracking-wide text-sm text-indigo-500 font-semibold">Comentarios</p>
             <p class="text-gray-500" style="height: 5rem; overflow-y: auto; overflow-wrap: break-word;">
