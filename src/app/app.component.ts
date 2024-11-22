@@ -12,14 +12,9 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private authService: Auth, @Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(private authService: Auth) { }
 
-  async ngOnInit(): Promise<void> {
-    if (isPlatformBrowser(this.platformId)) {
-      // Importa flowbite solo en el cliente
-      const { initFlowbite } = await import('flowbite');
-      initFlowbite();  // Solo se ejecutará en el navegador
-    }
+  ngOnInit(): void {
     if (this.authService.isAuthenticated()) {
       this.authService.autoRefreshToken();
       this.authService.getDetailUser().subscribe();
