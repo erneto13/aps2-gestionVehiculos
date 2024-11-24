@@ -22,12 +22,43 @@ export const routes: Routes = [
                 data: { title: 'Vehículos' },
                 children: [
                     {
-                        path: 'vehiculos/documentacion',
+                        path: '',
+                        loadComponent: () => import('./business/vehicles/vehicles-grid-view.component'),
+                    },
+                    {
+                        path: 'detalles/:licensePlate',
+                        loadComponent: () => import('./business/vehicles/shared/vehicle-details/vehicle-details.component'),
+                        data: { title: 'Detalles del Vehículo' },
+                        children: [
+                            {
+                                path: 'informacion-basica',
+                                loadComponent: () => import('./business/vehicles/shared/vehicle-details/header-options/basic-info/basic-info.component'),
+                                data: { title: 'Información Básica' }
+                            },
+                            {
+                                path: 'reservas',
+                                loadComponent: () => import('./business/vehicles/shared/vehicle-details/header-options/bookings/bookings.component'),
+                                data: { title: 'Reservas' }
+                            },
+                            {
+                                path: 'estadisticas',
+                                loadComponent: () => import('./business/vehicles/shared/vehicle-details/header-options/statistics/statistics.component'),
+                                data: { title: 'Estadísticas' }
+                            },
+                            {
+                                path: '',
+                                redirectTo: 'informacion-basica',
+                                pathMatch: 'full'
+                            }
+                        ]
+                    },
+                    {
+                        path: 'documentacion',
                         loadComponent: () => import('./business/vehicles/documentation/documentation.component'),
                         data: { title: 'Documentación de Vehículos' }
                     },
                     {
-                        path: 'vehiculos/mantenimiento',
+                        path: 'mantenimiento',
                         loadComponent: () => import('./business/vehicles/maintenance/maintenance.component'),
                         data: { title: 'Mantenimiento de Vehículos' }
                     }
@@ -48,6 +79,16 @@ export const routes: Routes = [
                 data: { title: 'Recordatorios' }
             },
             {
+                path: 'conductores',
+                loadComponent: () => import('./business/drivers/drivers.component'),
+                data: { title: 'Conductores' }
+            },
+            {
+                path: 'reservas',
+                loadComponent: () => import('./business/bookings/bookings.component'),
+                data: { title: 'Reservas' }
+            },
+            {
                 path: 'clientes',
                 loadComponent: () => import('./business/contacts/contacts.component'),
                 data: { title: 'Clientes' }
@@ -56,6 +97,11 @@ export const routes: Routes = [
                 path: 'rutas',
                 loadComponent: () => import('./business/routes/routes.component'),
                 data: { title: 'Rutas' }
+            },
+            {
+                path: 'ajustes',
+                loadComponent: () => import('./business/settings/settings.component'),
+                data: { title: 'Ajustes' }
             },
             {
                 path: '', redirectTo: 'panel', pathMatch: 'full'
