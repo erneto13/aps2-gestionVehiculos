@@ -1,31 +1,33 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Contacts } from '../../../core/interfaces/contacts';
 import { Observable } from 'rxjs';
+import { ClientResponse, Contacts } from '../../../core/interfaces/contacts';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ContactsService {
+  private apiUrl = 'http://localhost:8080/api/v1/contacts';
 
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor(private http: HttpClient) {}
 
   getContacts(): Observable<Contacts[]> {
-    return this.http.get<Contacts[]>('http://localhost:8080/api/v1/contact-list');
+    return this.http.get<Contacts[]>(`${this.apiUrl}`);
   }
 
-  addContact(): Observable<Contacts> {
-    return this.http.post<Contacts>('http://localhost:8080/api/v1/contact', {});
+  getContactById(id: number): Observable<Contacts> {
+    return this.http.get<Contacts>(`${this.apiUrl}/${id}`);
   }
 
-  deleteContact(): Observable<Contacts> {
-    return this.http.delete<Contacts>('http://localhost:8080/api/v1/contact');
+  addContact(contact: ClientResponse): Observable<ClientResponse> {
+    return this.http.post<ClientResponse>(`${this.apiUrl}`, contact);
   }
 
-  updateContact(): Observable<Contacts> {
-    return this.http.put<Contacts>('http://localhost:8080/api/v1/contact', {});
+  updateContact(id: number, contact: Contacts): Observable<Contacts> {
+    return this.http.put<Contacts>(`${this.apiUrl}/${id}`, contact);
   }
 
+  deleteContact(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }
