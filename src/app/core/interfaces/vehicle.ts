@@ -29,6 +29,13 @@ export interface NewVehicle {
     image_url: string,
 }
 
+export interface VehicleIdentifier {
+    vehicle_id: number,
+    license_plate: string,
+    brand: string,
+    model: string,
+}
+
 export enum VehiclesType {
     Urbano = 'Urbano',
     Sedan = 'Sedan',
