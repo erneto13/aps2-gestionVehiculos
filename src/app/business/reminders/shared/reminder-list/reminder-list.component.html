@@ -1,0 +1,29 @@
+<div class="m-8">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-semibold mb-1">Listado de Recordatorios</h1>
+            <p class="text-sm text-gray-500">Recordatorios activos</p>
+        </div>
+        <div class="flex justify-between items-center gap-4 mb-6">
+            <app-reminder-searchbar (search)="onSearch($event)"></app-reminder-searchbar>
+            <button (click)="cambiar()"
+                class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2 transition duration-150">
+                <i class="pi pi-clock font-medium"></i>
+                <span>Agregar recordatorio</span>
+            </button>
+        </div>
+    </div>
+
+    <p-dialog header="Nuevo Recordatorio" [draggable]="false" [modal]="true" [(visible)]="visible"
+        [style]="{ width: '25rem' }">
+        <app-reminder-form (reminderCreated)="loadReminders()" />
+    </p-dialog>
+
+    <div class="overflow-x-auto rounded-lg border border-gray-200">
+        <app-reminder-table [reminders]="displayedReminders" (delete)="deleteReminder($event)" />
+    </div>
+
+    <app-reminder-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)">
+    </app-reminder-pagination>
+
+</div>

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
+import { ReminderListComponent } from './shared/reminder-list/reminder-list.component';
 
 @Component({
   selector: 'app-reminders',
   standalone: true,
-  imports: [],
+  imports: [ReminderListComponent],
   templateUrl: './reminders.component.html',
-  styleUrl: './reminders.component.css'
 })
 export default class RemindersComponent {
 

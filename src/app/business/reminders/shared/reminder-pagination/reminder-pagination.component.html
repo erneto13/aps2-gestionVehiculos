@@ -1,0 +1,32 @@
+@if (totalPages > 1) {
+<nav aria-label="Navegación de páginas" class="mt-4">
+    <ul class="flex justify-center items-center gap-2">
+        <li>
+            <button
+                class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-500 hover:bg-gray-200 transition duration-150 disabled:bg-gray-50 disabled:text-gray-300"
+                [disabled]="currentPage === 0" (click)="onPageClick(currentPage - 1)">
+                Anterior
+            </button>
+        </li>
+
+        @for (page of getVisiblePages(currentPage, totalPages); track $index) {
+        <li>
+            <button
+                class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-600 hover:bg-blue-100 hover:text-blue-600 transition duration-150"
+                [class.bg-blue-500]="currentPage === page" [class.text-white]="currentPage === page"
+                (click)="onPageClick(page)">
+                {{ page + 1 }}
+            </button>
+        </li>
+        }
+
+        <li>
+            <button
+                class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-500 hover:bg-gray-200 transition duration-150 disabled:bg-gray-50 disabled:text-gray-300"
+                [disabled]="currentPage === totalPages - 1" (click)="onPageClick(currentPage + 1)">
+                Siguiente
+            </button>
+        </li>
+    </ul>
+</nav>
+}
