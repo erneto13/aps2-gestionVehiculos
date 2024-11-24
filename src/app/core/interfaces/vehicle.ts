@@ -1,24 +1,32 @@
 export interface Vehicle {
-    id: number,
-    make: string,
+    vehicle_id: number,
+    license_plate: string,
+    brand: string,
     model: string,
-    licensePlate: string,
+    year: string,
+    color: string,
+    transmission_type: string,
+    fuel_type: string,
+    engine_type: string,
+    type: string,
     status: string,
-    type_vehicle: string,
-    imageUrl: string,
-    createdAt: string,
-    updatedAt: string
+    registration_date: string
+    image_url: string,
 }
 
 export interface NewVehicle {
-    licensePlate: string,
-    make: string,
+    license_plate: string,
+    brand: string,
     model: string,
+    year: string,
+    color: string,
+    transmission_type: string,
+    fuel_type: string,
+    engine_type: string,
+    type: string,
     status: string,
-    type_vehicle: string,
-    imageUrl: string,
-    createdAt: string,
-    updatedAt: string
+    registration_date: string
+    image_url: string,
 }
 
 export enum VehiclesType {
@@ -30,4 +38,24 @@ export enum VehiclesType {
     TodoTerreno = 'TodoTerreno',
     Pickup = 'Pickup',
     Camion = 'Camión'
+}
+
+export enum TransmissionType {
+    Manual = 'Manual',
+    Automatic = 'Automatic',
+    SemiAutomatic = 'SemiAutomatic',
+    CVT = 'CVT'
+}
+
+export enum FuelType {
+    Gasoline = 'Gasoline',
+    Diesel = 'Diesel',
+    Electric = 'Electric',
+    Hybrid = 'Hybrid'
+}
+
+export enum Status {
+    Active = 'Active',
+    UnderMaintenance = 'Under Maintenance',
+    Retired = 'Retired'
 }
