@@ -1,23 +1,37 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { TableModule } from 'primeng/table'; // Adjust the import path as necessary
+import { TableModule } from 'primeng/table';
 import { Contacts } from '../../core/interfaces/contacts';
 import { ContactsService } from '../../business/contacts/services/contacts.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LoadingService } from '../../core/services/loading.service';
+import { ClientHeaderComponent } from './shared/client-header/client-header.component';
+import { ClientTableComponent } from './shared/client-table/client-table.component';
+import { SearchPaginationComponent } from './shared/search-pagination/search-pagination.component';
+import { SpinnerComponent } from '../../shared/utils/spinner/spinner.component';
 import { DialogModule } from 'primeng/dialog';
+import { ClientFormComponent } from './shared/client-form/client-form.component';
 
 @Component({
   selector: 'app-contacts',
   standalone: true,
-  imports: [TableModule, FormsModule, CommonModule, DialogModule],
+  imports: [
+    TableModule,
+    FormsModule,
+    CommonModule,
+    ClientHeaderComponent,
+    ClientTableComponent,
+    SearchPaginationComponent,
+    SpinnerComponent,
+    DialogModule,
+    ClientFormComponent
+  ],
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.css'
 })
-
 export default class ContactsComponent implements OnInit {
   contacts: Contacts[] = [];
-  columnas: any[] = ["Nombre", "Compania", "Teléfono", "Correo", "Servicio", "Status"];
+  columnas: any[] = ["Nombre", "Compania", "Teléfono", "Correo", "Servicio", "Status", "Acciones"];
   filteredContacts: Contacts[] = [];
   pagedContacts: Contacts[] = [];
 
@@ -25,118 +39,72 @@ export default class ContactsComponent implements OnInit {
   pageSize: number = 5;
   totalItems: number = 0;
   totalPages: number = 0;
-  showModal: boolean = false;
-
-  isDropdownOpen: boolean = false;
-  search: string = '';
-
-  selectedRowData: Contacts | null = null;
   showContactModal: boolean = false;
   initials: string = '';
+  visible: boolean = false;
 
-  // constructor 
   constructor(
     private cs: ContactsService,
     public loadingService: LoadingService
   ) { }
 
   ngOnInit(): void {
+    this.loadContacts();
+  }
+
+  loadContacts(): void {
     this.cs.getContacts()
       .subscribe(contacts => {
         this.contacts = contacts;
         this.filteredContacts = contacts;
         this.updatePagination();
+        this.visible = false;
       });
   }
 
-  filterContacts(): void {
-    const searchTerm = this.search.toLowerCase();
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.updatePageContacts();
+  }
+
+  onSearch(searchTerm: string): void {
+    const term = searchTerm.toLowerCase();
     this.filteredContacts = this.contacts.filter(contact =>
-      contact.phone.includes(searchTerm)
+      contact.phone.includes(term)
     );
     this.currentPage = 1;
     this.updatePagination();
   }
 
-  updatePagination(): void {
+  onAddContact(): void {
+    this.visible = true
+  }
+
+  private updatePagination(): void {
     this.totalItems = this.filteredContacts.length;
     this.totalPages = Math.ceil(this.totalItems / this.pageSize);
     this.updatePageContacts();
   }
 
-  updatePageContacts(): void {
+  private updatePageContacts(): void {
     const startIndex = (this.currentPage - 1) * this.pageSize;
     const endIndex = Math.min(startIndex + this.pageSize, this.totalItems);
     this.pagedContacts = this.filteredContacts.slice(startIndex, endIndex);
-  }
-
-  nextPage(): void {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.updatePageContacts();
-    }
-  }
-
-  prevPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.updatePageContacts();
-    }
   }
 
   getEndIndex(): number {
     return Math.min(this.currentPage * this.pageSize, this.totalItems);
   }
 
-  openSettingsModal(): void {
-    this.showModal = true;
-    console.log('Modal abierto');
-  }
-
-  closeSettingsModal(): void {
-    this.showModal = false;
-    console.log('Modal cerrado');
-    this.updatePageContacts();
-  }
-
-  setPageSize(size: number): void {
-    this.pageSize = size;
-    this.currentPage = 1;
-    this.updatePagination();
-    this.isDropdownOpen = false;
-    this.showModal = false;
-  }
-
-  @HostListener('click', ['$event'])
-  onRowClick(event: MouseEvent): void {
-    const target = event.target as HTMLElement;
-
-    if (target.tagName === 'TD') {
-      const row = target.closest('tr');
-      if (row) {
-        const cells = Array.from(row.cells);
-        this.selectedRowData = {
-          name: cells[0].innerText,
-          company: cells[1].innerText,
-          phone: cells[2].innerText,
-          email: cells[3].innerText,
-          service: cells[4].innerText,
-          status: cells[5].innerText,
-        } as Contacts;
-
-        const [firstName, lastName] = this.selectedRowData.name.split(' ');
-        this.initials = (firstName[0] + (lastName ? lastName[0] : '')).toUpperCase();
-
-        this.showContactModal = true;
-      }
-    }
-  }
-
-  closeContactModal(): void {
-    this.showContactModal = false;
-  }
-
-  toggleDropdown(): void {
-    this.isDropdownOpen = !this.isDropdownOpen;
+  deleteContact(id: number): void {
+    this.cs.deleteContact(id)
+      .subscribe({
+        next: () => {
+          this.loadContacts();
+        },
+        error: (error) => {
+          console.error('Error deleting contact:', error);
+        }
+      });
   }
 }
