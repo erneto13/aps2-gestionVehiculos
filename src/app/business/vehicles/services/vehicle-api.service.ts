@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NewVehicle, Vehicle } from '../../../core/interfaces/vehicle';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,10 @@ export class VehicleApiService {
 
   vehicleAddedSource = new Subject<void>();
   vehicleAdded$ = this.vehicleAddedSource.asObservable();
+
+  selectedVehicleSource = new BehaviorSubject<any>(null);
+  selectedVehicle$ = this.selectedVehicleSource.asObservable();
+
 
   /*
   Método para retornar una lista de
@@ -28,5 +32,9 @@ export class VehicleApiService {
 
   notifyVehicleAdded() {
     this.vehicleAddedSource.next();
+  }
+
+  setSelectedVehicle(vehicle: any) {
+    this.selectedVehicleSource.next(vehicle);
   }
 }

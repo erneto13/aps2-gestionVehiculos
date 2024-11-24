@@ -1,0 +1,68 @@
+<div class="grid gap-6 md:grid-cols-2 m-8 -mt-4">
+    <!-- Primera tarjeta -->
+    <div class="bg-white shadow-md rounded-lg p-6 border">
+        <div class="mb-4">
+            <h2 class="text-lg font-medium">Información General</h2>
+        </div>
+        <div class="grid gap-4">
+            <img [src]="vehicle.image_url" [alt]="vehicle.brand + ' ' + vehicle.model"
+                class="rounded-lg object-cover w-full h-auto" />
+            <div class="grid grid-cols-2 gap-4">
+                <ng-container *ngFor="let item of [
+              { icon: 'pi pi-id-card', title: 'Placa', value: vehicle.license_plate },
+              { icon: 'pi pi-truck', title: 'Marca', value: vehicle.brand },
+              { icon: 'pi pi-wrench', title: 'Modelo', value: vehicle.model },
+              { icon: 'pi pi-calendar', title: 'Año', value: vehicle.year },
+              { icon: 'pi pi-palette', title: 'Color', value: vehicle.color },
+              { icon: 'pi pi-file', title: 'Tipo', value: vehicle.type }
+            ]">
+                    <div class="flex items-center gap-2">
+                        <i [ngClass]="item.icon" class="h-4 w-4 text-gray-500"></i>
+                        <div>
+                            <p class="text-sm font-medium">{{ item.title }}</p>
+                            <p class="text-sm text-gray-500">{{ item.value }}</p>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+    <!-- Segunda tarjeta -->
+    <div class="bg-white shadow-md rounded-lg p-6 border h-auto md:h-[260px]">
+        <div class="mb-4">
+            <h2 class="text-lg font-medium">Especificaciones Técnicas</h2>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+            <ng-container *ngFor="let item of [
+          { icon: 'pi pi-cog', title: 'Transmisión', value: vehicle.transmission_type },
+          { icon: 'pi pi-bolt', title: 'Combustible', value: vehicle.fuel_type },
+          { icon: 'pi pi-filter-fill', title: 'Motor', value: vehicle.engine_type }
+        ]">
+                <div class="flex items-center gap-2">
+                    <i [ngClass]="item.icon" class="h-5 w-5 text-gray-500"></i>
+                    <div>
+                        <p class="text-sm font-medium">{{ item.title }}</p>
+                        <p class="text-sm text-gray-500">{{ item.value }}</p>
+                    </div>
+                </div>
+            </ng-container>
+            <div>
+                <p class="text-sm font-medium mb-2">Estado actual</p>
+                <span class="px-2 py-1 rounded-full text-sm font-medium" [ngClass]="{
+              'bg-green-100 text-green-800': vehicle.status === 'Active',
+              'bg-yellow-100 text-yellow-800': vehicle.status === 'Under Maintenance',
+              'bg-red-100 text-red-800': vehicle.status === 'Retired'
+            }">
+                    {{ vehicle.status }}
+                </span>
+            </div>
+            <div>
+                <p class="text-sm font-medium">Fecha de registro</p>
+                <p class="text-sm text-gray-500">
+                    {{ vehicle.registration_date }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
