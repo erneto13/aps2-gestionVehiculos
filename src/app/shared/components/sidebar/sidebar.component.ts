@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
 import { Auth } from '../../../core/services/auth.service';
 import { SharedService } from '../../../core/services/shared.service';
 
@@ -11,13 +11,24 @@ import { SharedService } from '../../../core/services/shared.service';
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent implements OnInit {
-  constructor(private auth: Auth, private sharedService: SharedService) { }
+
+  constructor(private auth: Auth, private sharedService: SharedService,
+    private activatedRoute: ActivatedRoute) { }
 
   submenuOpen: boolean = false
   role: string | null = null
 
   ngOnInit(): void {
-    this.role = this.auth.getUserRole()
+    this.role = this.auth.getUserRole();
+
+    let route = this.activatedRoute;
+    while (route.firstChild) {
+      route = route.firstChild;
+    }
+    route.data.subscribe(data => {
+      const title = data['title'] || 'Panel';
+      this.sharedService.changeTitle(title);
+    });
   }
 
   // cerrar sesión
@@ -32,5 +43,4 @@ export class SidebarComponent implements OnInit {
   selectTitle(title: string) {
     this.sharedService.changeTitle(title);
   }
-
 }
