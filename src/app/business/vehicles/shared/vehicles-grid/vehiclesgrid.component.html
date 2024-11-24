@@ -5,21 +5,22 @@
         (click)="cardClick.emit(vehicle)">
         <div class="md:flex flex-col h-full">
             <div class="md:flex-shrink-0">
-                <img class="h-32 w-full object-cover" src="{{ vehicle.imageUrl }}" alt="hola" />
+                <img class="h-32 w-full object-cover" src="{{ vehicle.image_url }}" alt="hola" />
             </div>
             <div class="p-4 flex-1 flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-1">
-                        <h2 class="text-lg font-bold text-gray-800 truncate">{{ vehicle.make }} {{ vehicle.model }}</h2>
+                        <h2 class="text-lg font-bold text-gray-800 truncate">{{ vehicle.brand }} {{ vehicle.model }}
+                        </h2>
                         <span class="px-2 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-full">
-                            {{ vehicle.type_vehicle }}
+                            {{ vehicle.type }}
                         </span>
                     </div>
                     <div class="flex items-center space-x-1 text-sm text-gray-600 mb-2">
                         <span class="h-2 w-2 rounded-full" [ngClass]="{
-                            'bg-green-500': vehicle.status === 'AVAILABLE',
-                            'bg-red-500': vehicle.status === 'UNAVAILABLE',
-                            'bg-yellow-500': vehicle.status === 'MAINTENANCE'
+                            'bg-green-500': vehicle.status === 'Active',
+                            'bg-red-500': vehicle.status === 'Under Maintenance',
+                            'bg-yellow-500': vehicle.status === 'Retired'
                         }"></span>
                         <span>{{ vehicle.status }}</span>
                     </div>
@@ -27,11 +28,11 @@
                 <div class="space-y-1">
                     <div class="flex items-center text-gray-700">
                         <i class="pi pi-car mr-2 h-4 w-4"></i>
-                        <span class="text-sm font-medium">{{ vehicle.licensePlate }}</span>
+                        <span class="text-sm font-medium">{{ vehicle.license_plate }}</span>
                     </div>
                     <div class="flex items-center text-gray-700">
                         <i class="pi pi-calendar mr-2 h-4 w-4"></i>
-                        <span class="text-sm">Agregado el {{ vehicle.createdAt | date }}</span>
+                        <span class="text-sm">Agregado el {{ vehicle.registration_date | date }}</span>
                     </div>
                 </div>
             </div>

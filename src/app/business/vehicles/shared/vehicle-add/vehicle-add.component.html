@@ -15,6 +15,7 @@
             Seleccionar imagen
         </label>
     </div>
+
     <div>
         <label for="licensePlate" class="block mb-2 text-sm font-medium text-gray-700">Placa</label>
         <div class="relative rounded-md shadow-sm">
@@ -28,10 +29,11 @@
             La placa debe tener el siguiente formato: ABC-123-D
         </small>
     </div>
+
     <div class="grid grid-cols-2 gap-4 mt-2 mb-2">
         <div>
-            <label for="make" class="block mb-2 text-sm font-medium text-gray-700">Marca</label>
-            <input id="make" type="text" formControlName="make"
+            <label for="brand" class="block mb-2 text-sm font-medium text-gray-700">Marca</label>
+            <input id="brand" type="text" formControlName="brand"
                 class="block w-full sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" />
         </div>
         <div>
@@ -40,6 +42,51 @@
                 class="block w-full sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" />
         </div>
     </div>
+
+    <!-- Año -->
+    <div class="mt-2">
+        <label for="year" class="block mb-2 text-sm font-medium text-gray-700">Año</label>
+        <input id="year" type="number" formControlName="year" min="1900" max="2099" step="1"
+            class="block w-full sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" />
+    </div>
+
+    <!-- Color -->
+    <div class="mt-2">
+        <label for="color" class="block mb-2 text-sm font-medium text-gray-700">Color</label>
+        <input id="color" type="text" formControlName="color" maxlength="30"
+            class="block w-full sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" />
+    </div>
+
+    <!-- Tipo de Transmisión -->
+    <div class="mt-2">
+        <label for="transmission_type" class="block mb-2 text-sm font-medium text-gray-700">Tipo de Transmisión</label>
+        <select id="transmission_type" formControlName="transmission_type"
+            class="block w-full sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+            @for (type of transmissionType; track $index) {
+            <option [value]="type">{{type}}</option>
+            }
+        </select>
+    </div>
+
+    <!-- Tipo de Combustible -->
+    <div class="mt-2">
+        <label for="fuel_type" class="block mb-2 text-sm font-medium text-gray-700">Tipo de Combustible</label>
+        <select id="fuel_type" formControlName="fuel_type"
+            class="block w-full sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+            @for (type of fuelType; track $index) {
+            <option [value]="type">{{type}}</option>
+            }
+        </select>
+    </div>
+
+    <!-- Tipo de Motor -->
+    <div class="mt-2">
+        <label for="engine_type" class="block mb-2 text-sm font-medium text-gray-700">Tipo de Motor</label>
+        <input id="engine_type" type="text" formControlName="engine_type" maxlength="50"
+            class="block w-full sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" />
+    </div>
+
+    <!-- Tipo de Vehículo -->
     <div class="mt-2">
         <label class="block mb-2 text-sm font-medium text-gray-700">Tipo de Vehículo</label>
         <select formControlName="type_vehicle"
@@ -49,6 +96,7 @@
             }
         </select>
     </div>
+
     <button type="submit"
         class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-150 ease-in-out mt-2">
         Registrar Vehículo

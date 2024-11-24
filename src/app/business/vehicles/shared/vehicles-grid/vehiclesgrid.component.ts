@@ -6,13 +6,17 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Vehicle } from '../../../../core/interfaces/vehicle';
 import { VehicleApiService } from '../../services/vehicle-api.service';
 
+// Components
+import { VehiclesstatisticComponent } from '../vehicles-statistic/vehiclesstatistic.component';
+import { VehiclesheaderComponent } from '../vehicles-header/vehiclesheader.component';
+
 @Component({
   selector: 'app-vehiclesgrid',
   standalone: true,
-  imports: [DatePipe, CommonModule],
+  imports: [DatePipe, CommonModule, VehiclesstatisticComponent, VehiclesheaderComponent],
   templateUrl: './vehiclesgrid.component.html',
 })
-export class VehiclesgridComponent implements OnInit, OnDestroy {
+export default class VehiclesgridComponent implements OnInit, OnDestroy {
   @Output() cardClick = new EventEmitter<any>();
   vehicles: Vehicle[] = [];
   vehicleAddedSubscription!: Subscription;

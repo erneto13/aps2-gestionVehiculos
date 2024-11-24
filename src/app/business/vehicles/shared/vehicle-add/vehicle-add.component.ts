@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { EventEmitter } from '@angular/core';
 
 // Core
-import { NewVehicle, VehiclesType } from '../../../../core/interfaces/vehicle';
+import { FuelType, NewVehicle, TransmissionType, VehiclesType } from '../../../../core/interfaces/vehicle';
 import { MediaService } from '../../../../core/services/media.service';
 import { VehicleApiService } from '../../services/vehicle-api.service';
 import { SharedService } from '../../../../core/services/shared.service';
@@ -30,6 +30,8 @@ export class VehicleAddComponent {
 
   vehicleForm: FormGroup;
   vehicleTypes = Object.values(VehiclesType);
+  transmissionType = Object.values(TransmissionType);
+  fuelType = Object.values(FuelType)
   isPlateValid: boolean = true;
   url!: string;
 
@@ -52,8 +54,13 @@ export class VehicleAddComponent {
           Validators.pattern(/^[A-Z]{3}-[0-9]{3}-[A-Z]?$/)
         ]
       ],
-      make: ['', [Validators.required]],
+      brand: ['', [Validators.required]],
       model: ['', [Validators.required]],
+      year: ['', [Validators.required]],
+      color: ['', [Validators.required]],
+      transmission_type: ['', [Validators.required]],
+      fuel_type: ['', [Validators.required]],
+      engine_type: ['', [Validators.required]],
       type_vehicle: ['', [Validators.required]],
     });
   }
@@ -81,16 +88,20 @@ export class VehicleAddComponent {
     const currentTimestamp = this.shared.getMySQLTimestamp();
 
     const vehicleAttrivutes: NewVehicle = {
-      licensePlate: this.vehicleForm.value.licensePlate,
-      make: this.vehicleForm.value.make,
+      license_plate: this.vehicleForm.value.licensePlate,
+      brand: this.vehicleForm.value.brand,
       model: this.vehicleForm.value.model,
-      status: 'AVAILABLE',
-      type_vehicle: this.vehicleForm.value.type_vehicle,
-      imageUrl: this.url,
-      createdAt: currentTimestamp,
-      updatedAt: currentTimestamp
+      year: this.vehicleForm.value.year,
+      color: this.vehicleForm.value.color,
+      transmission_type: this.vehicleForm.value.transmission_type,
+      fuel_type: this.vehicleForm.value.fuel_type,
+      engine_type: this.vehicleForm.value.engine_type,
+      type: this.vehicleForm.value.type_vehicle,
+      status: 'Active',
+      image_url: this.url,
+      registration_date: currentTimestamp,
     };
-
+    console.log(vehicleAttrivutes)
     this.addVehicle(vehicleAttrivutes);
   }
 
@@ -108,7 +119,6 @@ export class VehicleAddComponent {
     );
   }
 
-  // Subir imagen
   upload(event: any): void {
     const file = event.target.files[0];
     if (file) {
@@ -125,7 +135,6 @@ export class VehicleAddComponent {
     }
   }
 
-  // Formatear la placa
   formatLicensePlate(value: string): string {
     if (!value) return '';
     value = value.toUpperCase().replace(/[^A-Z0-9]/g, '');
@@ -134,7 +143,6 @@ export class VehicleAddComponent {
     return value;
   }
 
-  // Resetear el formulario
   resetForm(): void {
     this.vehicleForm.reset();
     this.url = '';
