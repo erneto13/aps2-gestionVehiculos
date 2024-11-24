@@ -43,6 +43,7 @@ export class ReminderListComponent implements OnInit {
         next: (data) => {
           this.allReminders = data;
           this.filterAndPaginateReminders();
+          this.visible = false;
         },
         error: (error) => {
           console.error('Error fetching reminders:', error);

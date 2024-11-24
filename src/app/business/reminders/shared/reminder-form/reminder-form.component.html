@@ -1,30 +1,48 @@
-<form [formGroup]="reminderForm" (ngSubmit)="onSubmit()" class="mt-3">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="vehicle">Vehículo</label>
-                <input type="text" class="form-control" id="vehicle" formControlName="vehicle"
-                    [ngClass]="{'is-invalid': reminderForm.get('vehicle')?.invalid && reminderForm.get('vehicle')?.touched}">
+<form [formGroup]="reminderForm" (ngSubmit)="onSubmit()" class="p-4 -mt-4 rounded-lg">
+    <div class="flex flex-wrap gap-4">
+        <div class="flex-1">
+            <label for="vehicle" class="block text-sm font-medium text-gray-700 mb-1">Vehículo</label>
+            <div class="relative group">
+                <select id="vehicle" formControlName="vehicle"
+                    class="w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm"
+                    [ngClass]="{'border-red-500': reminderForm.get('vehicle')?.invalid && reminderForm.get('vehicle')?.touched}">
+                    <option value="" disabled selected>Selecciona un vehículo</option>
+                    @for (vehicle of vehicles; track $index) {
+                    <option [value]="vehicle.brand + ' ' + vehicle.model + ' - ' + vehicle.license_plate">
+                        {{ vehicle.brand }} {{ vehicle.model }} - {{ vehicle.license_plate }}
+                    </option>
+                    }
+                </select>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="due_date">Fecha</label>
-                <input type="datetime-local" class="form-control" id="due_date" formControlName="due_date"
-                    [ngClass]="{'is-invalid': reminderForm.get('due_date')?.invalid && reminderForm.get('due_date')?.touched}">
+
+        <div class="flex-1">
+            <label for="due_date" class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
+            <div class="relative">
+                <i class="pi pi-calendar absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400"></i>
+                <input type="datetime-local" id="due_date" formControlName="due_date"
+                    class="pl-10 w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm"
+                    [ngClass]="{'border-red-500': reminderForm.get('due_date')?.invalid && reminderForm.get('due_date')?.touched}">
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="task">Tarea</label>
-                <input type="text" class="form-control" id="task" formControlName="task"
-                    [ngClass]="{'is-invalid': reminderForm.get('task')?.invalid && reminderForm.get('task')?.touched}">
-            </div>
+    </div>
+
+    <div class="mt-4">
+        <label for="task" class="block text-sm font-medium text-gray-700 mb-1">Tarea</label>
+        <div class="relative">
+            <i class="pi pi-comment absolute top-2.5 left-3 text-gray-400"></i>
+            <textarea id="task" formControlName="task" rows="3"
+                class="pl-10 w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm resize-none"
+                [ngClass]="{'border-red-500': reminderForm.get('task')?.invalid && reminderForm.get('task')?.touched}">
+            </textarea>
         </div>
-        <div class="col-md-2">
-            <button type="submit" class="btn btn-primary mt-4" [disabled]="!reminderForm.valid">
-                Crear
-            </button>
-        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <button type="submit"
+            class="inline-flex w-full items-center justify-center px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition"
+            [disabled]="!reminderForm.valid">
+            <i class="pi pi-check-circle mr-2"></i> Crear
+        </button>
     </div>
 </form>
