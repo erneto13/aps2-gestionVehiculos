@@ -41,10 +41,7 @@ export class LoginComponent {
       };
 
       this.auth.login(creds).subscribe(() => {
-        this.auth.getDetailUser().subscribe({
-          next: () => this.router.navigate(['/panel']),
-          error: (err) => console.error('Error fetching driver profile:', err)
-        });
+        this.router.navigate(['/panel'])
       });
     } else {
       console.log('formulario inválido');
