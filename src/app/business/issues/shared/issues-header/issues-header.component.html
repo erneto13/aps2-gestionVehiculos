@@ -20,48 +20,66 @@
             Si tuviste algún problema en el transcurso de tu trabajo reportalo para que los administradores lo
             resuelvan.
         </span>
-        <form [formGroup]="newIssueForm" (ngSubmit)="pushIssue()">
-            <div class="mb-3">
-                <label class="mb-2 block text-sm font-semibold">Título del asunto</label>
+        <form [formGroup]="newIssueForm" (ngSubmit)="pushIssue()" class="p-2 bg-white rounded-md max-w-md mx-auto">
+            <div class="mb-4">
+                <label class="mb-2 block text-sm font-semibold flex items-center">
+                    <i class="pi pi-pencil mr-2 text-gray-500"></i>
+                    Título del asunto
+                </label>
                 <input pInputText formControlName="title" placeholder="El foco del auto ABC-1234 está fundido"
-                    class="block w-80 rounded-md border border-gray-300 focus:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-700 py-1 px-1.5 text-gray-500" />
+                    class="block w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-1 py-2 px-3 text-gray-700" />
             </div>
-            <div class="mb-3">
-                <label class="mb-2 block text-sm font-semibold">Descripción del asunto</label>
+
+            <div class="mb-4">
+                <label class="mb-2 block text-sm font-semibold flex items-center">
+                    <i class="pi pi-align-left mr-2 text-gray-500"></i>
+                    Descripción del asunto
+                </label>
                 <textarea rows="4" cols="20" pInputTextarea formControlName="description"
                     placeholder="Ayer que le cambiaron el foco al vehículo ABC-1234, el técnico no lo colocó correctamente y se fundió. Por favor, revisar y corregir."
-                    class="block w-80 rounded-md border border-gray-300 focus:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-700 py-1 px-1.5 text-gray-500">
-                </textarea>
+                    class="block w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 py-2 px-3 text-gray-700 resize-none">
+              </textarea>
             </div>
-            <div class="mb-3">
-                <label class="mb-2 block text-sm font-semibold">Categoría de asuntos:</label>
+
+            <div class="mb-4">
+                <label class="mb-2 block text-sm font-semibold flex items-center">
+                    <i class="pi pi-list mr-2 text-gray-500"></i>
+                    Categoría de asuntos
+                </label>
                 <p-dropdown formControlName="selectedIssueType" [options]="issueTypes"
-                    placeholder="Selecciona un tipo de asunto">
+                    placeholder="Selecciona un tipo de asunto" class="w-full">
                 </p-dropdown>
             </div>
-            <div class="mb-3">
-                <label class="mb-2 block text-sm font-semibold">Subir evidencias</label>
-                <input type="file" (change)="upload($event)" multiple class="w-full text-gray-400 font-semibold text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 file:mr-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-gray-500 rounded
-         pl-3" />
+
+            <div class="mb-4">
+                <label class="mb-2 block text-sm font-semibold flex items-center">
+                    <i class="pi pi-upload mr-2 text-gray-500"></i>
+                    Subir evidencias
+                </label>
+                <input type="file" (change)="upload($event)" multiple
+                    class="w-full text-gray-400 font-semibold text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 file:mr-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-gray-500 rounded pl-3" />
                 <input type="hidden" formControlName="evidenceValidation">
                 <p class="text-xs text-gray-400 mt-2">Puedes subir archivos PNG o JPG.</p>
+
                 @if (uploadedFiles.length > 0) {
-                <div class="mt-2">
-                    <p class="mb-1 block text-sm font-semibold">Archivos subidos:</p>
-                    <ul class="list-none list-inside">
+                <div class="mt-3">
+                    <p class="mb-2 block text-sm font-semibold">Archivos subidos:</p>
+                    <ul class="list-disc pl-5 text-gray-600 text-sm">
                         @for (file of uploadedFiles; track $index) {
-                        <li class="text-xs text-gray-600">
-                            {{ file.split('/').pop() }}
-                        </li>
+                        <li>{{ file.split('/').pop() }}</li>
                         }
                     </ul>
                 </div>
                 }
             </div>
-            <div class="mb-3">
+
+            <div>
                 <button
-                    class="mb-1.5 block w-full text-center text-white bg-slate-700 hover:bg-slate-900 px-2 py-1.5 rounded-md"
-                    [disabled]="!canSubmit">Subir reporte</button>
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md text-sm font-semibold"
+                    [disabled]="!canSubmit">
+                    <i class="pi pi-cloud-upload mr-2"></i>
+                    Subir reporte
+                </button>
             </div>
         </form>
     </p-dialog>

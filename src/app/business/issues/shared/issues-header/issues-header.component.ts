@@ -8,7 +8,6 @@ import { Auth } from '../../../../core/services/auth.service';
 import { MediaService } from '../../../../core/services/media.service';
 import { ButtonComponent } from "../../../../shared/utils/button/button.component";
 import { IssueType, NewIssues } from '../../../../core/interfaces/issues';
-import { SharedService } from '../../../../core/services/shared.service';
 
 // PrimeNG
 import { DialogModule } from 'primeng/dialog';
@@ -38,9 +37,7 @@ export class IssuesHeaderComponent implements OnInit {
   uploadedFiles: string[] = [];
 
   constructor(private fb: FormBuilder,
-    private auth: Auth, private ms: MediaService, 
-    private is: IssuesService, private msgs: MessageService,
-    private shared: SharedService
+    private auth: Auth, private ms: MediaService, private is: IssuesService, private msgs: MessageService
   ) {
     this.newIssueForm = this.fb.group({
       title: ['', [Validators.required, Validators.nullValidator]],
@@ -60,7 +57,7 @@ export class IssuesHeaderComponent implements OnInit {
 
   pushIssue() {
     if (this.newIssueForm.valid && this.uploadedFiles.length > 0) {
-      const currentTimestamp = this.shared.getMySQLTimestamp();
+      const currentTimestamp = this.getMySQLTimestamp();
 
       const issueAttributes: NewIssues = {
         title: this.newIssueForm.value.title,
@@ -147,4 +144,24 @@ export class IssuesHeaderComponent implements OnInit {
       });
     }
   }
+
+
+  /**
+   * Obtiene el timestamp actual en formato MySQL
+   * @returns string en formato 'YYYY-MM-DD HH:mm:ss'
+   * Ejemplo: '2024-11-06 10:15:00'
+   */
+  getMySQLTimestamp(): string {
+    const now = new Date();
+
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
+
 }
