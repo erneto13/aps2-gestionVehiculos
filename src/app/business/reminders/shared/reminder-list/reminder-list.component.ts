@@ -1,25 +1,27 @@
 // Bodriular
 import { Component, OnInit } from '@angular/core';
-import { TableModule } from 'primeng/table';
-
+import { CommonModule } from '@angular/common';
 
 // Core
 import { Reminder } from '../../../../core/interfaces/reminders';
 import { RemindersService } from '../../services/reminders.service';
 import { ReminderFormComponent } from '../reminder-form/reminder-form.component';
-
-// PrimeNG
-import { DialogModule } from 'primeng/dialog';
 import { ReminderPaginationComponent } from '../reminder-pagination/reminder-pagination.component';
 import { ReminderTableComponent } from '../reminder-table/reminder-table.component';
 import { ReminderSearchbarComponent } from '../reminder-searchbar/reminder-searchbar.component';
+import { LoadingService } from '../../../../core/services/loading.service';
+import { SpinnerComponent } from '../../../../shared/utils/spinner/spinner.component';
+
+// PrimeNG
+import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
 
 @Component({
   selector: 'app-reminder-list',
   standalone: true,
   imports: [ReminderFormComponent, TableModule, DialogModule,
     ReminderPaginationComponent, ReminderTableComponent,
-    ReminderSearchbarComponent],
+    ReminderSearchbarComponent, SpinnerComponent, CommonModule],
   templateUrl: './reminder-list.component.html'
 })
 export class ReminderListComponent implements OnInit {
@@ -31,7 +33,7 @@ export class ReminderListComponent implements OnInit {
   searchTerm = '';
   visible: boolean = false;
 
-  constructor(private remindersService: RemindersService) { }
+  constructor(private remindersService: RemindersService, public loadingService: LoadingService) { }
 
   ngOnInit(): void {
     this.loadReminders();
