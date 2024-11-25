@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { Contacts } from '../../core/interfaces/contacts';
 import { ContactsService } from '../../business/contacts/services/contacts.service';
