@@ -39,7 +39,6 @@ export class Auth {
                 this.setRefreshToken(refreshToken);
 
                 this.autoRefreshToken();
-                this.getDetailUser();
 
                 return body;
             } else {
@@ -126,16 +125,9 @@ export class Auth {
         }
     }
 
-    getDetailUser(): Observable<User> {
-        return this.http.get<User>('http://localhost:8080/api/v1/driver/profile').pipe(
-            tap(user => this.userSubject.next(user))
-        );
-    }
-
     logout(): void {
         localStorage.removeItem(this.TOKEN_KEY);
         localStorage.removeItem(this.REFRESH_TOKEN_KEY);
-        this.userSubject.next(null); // limpiar el usuario
         this.router.navigate(['/login']);
     }
 }
