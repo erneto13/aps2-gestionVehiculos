@@ -1,0 +1,61 @@
+<table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+        <tr>
+            @for (header of tableHeaders; track $index) {
+            <th scope="col"
+                class="sticky top-0 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50 shadow"
+                style="white-space: nowrap; width: 200px;">
+                {{ header }}
+            </th>
+            }
+        </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+        @if (drivers.length > 0) {
+        @for (driver of drivers; track $index) {
+        <tr class="hover:bg-gray-100 cursor-pointer">
+            <td class="px-6 py-4 text-sm font-medium text-slate-900" style="width: 200px; white-space: nowrap;">
+                {{ driver.name }}
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-500" style="width: 200px; white-space: nowrap;">
+                {{ driver.license_number }}
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-500" style="width: 300px; max-height: 100px; overflow-y: auto;">
+                {{ driver.license_category }}
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-500" style="width: 300px; max-height: 100px; overflow-y: auto;">
+                {{ driver.phone }}
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-500"
+                style="width: 300px; max-height: 100px; overflow-y: auto; text-wrap: wrap;">
+                {{ driver.address }}
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-500" style="width: 200px;">
+                <div class="flex gap-2">
+                    <button
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 px-4 rounded inline-flex items-center"
+                        (click)="editDriver(driver)">
+                        Editar
+                    </button>
+                    <button
+                        class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-4 rounded inline-flex items-center"
+                        (click)="deleteDriver(driver.driver_id!)">
+                        Eliminar
+                    </button>
+                </div>
+            </td>
+        </tr>
+        }
+        } @else {
+        <tr>
+            <td colspan="5" class="px-6 py-4 text-center text-gray-500" style="white-space: nowrap;">
+                <div class="flex flex-col items-center">
+                    <i class="pi pi-info-circle text-4xl text-gray-400 mb-2"></i>
+                    <p class="text-xl font-medium text-gray-600">No hay datos disponibles</p>
+                    <p class="text-sm text-gray-400">No se ha encontrado ningún conductor</p>
+                </div>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
