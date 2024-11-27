@@ -1,1 +1,133 @@
-<p>gemini-generate works!</p>
+<div class="w-full min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-lg mx-auto">
+        <!-- Card con tamaño fijo y desplazamiento automático -->
+        <div class="border p-4 rounded-lg shadow h-96 overflow-auto">
+            <!-- Pantalla de carga -->
+            @if (iaPense) {
+            <div class="p-6 rounded-lg flex flex-col items-center justify-center space-y-4">
+                <i class="pi pi-spin pi-cog" style="font-size: 6rem; color: #1C64F2"></i>
+                <p class="text-center text-lg font-medium">
+                    Estamos analizando la mejor respuesta en base a tus necesidades...
+                </p>
+                <p class="text-center text-sm text-muted-foreground">
+                    Nuestra IA está procesando tu solicitud para brindarte la información más precisa y relevante.
+                </p>
+            </div>
+            } @else {
+                <p>{{response}}</p>
+            }
+
+            <!-- Formulario de entrada -->
+            @if (!isResultScreen) {
+            <div class="text-center mb-4">
+                <p class="text-lg mb-4">Contesta este cuestionario y en base a Inteligencia Artificial te recomendaremos
+                    un
+                    paquete ideal a tus necesidades.</p>
+                <h2 class="text-lg font-bold">Paso {{ step }} de 3</h2>
+            </div>
+
+            <form [formGroup]="geminiPrompt" (ngSubmit)="onSubmit()">
+                @switch (step) {
+                @case (1) {
+                <div class="space-y-6">
+                    <div class="space-y-4">
+                        <h2 class="text-xl font-semibold">Seleccione los servicios que necesita:</h2>
+                        <div class="space-y-2">
+                            <label for="services" class="block text-sm font-medium text-gray-700">Servicios</label>
+                            <select id="services" formControlName="services"
+                                class="w-full py-2 border border-gray-300 rounded-md">
+                                @for (service of services; track service) {
+                                <option [value]="service">{{ service }}</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                }
+                @case (2) {
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold">¿Cuántos vehículos tiene?</h2>
+                    <div class="space-y-2">
+                        <label for="vehicleCount" class="block text-sm font-medium text-gray-700">Número de
+                            vehículos</label>
+                        <select id="vehicleCount" formControlName="vehicleCount"
+                            class="w-full py-2 border border-gray-300 rounded-md">
+                            @for (option of vehicleOptions; track option) {
+                            <option [value]="option">{{ option }}</option>
+                            }
+                        </select>
+                    </div>
+
+                    <h2 class="text-xl font-semibold pt-6">Características importantes:</h2>
+                    <div class="space-y-2">
+                        <label for="features" class="block text-sm font-medium text-gray-700">Características</label>
+                        <select id="features" formControlName="features"
+                            class="w-full py-2 border border-gray-300 rounded-md">
+                            @for (feature of features; track feature) {
+                            <option [value]="feature">{{ feature }}</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                }
+                @case (3) {
+                <div class="space-y-4">
+                    <h2 class="text-lg font-semibold">Información de contacto</h2>
+                    <div class="space-y-4">
+                        <div class="space-y-2">
+                            <label for="name" class="block text-sm font-medium text-gray-700">
+                                Nombre completo
+                            </label>
+                            <input formControlName="name" id="name" name="name" type="name"
+                                placeholder="Correo electrónico"
+                                class="w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm" />
+                        </div>
+
+                        <div class="space-y-2">
+                            <label for="email" class="block text-sm font-medium text-gray-700">
+                                Correo electrónico
+                            </label>
+                            <input formControlName="email" id="email" name="email" type="email"
+                                placeholder="Correo electrónico"
+                                class="w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm" />
+                        </div>
+
+                        <div class="space-y-2">
+                            <label for="company" class="block text-sm font-medium text-gray-700">
+                                Nombre de la compañía
+                            </label>
+                            <input formControlName="company" id="company" name="company" type="company"
+                                placeholder="Correo electrónico"
+                                class="w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm" />
+                        </div>
+                    </div>
+                </div>
+                }
+                }
+                <!-- Botones de navegación -->
+                <div class="flex justify-between mt-6">
+                    @if (step === 3) {
+                    <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-md">
+                        Enviar
+                    </button>
+                    }
+                </div>
+            </form>
+            <div class="flex justify-between mt-6">
+                @if (step > 1) {
+                <button (click)="goBack()"
+                    class="h-8 w-8 flex items-center justify-center rounded-md border border-gray-300 bg-white hover:bg-gray-200">
+                    <i class="pi pi-angle-left text-gray-500"></i>
+                </button>
+                }
+
+                @if (step < 3 && step !==3) { <button (click)="goNext()"
+                    class="h-8 w-8 flex items-center justify-center rounded-md border border-gray-300 bg-white hover:bg-gray-200">
+                    <i class="pi pi-angle-right text-gray-500"></i>
+                    </button>
+                    }
+            </div>
+            }
+        </div>
+    </div>
+</div>
