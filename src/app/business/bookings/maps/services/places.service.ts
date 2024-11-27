@@ -1,16 +1,21 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Feature, PlacesResponse } from '../../../../core/interfaces/places';
+import { PlacesApiClient } from '../api/placesApiClient';
+import { MapService } from './map.service';
 
 @Injectable({ providedIn: 'root' })
 
 export class PlacesService {
-    userLocation?: [number, number];
+    public useLocation?: [number, number];
 
-    get isUserLocationAvailable(): boolean {
-        return !!this.userLocation;
+    public isLoadingPlaces = false;
+    public places: Feature[] = [];
+
+    get isUserLocationReady(): boolean {
+        return !!this.useLocation;
     }
 
-    constructor(private http: HttpClient) {
+    constructor(private placesApi: PlacesApiClient, private mapService: MapService) {
         this.getUserLocation();
     }
 
@@ -18,21 +23,42 @@ export class PlacesService {
         return new Promise((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    this.userLocation = [position.coords.longitude, position.coords.latitude];
-                    resolve(this.userLocation);
+                    this.useLocation = [position.coords.longitude, position.coords.latitude];
+                    resolve(this.useLocation);
                 },
                 (error) => {
                     alert('Geolocation is not available');
                     console.error(error);
-                    reject(error);
+                    reject();
                 }
             );
-        })
+        });
     }
 
     getPlaces(query: string = '') {
-        // TODO: query vacio
-        const url = `https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(query)}&limit=5&proximity=${this.userLocation?.join('%2C')}&language=es&access_token=pk.eyJ1IjoiZXJuZXRvMTMiLCJhIjoiY20zd2I2MW10MTFueTJycHUxdXl0Y3ZzZiJ9.fUMW24vzqzc9Ul9vuXYUtA`;
-        return this.http.get(url).subscribe(console.log); 
+        if (query.length === 0) {
+            this.places = [];
+            this.isLoadingPlaces = false;
+            return;
+        }
+
+        if (!this.useLocation) throw new Error('ERROR DESDE EL SERVICIO: No se pudo obtener la ubicación del usuario');
+        this.isLoadingPlaces = true;
+
+        this.placesApi.get<PlacesResponse>(query, {
+            params: {
+                proximity: this.useLocation.join(','),
+            }
+        }).
+            subscribe((response) => {
+                this.isLoadingPlaces = false;
+                this.places = response.features;
+
+                this.mapService.createMarkersFromPlaces(this.places, this.useLocation!);
+            });
+    }
+
+    deletePlaces() {
+        this.places = [];
     }
 }
