@@ -1,1 +1,18 @@
-<p>header works!</p>
+<nav class="container mx-auto flex items-center justify-between p-6 lg:px-8">
+    <div class="flex items-center">
+        <img src="./assets/test.png" alt="Logo" class="w-8 h-8 mr-2">
+        <a class="text-2xl font-bold text-gray-800 lg:text-3xl dark:text-white">
+            CARRILLOs
+        </a>
+    </div>
+    <div class="hidden lg:flex lg:gap-x-8 items-center">
+        <a href="#" class="text-sm font-semibold text-gray-800 hover:text-gray-600">Inicio</a>
+        <a href="#" class="text-sm font-semibold text-gray-800 hover:text-gray-600">Servicios</a>
+        <!-- Botón de Iniciar Sesión -->
+        <a routerLink="/login"
+            class="ml-4 inline-block px-5 py-2 text-sm font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-lg shadow-md focus:outline-none cursor-pointer">
+            Iniciar Sesión
+        </a>
+    </div>
+
+</nav>
