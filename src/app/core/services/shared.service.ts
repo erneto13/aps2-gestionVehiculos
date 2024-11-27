@@ -8,8 +8,15 @@ export class SharedService {
   titleSource = new BehaviorSubject<string>('Panel');
   currentTitle = this.titleSource.asObservable();
 
+  private pricingContentSubject = new BehaviorSubject<string>('');
+  pricingContent$ = this.pricingContentSubject.asObservable();
+
   changeTitle(title: string) {
     this.titleSource.next(title);
+  }
+
+  updatePricingContent(content: string) {
+    this.pricingContentSubject.next(content);
   }
 
   /**
