@@ -1,0 +1,7 @@
+<div class="relative w-full max-w-lg mx-auto mt-4">
+    <input #txtQuery (keyup)="onQueryChange(txtQuery.value)" type="text"
+        class="w-full p-3 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+        placeholder="Buscar lugares..." />
+        
+    <app-search-results />
+</div>
