@@ -4,8 +4,8 @@ import { PreventGuard } from './core/helpers/prevent.guard';
 import { AuthGuard } from './core/helpers/auth.guard';
 
 export const routes: Routes = [
+    { path: '', loadComponent: () => import('./shared/components/landing-page/layout/layout.component') },
     { path: 'login', component: LoginComponent, canActivate: [PreventGuard] },
-
     {
         path: '',
         loadComponent: () => import('./shared/components/layout/layout.component'),
