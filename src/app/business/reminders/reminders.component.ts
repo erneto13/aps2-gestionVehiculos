@@ -9,4 +9,8 @@ import { ReminderListComponent } from './shared/reminder-list/reminder-list.comp
 })
 export default class RemindersComponent {
 
+  constructor() {
+    
+  }
+
 }
