@@ -11,8 +11,8 @@ export class BookingsService {
     constructor(private http: HttpClient) { }
 
     // Obtener todas las reservas
-    getAllBookings(): Observable<Booking[]> {
-        return this.http.get<Booking[]>(`${this.apiUrl}/bookings-list`);
+    getAllBookings(): Observable<BookingResponse[]> {
+        return this.http.get<BookingResponse[]>(`${this.apiUrl}/bookings-list`);
     }
 
     // Obtener una reserva por ID
@@ -26,8 +26,8 @@ export class BookingsService {
     }
 
     // Crear una nueva reserva
-    createBooking(booking: BookingResponse): Observable<BookingResponse> {
-        return this.http.post<BookingResponse>(`${this.apiUrl}`, booking);
+    createBooking(booking: Booking): Observable<Booking> {
+        return this.http.post<Booking>(`${this.apiUrl}`, booking);
     }
 
     // Actualizar una reserva existente
