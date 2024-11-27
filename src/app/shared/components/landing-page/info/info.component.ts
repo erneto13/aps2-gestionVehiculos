@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
+import { GeminiGenerateComponent } from '../gemini-generate/gemini-generate.component';
 
 @Component({
-  selector: 'app-info',
+  selector: 'info-landing',
   standalone: true,
-  imports: [],
+  imports: [GeminiGenerateComponent],
   templateUrl: './info.component.html',
-  styleUrl: './info.component.css'
 })
-export class InfoComponent {
+export class InfoLandingPage {
 
 }
