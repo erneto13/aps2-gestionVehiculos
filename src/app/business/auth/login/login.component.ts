@@ -1,10 +1,15 @@
+// Bodriular
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+
+// Core
 import { Credentials } from '../../../core/interfaces/credentials';
 import { Auth } from '../../../core/services/auth.service';
 import { LoadingService } from '../../../core/services/loading.service';
+
+// PrimeNG
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
@@ -14,7 +19,7 @@ import { PasswordModule } from 'primeng/password';
   standalone: true,
   imports: [ButtonModule, PasswordModule,
     InputTextModule, ReactiveFormsModule,
-    CommonModule],
+    CommonModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
