@@ -1,9 +1,12 @@
+// Bodriular
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+// Core
 import { BookingsService } from '../../services/bookings.service';
 import { MapService, PlacesService } from '../../maps/services';
 import { SharedService } from '../../../../core/services/shared.service';
-import { BookingResponse } from '../../../../core/interfaces/booking';
+import { Booking, BookingResponse } from '../../../../core/interfaces/booking';
 import { SearchPlacesInput } from '../../maps/components/search-places.component';
 import { MapScreenComponent } from '../../maps/screens/map-screen/map-screen.component';
 
@@ -25,8 +28,17 @@ export class BookingsFormComponent implements OnInit {
     private sharedService: SharedService,
     private placesService: PlacesService
   ) {
-    // todo: crear el form group con los validators
-
+    this.bookingForm = this.fb.group({
+      vehicle_id: ['', [Validators.required]],
+      driver_id: ['', [Validators.required]],
+      start_date: ['', [Validators.required]],
+      end_date: ['', [Validators.required]],
+      status: ['', [Validators.required]],
+      purpose: ['', [Validators.required]],
+      origin_location: ['', [Validators.required]],
+      destination_location: ['', [Validators.required]],
+      notes: ['', [Validators.required]],
+    });
   }
 
   ngOnInit(): void {
@@ -34,14 +46,42 @@ export class BookingsFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    // TODO: implementar lógica de push de booking
+    if (this.bookingForm.invalid) {
+      console.error('Form is invalid');
+      return;
+    }
+
+    const currentTimeStamp = this.sharedService.getMySQLTimestamp();
+
+    const rawDateStart = this.sharedService.convertToMySQLTimestamp(
+      this.bookingForm.value.start_date
+    )
+    const rawDateEnd = this.sharedService.convertToMySQLTimestamp(
+      this.bookingForm.value.end_date
+    )
+
+    const booking: Booking = {
+      vehicle_id: this.bookingForm.value.vehicle_id,
+      driver_id: this.bookingForm.value.driver_id,
+      start_date: rawDateStart,
+      end_date: rawDateEnd,
+      status: this.bookingForm.value.status,
+      purpose: this.bookingForm.value.purpose,
+      origin_location: this.bookingForm.value.origin_location,
+      destination_location: this.bookingForm.value.destination_location,
+      created_at: currentTimeStamp,
+      updated_at: currentTimeStamp,
+      notes: this.bookingForm.value.notes,
+    };
+    this.createBooking(booking);
   }
 
-  createBooking(booking: BookingResponse): void {
-    this.bookingsService.createBooking(booking).subscribe(() => {
-      this.bookingCreated.emit();
-      this.bookingForm.reset();
-    })
+  createBooking(booking: Booking): void {
+    // this.bookingsService.createBooking(booking).subscribe(() => {
+    console.log(booking);
+    this.bookingCreated.emit();
+    this.bookingForm.reset();
+    // })
   }
 
   loadBookings(): void {
