@@ -9,7 +9,6 @@ import { Auth } from '../../../core/services/auth.service';
   standalone: true,
   imports: [SidebarComponent, HeaderComponent, RouterOutlet],
   templateUrl: './layout.component.html',
-  styleUrl: './layout.component.css'
 })
 export default class LayoutComponent implements OnInit {
   constructor(private auth: Auth) { }
