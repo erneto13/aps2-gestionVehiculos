@@ -1,0 +1,29 @@
+<div class="m-8">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-semibold mb-1">Listado de Reservas</h1>
+            <p class="text-sm text-gray-500">Gestiona rutas para los conductores.</p>
+        </div>
+        <div class="flex justify-between items-center gap-4 mb-6">
+            <app-reminder-searchbar (search)="onSearch($event)"></app-reminder-searchbar>
+            <button (click)="onChange()"
+                class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2 transition duration-150">
+                <i class="pi pi-clock font-medium"></i>
+                <span>Agendar reserva</span>
+            </button>
+        </div>
+    </div>
+
+    <p-dialog header="Agendar Reserva" [draggable]="false" [modal]="true" [(visible)]="visible"
+        [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+        <app-bookings-form />
+    </p-dialog>
+
+    <div class="overflow-x-auto rounded-lg border border-gray-200">
+        <app-bookings-table [bookings]="displayedBookings" (delete)="deleteBookings($event)" />
+    </div>
+
+    <app-reminder-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)">
+    </app-reminder-pagination>
+
+</div>
