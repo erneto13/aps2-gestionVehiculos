@@ -24,7 +24,7 @@ export class MapViewComponent implements AfterViewInit {
 
     const map = new Map({
       container: this.mapDivElement.nativeElement, // Elemento donde se renderiza el mapa
-      style: 'mapbox://styles/mapbox/streets-v11', // Estilo del mapa
+      style: 'mapbox://styles/mapbox/streets-v12', // Estilo del mapa
       center: this.placesService.useLocation!, // Coordenadas iniciales [longitud, latitud]
       zoom: 14 // Nivel de zoom inicial
     });
