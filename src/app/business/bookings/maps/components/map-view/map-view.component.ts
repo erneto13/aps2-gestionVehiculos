@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MapService, PlacesService } from '../../services';
 import { Map, Popup, Marker } from 'mapbox-gl';
+import { ToastService } from '../../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-map-view',
@@ -14,18 +15,26 @@ export class MapViewComponent implements AfterViewInit {
   @ViewChild('mapDiv')
   mapDivElement!: ElementRef;
 
-  constructor(private placesService: PlacesService, private mapService: MapService) { }
+  constructor(
+    private placesService: PlacesService,
+    private mapService: MapService,
+    private toastService: ToastService
+  ) { }
 
   ngAfterViewInit(): void {
     if (!this.placesService.isUserLocationReady) {
-      console.error('Ubicación del usuario no está lista. No se puede inicializar el mapa.');
+      this.toastService.showToast(
+        'Ubicación no encendida.',
+        'No se logró obtener la ubicación del punto de inicio.',
+        'error'
+      )
       return;
     }
 
     const map = new Map({
       container: this.mapDivElement.nativeElement, // Elemento donde se renderiza el mapa
       style: 'mapbox://styles/mapbox/streets-v12', // Estilo del mapa
-      center: this.placesService.useLocation!, // Coordenadas iniciales [longitud, latitud]
+      center: this.placesService.useLocation! || [1, 1], // Coordenadas iniciales [longitud, latitud]
       zoom: 14 // Nivel de zoom inicial
     });
 
