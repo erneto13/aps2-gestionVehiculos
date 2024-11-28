@@ -34,6 +34,6 @@ export class SearchResultsPlaces {
         const destination = place.geometry.coordinates as [number, number];
 
         this.mapService.getRouteBetweenPoints(origin, destination);
+        console.log('Getting directions from', origin, 'to', destination);
     }
-
 }
