@@ -30,7 +30,7 @@
                             class="block w-full rounded-md border border-gray-300 focus:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-700 py-2 pl-10 pr-4 text-gray-500">
                             <option value="" disabled selected>Selecciona un cliente</option>
                             @for (client of clients; track $index) {
-                            <option [value]="client.client_id">
+                            <option [value]="client.contact_id">
                                 {{ client.name }}
                             </option>
                             }
@@ -90,8 +90,16 @@
                 </div>
             </div>
 
-            <div>
-                <app-search-places />
+            <div class="col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Dirección de destino</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <i class="pi pi-map-marker text-gray-500"></i>
+                    </div>
+                    <input formControlName="destination_location" type="text" [value]="destinationAddress" readonly
+                        required
+                        class="block w-full rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-500">
+                </div>
             </div>
 
             <div>
@@ -110,7 +118,7 @@
 
         <!-- Mapa a la derecha -->
         <div class="flex-1 rounded-xl border">
-            @defer (on timer(5s)) {
+            @defer (on timer(8s)) {
             <app-map-screen></app-map-screen>
             } @placeholder {
             <div class="flex items-center justify-center space-x-2 py-4 text-gray-600">

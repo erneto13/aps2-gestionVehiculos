@@ -12,6 +12,8 @@ import { VehicleApiService } from '../../../vehicles/services/vehicle-api.servic
 import { ContactsService } from '../../../contacts/services/contacts.service';
 import { DriversService } from '../../../drivers/services/drivers.service';
 import { ToastService } from '../../../../core/services/toast.service';
+import { PlacesService } from '../../maps/services';
+import { Contacts } from '../../../../core/interfaces/contacts';
 
 @Component({
   selector: 'app-bookings-form',
@@ -24,7 +26,9 @@ export class BookingsFormComponent implements OnInit {
   bookingForm!: FormGroup;
   vehicles: any[] = [];
   drivers: any[] = [];
-  clients: any[] = [];
+  clients: Contacts[] = [];
+  destination: string | null = null;
+  destinationAddress: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -33,7 +37,8 @@ export class BookingsFormComponent implements OnInit {
     private vehicleApiService: VehicleApiService,
     private contactService: ContactsService,
     private driverService: DriversService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private placeService: PlacesService
   ) {
     this.bookingForm = this.fb.group({
       vehicle_id: ['', [Validators.required]],
@@ -41,9 +46,7 @@ export class BookingsFormComponent implements OnInit {
       client_id: ['', [Validators.required]],
       start_date: ['', [Validators.required]],
       end_date: ['', [Validators.required]],
-      status: ['', [Validators.required]],
       purpose: ['', [Validators.required]],
-      origin_location: ['', [Validators.required]],
       destination_location: ['', [Validators.required]],
       notes: ['', [Validators.required]],
     });
@@ -53,6 +56,14 @@ export class BookingsFormComponent implements OnInit {
     this.loadClients();
     this.loadVehicles();
     this.loadDrivers();
+
+    this.placeService.destination$.subscribe((destination) => {
+      this.destination = destination;
+      if (destination) {
+        this.destinationAddress = destination;
+        this.bookingForm.patchValue({ destination_location: this.destinationAddress });
+      }
+    });
   }
 
   onSubmit(): void {
@@ -72,12 +83,13 @@ export class BookingsFormComponent implements OnInit {
 
     const booking: Booking = {
       vehicle_id: this.bookingForm.value.vehicle_id,
-      driver_id: this.bookingForm.value.driver_id,
+      driverId: this.bookingForm.value.driver_id,
+      contact_id: this.bookingForm.value.client_id,
       start_date: rawDateStart,
       end_date: rawDateEnd,
       status: 'PENDING',
       purpose: this.bookingForm.value.purpose,
-      destination_location: this.bookingForm.value.destination_location,
+      destination_location: this.destinationAddress,
       created_at: currentTimeStamp,
       updated_at: currentTimeStamp,
       notes: this.bookingForm.value.notes,
@@ -86,11 +98,16 @@ export class BookingsFormComponent implements OnInit {
   }
 
   createBooking(booking: Booking): void {
-    // this.bookingsService.createBooking(booking).subscribe(() => {
-    this.toastService.showToast('Reserva agendada', 'La agenda ha sido reservada correctamente.', 'success');
-    this.bookingCreated.emit();
-    this.bookingForm.reset();
-    // })
+    this.bookingsService.createBooking(booking).subscribe({
+      next: () => {
+        this.toastService.showToast('Reserva agendada', 'La agenda ha sido reservada correctamente.', 'success');
+        this.bookingCreated.emit();
+        this.bookingForm.reset();
+      },
+      error: (err) => {
+        this.toastService.showToast('Error', err, 'error');
+      }
+    });
   }
 
   loadVehicles(): void {
