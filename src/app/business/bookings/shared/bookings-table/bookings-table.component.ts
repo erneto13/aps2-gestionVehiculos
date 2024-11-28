@@ -9,7 +9,7 @@ import { BookingResponse } from '../../../../core/interfaces/booking';
 })
 export class BookingsTableComponent {
   @Input() bookings: BookingResponse[] = [];
-  tableHeaders: string[] = ['Vehículo', 'Conductor', 'Fecha', 'Status', 'Origen', 'Destino', 'Acciones'];
+  tableHeaders: string[] = ['Vehículo', 'Conductor', 'Cliente', 'Fecha', 'Status', 'Destino', 'Acciones'];
   @Output() delete = new EventEmitter<number>();
 
   deleteBooking(id: number): void {

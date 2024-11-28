@@ -15,13 +15,22 @@
         @for (booking of bookings; track $index) {
         <tr class="hover:bg-gray-100 cursor-pointer">
             <td class="px-6 py-4 text-sm font-medium text-slate-900" style="width: 200px; white-space: nowrap;">
-                {{ booking.driver_id }}
+                {{ booking.driverId }}
             </td>
             <td class="px-6 py-4 text-sm text-gray-500" style="width: 200px; white-space: nowrap;">
                 {{ booking.vehicle_id }}
             </td>
+            <td class="px-6 py-4 text-sm text-gray-500" style="width: 200px; white-space: nowrap;">
+                {{ booking.contact_id }}
+            </td>
             <td class="px-6 py-4 text-sm text-gray-500" style="width: 300px; max-height: 100px; overflow-y: auto;">
-                {{ booking.start_date }} {{ booking.end_date }}
+                {{ booking.start_date }} - {{ booking.end_date }}
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-500" style="width: 300px; max-height: 100px; overflow-y: auto;">
+                {{ booking.status }}
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-500" style="width: 300px; max-height: 100px; overflow-y: auto;">
+                {{ booking.destination_location }}
             </td>
             <td class="px-6 py-4 text-sm text-gray-500" style="width: 150px;">
                 <button
