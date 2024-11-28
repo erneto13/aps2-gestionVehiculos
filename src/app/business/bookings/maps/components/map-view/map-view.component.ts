@@ -29,16 +29,15 @@ export class MapViewComponent implements AfterViewInit {
       zoom: 14 // Nivel de zoom inicial
     });
 
-    const popup = new Popup()
-      .setHTML('<h1>Hello World!</h1>')
-      .addTo(map);
+    map.on('load', function () {
+      map.resize()
+    });
 
     new Marker({ color: 'red' })
       .setLngLat(this.placesService.useLocation!)
-      .setPopup(popup)
       .addTo(map);
 
-      this.mapService.setMap(map);
+    this.mapService.setMap(map);
   }
 
 
