@@ -2,14 +2,25 @@ import { Injectable } from '@angular/core';
 import { Feature, PlacesResponse } from '../../../../core/interfaces/places';
 import { PlacesApiClient } from '../api/placesApiClient';
 import { MapService } from './map.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 
 export class PlacesService {
     public useLocation?: [number, number];
-
     public isLoadingPlaces = false;
     public places: Feature[] = [];
+    private selectedPlaceSubject = new BehaviorSubject<Feature | null>(null);
+
+    selectedPlace$ = this.selectedPlaceSubject.asObservable();
+
+    setSelectedPlace(place: Feature) {
+        this.selectedPlaceSubject.next(place);
+    }
+
+    getSelectedPlace() {
+        return this.selectedPlaceSubject.getValue();
+    }
 
     get isUserLocationReady(): boolean {
         return !!this.useLocation;

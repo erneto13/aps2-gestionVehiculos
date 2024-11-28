@@ -65,6 +65,19 @@ export class MapService {
     }
 
     getRouteBetweenPoints(origin: [number, number], destination: [number, number]) {
+        // Eliminar todos los marcadores excepto el de origen y destino
+        this.markers = this.markers.filter(marker => {
+            const markerCoords = marker.getLngLat();
+            const isOriginOrDestination =
+                (markerCoords.lng === origin[0] && markerCoords.lat === origin[1]) ||
+                (markerCoords.lng === destination[0] && markerCoords.lat === destination[1]);
+
+            if (!isOriginOrDestination) {
+                marker.remove();
+            }
+            return isOriginOrDestination;
+        });
+
         this.directionsApi.get<DirectionsResponse>(`/${origin.join(',')};${destination.join(',')}`)
             .subscribe(response => {
                 this.drawLineString(response.routes[0]);
