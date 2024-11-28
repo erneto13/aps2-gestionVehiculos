@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { SearchResultsPlaces } from './search-results.component';
 import { PlacesService } from '../services';
 
@@ -15,13 +15,13 @@ export class SearchPlacesInput {
     constructor(private places: PlacesService) { }
 
     onQueryChange(query: string = '') {
-
         if (this.debounceTimer) clearTimeout(this.debounceTimer);
-
 
         this.debounceTimer = setTimeout(() => {
             this.places.getPlaces(query)
         }, 500)
     }
+
+
 
 }
