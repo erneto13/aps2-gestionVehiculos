@@ -1,6 +1,6 @@
 // Bodriular
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 // Core
 import { BookingsService } from '../../services/bookings.service';
@@ -9,11 +9,12 @@ import { SharedService } from '../../../../core/services/shared.service';
 import { Booking, BookingResponse } from '../../../../core/interfaces/booking';
 import { SearchPlacesInput } from '../../maps/components/search-places.component';
 import { MapScreenComponent } from '../../maps/screens/map-screen/map-screen.component';
+import { MapViewComponent } from "../../maps/components/map-view/map-view.component";
 
 @Component({
   selector: 'app-bookings-form',
   standalone: true,
-  imports: [SearchPlacesInput, MapScreenComponent],
+  imports: [SearchPlacesInput, MapScreenComponent, MapViewComponent, ReactiveFormsModule],
   templateUrl: './bookings-form.component.html',
 })
 export class BookingsFormComponent implements OnInit {
@@ -31,6 +32,7 @@ export class BookingsFormComponent implements OnInit {
     this.bookingForm = this.fb.group({
       vehicle_id: ['', [Validators.required]],
       driver_id: ['', [Validators.required]],
+      client_id: ['', [Validators.required]],
       start_date: ['', [Validators.required]],
       end_date: ['', [Validators.required]],
       status: ['', [Validators.required]],
@@ -46,10 +48,10 @@ export class BookingsFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.bookingForm.invalid) {
-      console.error('Form is invalid');
-      return;
-    }
+    // if (this.bookingForm.invalid) {
+    //   console.error('Form is invalid');
+    //   return;
+    // }
 
     const currentTimeStamp = this.sharedService.getMySQLTimestamp();
 
@@ -65,9 +67,8 @@ export class BookingsFormComponent implements OnInit {
       driver_id: this.bookingForm.value.driver_id,
       start_date: rawDateStart,
       end_date: rawDateEnd,
-      status: this.bookingForm.value.status,
+      status: 'PENDING',
       purpose: this.bookingForm.value.purpose,
-      origin_location: this.bookingForm.value.origin_location,
       destination_location: this.bookingForm.value.destination_location,
       created_at: currentTimeStamp,
       updated_at: currentTimeStamp,
