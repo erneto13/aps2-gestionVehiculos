@@ -33,6 +33,8 @@ export class SearchResultsPlaces {
         const origin = this.placesService.useLocation;
         const destination = place.geometry.coordinates as [number, number];
 
+        this.placesService.setSelectedPlace(place);
+
         this.mapService.getRouteBetweenPoints(origin, destination);
         console.log('Getting directions from', origin, 'to', destination);
     }
