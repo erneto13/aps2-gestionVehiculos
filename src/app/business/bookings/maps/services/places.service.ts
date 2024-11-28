@@ -10,16 +10,15 @@ export class PlacesService {
     public useLocation?: [number, number];
     public isLoadingPlaces = false;
     public places: Feature[] = [];
-    private selectedPlaceSubject = new BehaviorSubject<Feature | null>(null);
+    private destinationSubject = new BehaviorSubject<string | null>(null);
+    destination$ = this.destinationSubject.asObservable(); 
 
-    selectedPlace$ = this.selectedPlaceSubject.asObservable();
-
-    setSelectedPlace(place: Feature) {
-        this.selectedPlaceSubject.next(place);
+    setDestination(destination: string) {
+        this.destinationSubject.next(destination); 
     }
 
-    getSelectedPlace() {
-        return this.selectedPlaceSubject.getValue();
+    getDestination() {
+        return this.destinationSubject.value;
     }
 
     get isUserLocationReady(): boolean {
