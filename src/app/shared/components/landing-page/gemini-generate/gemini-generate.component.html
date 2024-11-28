@@ -5,7 +5,7 @@
             <!-- Pantalla de carga -->
             @if (iaPense) {
             <div class="p-6 rounded-lg flex flex-col items-center justify-center space-y-4">
-                <i class="pi pi-spin pi-cog" style="font-size: 6rem; color: #1C64F2"></i>
+                <i class="pi pi-spin pi-cog" style="font-size: 6rem; color: #76a9fa"></i>
                 <p class="text-center text-lg font-medium">
                     Estamos analizando la mejor respuesta en base a tus necesidades...
                 </p>
@@ -13,11 +13,50 @@
                     Nuestra IA está procesando tu solicitud para brindarte la información más precisa y relevante.
                 </p>
             </div>
-            } @else {
-                <p>{{response}}</p>
+            }
+            @if (response && response.recommendedPackage.length > 0) {
+            <div class="bg-white p-8 max-w-2xl mx-auto">
+                <div class="flex flex-col items-center space-y-8">
+                    <!-- Ícono animado -->
+                    <div class="animate-bounce">
+                        <i class="pi pi-gift text-6xl text-blue-400"></i>
+                    </div>
+
+                    <h2 class="text-3xl font-bold text-gray-900 text-center animate-fade-in">
+                        Hemos encontrado tu paquete ideal
+                    </h2>
+
+                    <div class="space-y-6 text-center w-full animate-fade-in">
+                        <div class="space-y-2">
+                            <p class="text-xl font-semibold text-gray-700">Tu paquete ideal es:</p>
+                            <p class="text-3xl font-bold text-gray-900">{{response.recommendedPackage}}</p>
+                        </div>
+
+                        <div class="space-y-2">
+                            <p class="text-lg font-semibold text-gray-700">¿Por qué creemos que es este?</p>
+                            <p class="text-gray-600">
+                                {{ response.additionalInfo }}
+                            </p>
+                        </div>
+
+                        <div class="space-y-2">
+                            <p class="text-lg font-semibold text-gray-700">Nuestra justificación:</p>
+                            <p class="text-gray-600">
+                                {{ response.reasoning }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Botón de acción -->
+                    <button (click)="reEvaluate()"
+                        class="flex items-center px-6 py-2 mt-6 text-gray-800 border border-gray-800 rounded-lg hover:bg-gray-100 transition-all duration-300">
+                        <i class="pi pi-refresh mr-2"></i>
+                        Reevaluar opciones
+                    </button>
+                </div>
+            </div>
             }
 
-            <!-- Formulario de entrada -->
             @if (!isResultScreen) {
             <div class="text-center mb-4">
                 <p class="text-lg mb-4">Contesta este cuestionario y en base a Inteligencia Artificial te recomendaremos
@@ -51,7 +90,7 @@
                         <label for="vehicleCount" class="block text-sm font-medium text-gray-700">Número de
                             vehículos</label>
                         <select id="vehicleCount" formControlName="vehicleCount"
-                            class="w-full py-2 border border-gray-300 rounded-md">
+                            class="w-full pb-1 border border-gray-300 rounded-md">
                             @for (option of vehicleOptions; track option) {
                             <option [value]="option">{{ option }}</option>
                             }
@@ -78,8 +117,8 @@
                             <label for="name" class="block text-sm font-medium text-gray-700">
                                 Nombre completo
                             </label>
-                            <input formControlName="name" id="name" name="name" type="name"
-                                placeholder="Correo electrónico"
+                            <input formControlName="name" type="text"
+                                placeholder="Nombre completo"
                                 class="w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm" />
                         </div>
 
@@ -87,7 +126,7 @@
                             <label for="email" class="block text-sm font-medium text-gray-700">
                                 Correo electrónico
                             </label>
-                            <input formControlName="email" id="email" name="email" type="email"
+                            <input formControlName="email" type="email"
                                 placeholder="Correo electrónico"
                                 class="w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm" />
                         </div>
@@ -96,7 +135,7 @@
                             <label for="company" class="block text-sm font-medium text-gray-700">
                                 Nombre de la compañía
                             </label>
-                            <input formControlName="company" id="company" name="company" type="company"
+                            <input formControlName="company" type="text"
                                 placeholder="Correo electrónico"
                                 class="w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm" />
                         </div>

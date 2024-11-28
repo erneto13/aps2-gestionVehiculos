@@ -1,6 +1,9 @@
+// Bodriular
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+
+// Core
 import { GeminiService } from '../../../../core/services/gemini.service';
 import { SharedService } from '../../../../core/services/shared.service';
 
@@ -14,16 +17,19 @@ export class GeminiGenerateComponent implements OnInit {
   step = 1;
   geminiPrompt!: FormGroup;
   services: string[] = ['Logística', 'Transporte', 'Almacenamiento', 'Distribución'];
-  vehicleOptions: string[] = ['1-4', '5-29', '30-399', '400+'];
+  vehicleOptions: string[] = ['1-4', '5-20', '30-100', '200+'];
   features: string[] = ['GPS', 'Mantenimiento', 'Reservas', 'Gestiones'];
-  contactFields: string[] = ['email', 'name', 'phone', 'company'];
 
   isResultScreen: boolean = false;
   iaPense: boolean = false;
-  response: string = ''
+  response: { recommendedPackage: string; reasoning: string; additionalInfo: string } | null = null;
   pricingContent: string = '';
 
-  constructor(private fb: FormBuilder, private geminiService: GeminiService, private sharedService: SharedService) {
+  constructor(
+    private fb: FormBuilder,
+    private geminiService:
+      GeminiService,
+    private sharedService: SharedService) {
     this.geminiPrompt = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       name: ['', [Validators.required]],
@@ -58,7 +64,7 @@ export class GeminiGenerateComponent implements OnInit {
     this.isResultScreen = true;
     this.iaPense = true;
 
-    const prompt: string = `Hola Gemini, soy Jarvis, un asistente en una plataforma de Sistema de Gestión de Flotillas. 
+    const prompt = `Hola Gemini, soy Jarvis, un asistente en una plataforma de Sistema de Gestión de Flotillas. 
     Con base en las necesidades del cliente, queremos ofrecerle el mejor paquete. Devuelve la respuesta en el siguiente formato JSON:
     
     {
@@ -68,12 +74,13 @@ export class GeminiGenerateComponent implements OnInit {
     }
     
     Por favor no envies el JSON con las 3 ` + '`' + ` y el json al principio y al final.
-    Ademas indica la respuesta como si la estuviera explicando al cliente.
-
+    Solo el JSON y nada más.
+  
     Datos del cliente:
     ${JSON.stringify(this.geminiPrompt.value)}
     
-    Contenido de precios:
+    Contenido de precios. Por favor cuando me devuelvas la respuesta 
+    El nombre de los paquetes son los siguiente: Básico, Starter, Pro y Enterprise.
     ${this.pricingContent}`;
 
     try {
@@ -81,22 +88,33 @@ export class GeminiGenerateComponent implements OnInit {
 
       this.iaPense = false;
 
-      if (result.error) {
-        console.error('Error en la respuesta:', result.rawResponse);
-        this.response = 'Hubo un problema al procesar la respuesta. Verifica la consola.';
+      let parsedResult;
+      if (typeof result === 'string') {
+        try {
+          parsedResult = JSON.parse(result);
+        } catch (error) {
+          console.error('Error al parsear el JSON:', error);
+          this.response = null;
+          return;
+        }
       } else {
-        // Acceder y mostrar las propiedades del JSON
-        console.log('Respuesta en JSON:', result);
-        this.response = `
-          Paquete Recomendado: ${result.recommendedPackage}
-          Motivo: ${result.reasoning}
-          Información Adicional: ${result.additionalInfo}
-        `;
+        parsedResult = result;
+      }
+
+      if (
+        parsedResult.recommendedPackage &&
+        parsedResult.reasoning &&
+        parsedResult.additionalInfo
+      ) {
+        this.response = parsedResult;
+      } else {
+        console.error('La respuesta no contiene todas las propiedades esperadas:', parsedResult);
+        this.response = null;
       }
     } catch (error) {
       console.error('Error durante la generación del prompt:', error);
       this.iaPense = false;
-      this.response = 'Hubo un error al comunicarse con Gemini.';
+      this.response = null;
     }
   }
 
@@ -106,5 +124,12 @@ export class GeminiGenerateComponent implements OnInit {
         console.log(`El campo ${controlName} es inválido`);
       }
     }
+  }
+
+  reEvaluate() {
+    this.step = 1;
+    this.isResultScreen = false;
+    this.response = null;
+    this.geminiPrompt.reset();
   }
 }
