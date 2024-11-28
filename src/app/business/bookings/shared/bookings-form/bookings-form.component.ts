@@ -11,6 +11,7 @@ import { MapScreenComponent } from '../../maps/screens/map-screen/map-screen.com
 import { VehicleApiService } from '../../../vehicles/services/vehicle-api.service';
 import { ContactsService } from '../../../contacts/services/contacts.service';
 import { DriversService } from '../../../drivers/services/drivers.service';
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-bookings-form',
@@ -31,7 +32,8 @@ export class BookingsFormComponent implements OnInit {
     private sharedService: SharedService,
     private vehicleApiService: VehicleApiService,
     private contactService: ContactsService,
-    private driverService: DriversService
+    private driverService: DriversService,
+    private toastService: ToastService
   ) {
     this.bookingForm = this.fb.group({
       vehicle_id: ['', [Validators.required]],
@@ -54,10 +56,10 @@ export class BookingsFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    // if (this.bookingForm.invalid) {
-    //   console.error('Form is invalid');
-    //   return;
-    // }
+    if (this.bookingForm.invalid) {
+      this.toastService.showToast('Error', 'Por favor, rellene todos los campos.', 'error');
+      return;
+    }
 
     const currentTimeStamp = this.sharedService.getMySQLTimestamp();
 
@@ -85,7 +87,7 @@ export class BookingsFormComponent implements OnInit {
 
   createBooking(booking: Booking): void {
     // this.bookingsService.createBooking(booking).subscribe(() => {
-    console.log(booking);
+    this.toastService.showToast('Reserva agendada', 'La agenda ha sido reservada correctamente.', 'success');
     this.bookingCreated.emit();
     this.bookingForm.reset();
     // })

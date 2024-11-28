@@ -3,6 +3,7 @@ import { SidebarComponent } from "../sidebar/sidebar.component";
 import { HeaderComponent } from "../header/header.component";
 import { RouterOutlet } from '@angular/router';
 import { Auth } from '../../../core/services/auth.service';
+import { ToastComponent } from '../../utils/toast/toast.component';
 
 @Component({
   selector: 'app-layout',

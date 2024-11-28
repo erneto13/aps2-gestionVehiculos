@@ -4,11 +4,12 @@ import { SharedService } from '../../../core/services/shared.service';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { ToastComponent } from '../../utils/toast/toast.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ToastComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
