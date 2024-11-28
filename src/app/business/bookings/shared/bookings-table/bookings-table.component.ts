@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Booking } from '../../../../core/interfaces/booking';
+import { BookingResponse } from '../../../../core/interfaces/booking';
 
 @Component({
   selector: 'app-bookings-table',
@@ -8,7 +8,7 @@ import { Booking } from '../../../../core/interfaces/booking';
   templateUrl: './bookings-table.component.html',
 })
 export class BookingsTableComponent {
-  @Input() bookings: Booking[] = [];
+  @Input() bookings: BookingResponse[] = [];
   tableHeaders: string[] = ['Vehículo', 'Conductor', 'Fecha', 'Status', 'Origen', 'Destino', 'Acciones'];
   @Output() delete = new EventEmitter<number>();
 

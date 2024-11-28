@@ -4,12 +4,11 @@ import { Component } from '@angular/core';
 // Core
 import { BookingsTableComponent } from '../bookings-table/bookings-table.component';
 import { BookingsFormComponent } from '../bookings-form/bookings-form.component';
-import { PlacesService } from '../../maps/services';
 
 // Pagination and SearchBar
 import { ReminderSearchbarComponent } from '../../../reminders/shared/reminder-searchbar/reminder-searchbar.component';
 import { ReminderPaginationComponent } from '../../../reminders/shared/reminder-pagination/reminder-pagination.component';
-import { Booking } from '../../../../core/interfaces/booking';
+import { BookingResponse } from '../../../../core/interfaces/booking';
 
 // PrimeNG
 import { DialogModule } from 'primeng/dialog';
@@ -23,8 +22,8 @@ import { DialogModule } from 'primeng/dialog';
   templateUrl: './bookings-list.component.html',
 })
 export class BookingsListComponent {
-  allBookings: Booking[] = [];
-  displayedBookings: Booking[] = [];
+  allBookings: BookingResponse[] = [];
+  displayedBookings: BookingResponse[] = [];
 
   currentPage = 0;
   pageSize = 5;
