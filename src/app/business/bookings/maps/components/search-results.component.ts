@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MapService, PlacesService } from '../services';
 import { Feature } from '../../../../core/interfaces/places';
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
     standalone: true,
@@ -10,7 +11,11 @@ import { Feature } from '../../../../core/interfaces/places';
 })
 
 export class SearchResultsPlaces {
-    constructor(private placesService: PlacesService, private mapService: MapService) { }
+    constructor(
+        private placesService: PlacesService,
+        private mapService: MapService,
+        private toastService: ToastService
+    ) { }
 
     get isLoadingPlaces() {
         return this.placesService.isLoadingPlaces;
@@ -26,16 +31,25 @@ export class SearchResultsPlaces {
     }
 
     getDirections(place: Feature) {
-        if (!this.placesService.useLocation) throw new Error('No location to get directions from');
+        if (!this.placesService.useLocation) {
+            this.toastService.showToast(
+                'Ubicación no encendida.',
+                'No se logró obtener la ubicación del punto de inicio',
+                'error'
+            );
+            return;
+        }
 
         this.placesService.deletePlaces();
 
         const origin = this.placesService.useLocation;
         const destination = place.geometry.coordinates as [number, number];
 
-        this.placesService.setSelectedPlace(place);
+        const fullAddress = place.properties.full_address;
+
+        this.placesService.setDestination(fullAddress);
 
         this.mapService.getRouteBetweenPoints(origin, destination);
-        console.log('Getting directions from', origin, 'to', destination);
     }
+
 }
