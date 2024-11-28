@@ -1,7 +1,8 @@
 export interface BookingResponse {
     bookings_id: number,
     vehicle_id: number,
-    driver_id: number,
+    driverId: number,
+    contact_id: number,
     start_date: string,
     end_date: string,
     status: string,
@@ -14,7 +15,8 @@ export interface BookingResponse {
 
 export interface Booking {
     vehicle_id: number,
-    driver_id: number,
+    driverId: number,
+    contact_id: number,
     start_date: string,
     end_date: string,
     status: string,
