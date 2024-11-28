@@ -1,5 +1,4 @@
-<div
-    class="absolute left-0 right-0 mt-2 max-h-60 overflow-y-auto bg-white border border-gray-300 rounded-md shadow-lg z-10">
+<div class="absolute left-0 right-0 mt-2 max-h-60 overflow-y-auto bg-white rounded-md">
 
     <!-- Estado de carga -->
     @if (isLoadingPlaces) {
@@ -12,10 +11,10 @@
     @if (places.length > 0) {
     <ul class="space-y-1" id="results-list">
         @for (place of places; track $index) {
-        <li (click)="flyTo(place)" class="cursor-pointer hover:bg-gray-100 p-2 rounded-md transition-colors">
+        <li (click)="flyTo(place)" class="border cursor-pointer hover:bg-gray-100 p-2 rounded-md transition-colors">
             <h6 class="font-semibold text-gray-800 text-sm">{{ place.properties.name }}</h6>
             <p class="text-xs text-gray-600">{{ place.properties.full_address }}</p>
-            <button (click)="getDirections(place)"
+            <button type="button" (click)="getDirections(place)"
                 class="mt-1 text-xs text-blue-500 hover:underline">Direcciones</button>
         </li>
         }
