@@ -1,33 +1,37 @@
 // Bodriular
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 // Core
 import { BookingsService } from '../../services/bookings.service';
-import { MapService, PlacesService } from '../../maps/services';
 import { SharedService } from '../../../../core/services/shared.service';
-import { Booking, BookingResponse } from '../../../../core/interfaces/booking';
+import { Booking } from '../../../../core/interfaces/booking';
 import { SearchPlacesInput } from '../../maps/components/search-places.component';
 import { MapScreenComponent } from '../../maps/screens/map-screen/map-screen.component';
-import { MapViewComponent } from "../../maps/components/map-view/map-view.component";
+import { VehicleApiService } from '../../../vehicles/services/vehicle-api.service';
+import { ContactsService } from '../../../contacts/services/contacts.service';
+import { DriversService } from '../../../drivers/services/drivers.service';
 
 @Component({
   selector: 'app-bookings-form',
   standalone: true,
-  imports: [SearchPlacesInput, MapScreenComponent, MapViewComponent, ReactiveFormsModule],
+  imports: [SearchPlacesInput, MapScreenComponent, ReactiveFormsModule],
   templateUrl: './bookings-form.component.html',
 })
 export class BookingsFormComponent implements OnInit {
   @Output() bookingCreated = new EventEmitter<void>();
   bookingForm!: FormGroup;
-  bookings: any[] = [];
+  vehicles: any[] = [];
+  drivers: any[] = [];
+  clients: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private bookingsService: BookingsService,
-    private map: MapService,
     private sharedService: SharedService,
-    private placesService: PlacesService
+    private vehicleApiService: VehicleApiService,
+    private contactService: ContactsService,
+    private driverService: DriversService
   ) {
     this.bookingForm = this.fb.group({
       vehicle_id: ['', [Validators.required]],
@@ -44,7 +48,9 @@ export class BookingsFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadBookings();
+    this.loadClients();
+    this.loadVehicles();
+    this.loadDrivers();
   }
 
   onSubmit(): void {
@@ -85,9 +91,21 @@ export class BookingsFormComponent implements OnInit {
     // })
   }
 
-  loadBookings(): void {
-    this.bookingsService.getAllBookings().subscribe((bookings) => {
-      this.bookings = bookings;
+  loadVehicles(): void {
+    this.vehicleApiService.getVehicles().subscribe((vehicles) => {
+      this.vehicles = vehicles;
+    });
+  }
+
+  loadDrivers(): void {
+    this.driverService.getDrivers().subscribe((drivers) => {
+      this.drivers = drivers;
+    });
+  }
+
+  loadClients(): void {
+    this.contactService.getContacts().subscribe((clients) => {
+      this.clients = clients;
     });
   }
 }
