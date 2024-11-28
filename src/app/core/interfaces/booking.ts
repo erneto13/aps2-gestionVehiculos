@@ -19,7 +19,6 @@ export interface Booking {
     end_date: string,
     status: string,
     purpose: string,
-    origin_location: string,
     destination_location: string,
     created_at: string,
     updated_at: string,

@@ -13,12 +13,14 @@
             </button>
         </div>
     </div>
-
-    <p-dialog header="Agendar Reserva" [draggable]="false" [modal]="true" [(visible)]="visible"
-        [style]="{ width: '50rem', height: '50rem' }">
+    @defer (on viewport) {
+    <p-dialog header="Agendar Reserva" [draggable]="false" [modal]="true" [(visible)]="visible" [maximizable]="true"
+        [style]="{ width: '70rem', height: '40rem' }">
         <app-bookings-form />
     </p-dialog>
-
+    } @placeholder {
+        <p></p>
+    }
     <div class="overflow-x-auto rounded-lg border border-gray-200">
         <app-bookings-table [bookings]="displayedBookings" (delete)="deleteBookings($event)" />
     </div>
