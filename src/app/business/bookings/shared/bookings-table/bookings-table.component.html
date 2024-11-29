@@ -4,7 +4,7 @@
             @for (header of tableHeaders; track $index) {
             <th scope="col"
                 class="sticky top-0 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50 shadow"
-                style="white-space: nowrap; width: 200px;">
+                >
                 {{ header }}
             </th>
             }
@@ -14,7 +14,7 @@
         @if (bookings.length > 0) {
         @for (booking of bookings; track $index) {
         <tr class="hover:bg-gray-100 cursor-pointer">
-            <td class="px-6 py-4 text-sm font-medium text-slate-900" style="width: 200px; white-space: nowrap;">
+            <td class="px-6 py-4 text-sm font-medium text-slate-900" style="width: 200px;">
                 {{ booking.vehicle.brand }} {{ booking.vehicle.model }} {{ booking.vehicle.license_plate }}
             </td>
             <td class="px-6 py-4 text-sm text-gray-500" style="width: 200px; white-space: nowrap;">
@@ -55,3 +55,8 @@
         }
     </tbody>
 </table>
+
+<p-dialog header="Detalles" [draggable]="false" [modal]="true" [(visible)]="visibility"
+    [style]="{ width: '70rem', height: '40rem' }">
+    <app-booking-details [booking]="selectedBooking" />
+</p-dialog>

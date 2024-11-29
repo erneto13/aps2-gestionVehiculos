@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { BookingResponse } from '../../../../core/interfaces/booking';
+import { Booking, BookingResponse } from '../../../../core/interfaces/booking';
+import { DialogModule } from 'primeng/dialog';
+import { BookingDetailsComponent } from '../booking-details/booking-details.component';
 
 @Component({
   selector: 'app-bookings-table',
   standalone: true,
-  imports: [],
+  imports: [DialogModule, BookingDetailsComponent],
   templateUrl: './bookings-table.component.html',
 })
 export class BookingsTableComponent {
@@ -12,11 +14,21 @@ export class BookingsTableComponent {
   tableHeaders: string[] = ['Vehículo', 'Conductor', 'Cliente', 'Fecha', 'Status', 'Destino', 'Acciones'];
   @Output() delete = new EventEmitter<number>();
 
+  visibility: boolean = false;
+  selectedBooking: BookingResponse | null = null;
+
   deleteBooking(id: number): void {
     this.delete.emit(id);
   }
 
-  viewDetails(id: number): void {
-    
+  onChange() {
+    this.visibility = !this.visibility;
+  }
+
+  viewDetails(bookingId: number) {
+    this.selectedBooking = this.bookings.find(booking => booking.bookings_id === bookingId) || null;
+
+    // Abre el diálogo
+    this.visibility = true;
   }
 }
