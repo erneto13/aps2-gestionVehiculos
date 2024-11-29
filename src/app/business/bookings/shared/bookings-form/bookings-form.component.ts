@@ -13,6 +13,8 @@ import { DriversService } from '../../../drivers/services/drivers.service';
 import { ToastService } from '../../../../core/services/toast.service';
 import { PlacesService } from '../../maps/services';
 import { Contacts } from '../../../../core/interfaces/contacts';
+import { Vehicle } from '../../../../core/interfaces/vehicle';
+import { Drivers } from '../../../../core/interfaces/drivers';
 
 @Component({
   selector: 'app-bookings-form',
@@ -23,8 +25,8 @@ import { Contacts } from '../../../../core/interfaces/contacts';
 export class BookingsFormComponent implements OnInit {
   @Output() bookingCreated = new EventEmitter<void>();
   bookingForm!: FormGroup;
-  vehicles: any[] = [];
-  drivers: any[] = [];
+  vehicles: Vehicle[] = [];
+  drivers: Drivers[] = [];
   clients: Contacts[] = [];
   destination: string | null = null;
   destinationAddress: string = '';
@@ -72,13 +74,12 @@ export class BookingsFormComponent implements OnInit {
     }
 
     const currentTimeStamp = this.sharedService.getMySQLTimestamp();
-
     const rawDateStart = this.sharedService.convertToMySQLTimestamp(
       this.bookingForm.value.start_date
-    )
+    );
     const rawDateEnd = this.sharedService.convertToMySQLTimestamp(
       this.bookingForm.value.end_date
-    )
+    );
 
     const booking: Booking = {
       vehicle_id: this.bookingForm.value.vehicle_id,
@@ -93,6 +94,7 @@ export class BookingsFormComponent implements OnInit {
       updated_at: currentTimeStamp,
       notes: this.bookingForm.value.notes,
     };
+
     this.createBooking(booking);
   }
 
