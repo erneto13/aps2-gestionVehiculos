@@ -9,6 +9,7 @@ import { RemindersService } from '../../services/reminders.service';
 import { VehicleApiService } from '../../../vehicles/services/vehicle-api.service';
 import { SharedService } from '../../../../core/services/shared.service';
 import { NewReminder } from '../../../../core/interfaces/reminders';
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-reminder-form',
@@ -25,7 +26,8 @@ export class ReminderFormComponent implements OnInit {
     private fb: FormBuilder,
     private remindersService: RemindersService,
     private vehicleApiService: VehicleApiService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private toastService: ToastService
   ) {
     this.reminderForm = this.fb.group({
       vehicle: ['', [Validators.required]],
@@ -40,7 +42,7 @@ export class ReminderFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.reminderForm.invalid) {
-      console.error('Form is invalid');
+      this.toastService.showToast('Error', 'Por favor, rellene todos los campos.', 'error');
       return;
     }
     const rawDate = this.sharedService.convertToMySQLTimestamp(
