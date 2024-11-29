@@ -15,4 +15,8 @@ export class BookingsTableComponent {
   deleteBooking(id: number): void {
     this.delete.emit(id);
   }
+
+  viewDetails(id: number): void {
+    
+  }
 }
