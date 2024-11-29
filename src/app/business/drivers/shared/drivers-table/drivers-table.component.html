@@ -4,7 +4,7 @@
             @for (header of tableHeaders; track $index) {
             <th scope="col"
                 class="sticky top-0 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50 shadow"
-                style="white-space: nowrap; width: 200px;">
+                >
                 {{ header }}
             </th>
             }
@@ -30,25 +30,21 @@
                 style="width: 300px; max-height: 100px; overflow-y: auto; text-wrap: wrap;">
                 {{ driver.address }}
             </td>
-            <td class="px-6 py-4 text-sm text-gray-500" style="width: 200px;">
+            <td class="px-6 py-4 text-sm text-gray-500">
                 <div class="flex gap-2">
-                    <button
-                        class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 px-4 rounded inline-flex items-center"
-                        (click)="editDriver(driver)">
-                        Editar
-                    </button>
-                    <button
-                        class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-4 rounded inline-flex items-center"
-                        (click)="deleteDriver(driver.driver_id!)">
-                        Eliminar
-                    </button>
+                    <i class="pi pi-eye text-blue-500 text-xl cursor-pointer mr-4" (click)="editDriver(driver)"
+                        title="Ver detalles">
+                    </i>
+                    <i class="pi pi-trash text-red-500 text-xl cursor-pointer" (click)="deleteDriver(driver.driver_id!)"
+                        title="Eliminar">
+                    </i>
                 </div>
             </td>
         </tr>
         }
         } @else {
         <tr>
-            <td colspan="5" class="px-6 py-4 text-center text-gray-500" style="white-space: nowrap;">
+            <td colspan="6" class="px-6 py-4 text-center text-gray-500" style="white-space: nowrap;">
                 <div class="flex flex-col items-center">
                     <i class="pi pi-info-circle text-4xl text-gray-400 mb-2"></i>
                     <p class="text-xl font-medium text-gray-600">No hay datos disponibles</p>
