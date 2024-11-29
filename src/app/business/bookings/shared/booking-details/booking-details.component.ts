@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Booking, BookingResponse } from '../../../../core/interfaces/booking';
 
 @Component({
   selector: 'app-booking-details',
@@ -6,6 +7,14 @@ import { Component } from '@angular/core';
   imports: [],
   templateUrl: './booking-details.component.html',
 })
-export class BookingDetailsComponent {
+export class BookingDetailsComponent implements OnInit {
+  @Input() booking: BookingResponse | null = null;
 
+  ngOnInit(): void {
+    this.loadDetails();
+  }
+
+  loadDetails() {
+
+  }
 }
