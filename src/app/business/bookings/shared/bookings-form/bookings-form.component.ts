@@ -6,7 +6,6 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { BookingsService } from '../../services/bookings.service';
 import { SharedService } from '../../../../core/services/shared.service';
 import { Booking } from '../../../../core/interfaces/booking';
-import { SearchPlacesInput } from '../../maps/components/search-places.component';
 import { MapScreenComponent } from '../../maps/screens/map-screen/map-screen.component';
 import { VehicleApiService } from '../../../vehicles/services/vehicle-api.service';
 import { ContactsService } from '../../../contacts/services/contacts.service';
@@ -18,7 +17,7 @@ import { Contacts } from '../../../../core/interfaces/contacts';
 @Component({
   selector: 'app-bookings-form',
   standalone: true,
-  imports: [SearchPlacesInput, MapScreenComponent, ReactiveFormsModule],
+  imports: [MapScreenComponent, ReactiveFormsModule],
   templateUrl: './bookings-form.component.html',
 })
 export class BookingsFormComponent implements OnInit {
