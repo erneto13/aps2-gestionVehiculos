@@ -15,6 +15,7 @@ import { SpinnerComponent } from '../../../../shared/utils/spinner/spinner.compo
 // PrimeNG
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-reminder-list',
@@ -33,7 +34,11 @@ export class ReminderListComponent implements OnInit {
   searchTerm = '';
   visible: boolean = false;
 
-  constructor(private remindersService: RemindersService, public loadingService: LoadingService) { }
+  constructor(
+    private remindersService: RemindersService,
+    public loadingService: LoadingService,
+    private toastService: ToastService
+  ) { }
 
   ngOnInit(): void {
     this.loadReminders();
@@ -48,7 +53,11 @@ export class ReminderListComponent implements OnInit {
           this.visible = false;
         },
         error: (error) => {
-          console.error('Error fetching reminders:', error);
+          this.toastService.showToast(
+            'Se ha producido un error.',
+            'No se lograron obtener las reservas',
+            'error'
+          )
         }
       });
   }
@@ -84,9 +93,18 @@ export class ReminderListComponent implements OnInit {
       .subscribe({
         next: () => {
           this.loadReminders();
+          this.toastService.showToast(
+            'Recordatorio eliminado correctamente.',
+            'El recordatorio ha sido eliminado',
+            'success'
+          )
         },
         error: (error) => {
-          console.error('Error deleting reminder:', error);
+          this.toastService.showToast(
+            'Se ha producido un error.',
+            'No se logro eliminar el recordatorio' + error.message,
+            'error'
+          )
         }
       });
   }

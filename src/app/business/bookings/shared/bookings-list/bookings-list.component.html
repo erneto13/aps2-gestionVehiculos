@@ -14,9 +14,9 @@
         </div>
     </div>
     @defer (on viewport) {
-    <p-dialog header="Agendar Reserva" [draggable]="false" [modal]="true" [(visible)]="visible" [maximizable]="true"
+    <p-dialog header="Agendar Reserva" [draggable]="false" [modal]="true" [(visible)]="visible"
         [style]="{ width: '70rem', height: '40rem' }">
-        <app-bookings-form />
+        <app-bookings-form (bookingCreated)="loadBookings()" />
     </p-dialog>
     } @placeholder {
         <p></p>
