@@ -2,11 +2,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Booking, BookingResponse } from '../../../../core/interfaces/booking';
 import { DialogModule } from 'primeng/dialog';
 import { BookingDetailsComponent } from '../booking-details/booking-details.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-bookings-table',
   standalone: true,
-  imports: [DialogModule, BookingDetailsComponent],
+  imports: [DialogModule, BookingDetailsComponent, DatePipe],
   templateUrl: './bookings-table.component.html',
 })
 export class BookingsTableComponent {

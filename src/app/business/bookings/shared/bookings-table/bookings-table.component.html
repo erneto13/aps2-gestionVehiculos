@@ -3,8 +3,7 @@
         <tr>
             @for (header of tableHeaders; track $index) {
             <th scope="col"
-                class="sticky top-0 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50 shadow"
-                >
+                class="sticky top-0 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50 shadow">
                 {{ header }}
             </th>
             }
@@ -15,7 +14,8 @@
         @for (booking of bookings; track $index) {
         <tr class="hover:bg-gray-100 cursor-pointer">
             <td class="px-6 py-4 text-sm font-medium text-slate-900" style="width: 200px;">
-                {{ booking.vehicle.brand }} {{ booking.vehicle.model }} {{ booking.vehicle.license_plate }}
+                {{ booking.vehicle.brand }} {{ booking.vehicle.model }}
+                <small class="text-xs text-gray-500">{{ booking.vehicle.license_plate }}</small>
             </td>
             <td class="px-6 py-4 text-sm text-gray-500" style="width: 200px; white-space: nowrap;">
                 {{ booking.driver.name }}
@@ -24,7 +24,7 @@
                 {{ booking.contact.name }}
             </td>
             <td class="px-6 py-4 text-sm text-gray-500" style="width: 300px; max-height: 100px; overflow-y: auto;">
-                {{ booking.start_date }} - {{ booking.end_date }}
+                {{ booking.start_date | date }} - {{ booking.end_date | date }}
             </td>
             <td class="px-6 py-4 text-sm text-gray-500" style="width: 300px; max-height: 100px; overflow-y: auto;">
                 {{ booking.status }}
