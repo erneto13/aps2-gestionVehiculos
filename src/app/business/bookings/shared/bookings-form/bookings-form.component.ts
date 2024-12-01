@@ -11,10 +11,11 @@ import { VehicleApiService } from '../../../vehicles/services/vehicle-api.servic
 import { ContactsService } from '../../../contacts/services/contacts.service';
 import { DriversService } from '../../../drivers/services/drivers.service';
 import { ToastService } from '../../../../core/services/toast.service';
-import { PlacesService } from '../../maps/services';
+import { MapService, PlacesService } from '../../maps/services';
 import { Contacts } from '../../../../core/interfaces/contacts';
 import { Vehicle } from '../../../../core/interfaces/vehicle';
 import { Drivers } from '../../../../core/interfaces/drivers';
+import { Geofence } from '../../../../core/interfaces/geofence';
 
 @Component({
   selector: 'app-bookings-form',
@@ -31,6 +32,8 @@ export class BookingsFormComponent implements OnInit {
   destination: string | null = null;
   destinationAddress: string = '';
 
+  geofenceRoute!: Geofence;
+
   constructor(
     private fb: FormBuilder,
     private bookingsService: BookingsService,
@@ -39,7 +42,8 @@ export class BookingsFormComponent implements OnInit {
     private contactService: ContactsService,
     private driverService: DriversService,
     private toastService: ToastService,
-    private placeService: PlacesService
+    private placeService: PlacesService,
+    private mapService: MapService
   ) {
     this.bookingForm = this.fb.group({
       vehicle_id: ['', [Validators.required]],
@@ -63,6 +67,12 @@ export class BookingsFormComponent implements OnInit {
       if (destination) {
         this.destinationAddress = destination;
         this.bookingForm.patchValue({ destination_location: this.destinationAddress });
+      }
+    });
+
+    this.mapService.getGeofence().subscribe((geoFence) => {
+      if (geoFence) {
+        this.geofenceRoute = geoFence;
       }
     });
   }
@@ -93,6 +103,10 @@ export class BookingsFormComponent implements OnInit {
       created_at: currentTimeStamp,
       updated_at: currentTimeStamp,
       notes: this.bookingForm.value.notes,
+      origin_lat: this.geofenceRoute.originLat,
+      origin_lng: this.geofenceRoute.originLng,
+      destination_lat: this.geofenceRoute.destinationLat,
+      destination_lng: this.geofenceRoute.destinationLng
     };
 
     this.createBooking(booking);
