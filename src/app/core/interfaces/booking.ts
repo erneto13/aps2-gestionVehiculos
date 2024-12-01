@@ -15,6 +15,11 @@ export interface BookingResponse {
     destination_location: string,
     created_at: string,
     updated_at: string,
+    notes: string;
+    origin_lat: number,
+    origin_lng: number,
+    destination_lat: number,
+    destination_lng: number,
 }
 
 export interface Booking {
