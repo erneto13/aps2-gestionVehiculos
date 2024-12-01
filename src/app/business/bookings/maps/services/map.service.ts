@@ -1,8 +1,13 @@
+// Bodriular
 import { Injectable } from '@angular/core';
 import { AnySourceData, LngLatBounds, LngLatLike, Map, Marker, Popup } from 'mapbox-gl';
+
+// Core
 import { Feature } from '../../../../core/interfaces/places';
 import { DirectionsApiClient } from '../api/directionsApiClient';
-import { DirectionsResponse, Route } from '../../../../core/interfaces/directions';
+import { DirectionsResponse, Geometry, Route } from '../../../../core/interfaces/directions';
+import { BehaviorSubject } from 'rxjs';
+import { Geofence } from '../../../../core/interfaces/geofence';
 
 @Injectable({ providedIn: 'root' })
 
@@ -11,8 +16,14 @@ export class MapService {
     private map?: Map;
     private markers: Marker[] = [];
 
+    private geofence = new BehaviorSubject<Geofence | null>(null);
+
     get isMapReady(): boolean {
         return !!this.map;
+    }
+
+    getGeofence() {
+        return this.geofence.asObservable();
     }
 
     constructor(private directionsApi: DirectionsApiClient) { }
@@ -80,13 +91,25 @@ export class MapService {
 
         this.directionsApi.get<DirectionsResponse>(`/${origin.join(',')};${destination.join(',')}`)
             .subscribe(response => {
-                this.drawLineString(response.routes[0]);
+                const firstRoute = response.routes[0];
+                if (firstRoute) {
+                    const geoFence: Geofence = {
+                        originLat: origin[1],
+                        originLng: origin[0],
+                        destinationLat: destination[1],
+                        destinationLng: destination[0],
+                    };
+                    this.geofence.next(geoFence);
+                    const route = response.routes[0];
+                    this.drawLineString(route);
+                } else {
+                    console.error('No se encontró ninguna ruta en la respuesta.');
+                }
             });
     }
 
     private drawLineString(route: Route) {
         if (!this.map) throw new Error('Map not ready');
-
         const coords = route.geometry.coordinates;
 
         const bounds = new LngLatBounds();

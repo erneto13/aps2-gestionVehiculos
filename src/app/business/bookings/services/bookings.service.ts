@@ -39,5 +39,4 @@ export class BookingsService {
     deleteBooking(id: number): Observable<void> {
         return this.http.delete<void>(`${this.apiUrl}/${id}`);
     }
-
 }
