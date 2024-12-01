@@ -29,4 +29,8 @@ export interface Booking {
     created_at: string,
     updated_at: string,
     notes: string;
+    origin_lat: number,
+    origin_lng: number,
+    destination_lat: number,
+    destination_lng: number,
 }
