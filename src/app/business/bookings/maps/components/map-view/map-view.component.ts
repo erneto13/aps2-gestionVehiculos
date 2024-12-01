@@ -8,7 +8,6 @@ import { ToastService } from '../../../../../core/services/toast.service';
   standalone: true,
   imports: [],
   templateUrl: './map-view.component.html',
-  styleUrl: './map-view.component.css'
 })
 export class MapViewComponent implements AfterViewInit {
 
