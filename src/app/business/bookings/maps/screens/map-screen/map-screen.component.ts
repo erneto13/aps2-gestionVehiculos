@@ -9,7 +9,6 @@ import { SearchPlacesInput } from '../../components/search-places.component';
   standalone: true,
   imports: [LoadingComponent, MapViewComponent, SearchPlacesInput],
   templateUrl: './map-screen.component.html',
-  styleUrl: './map-screen.component.css'
 })
 export class MapScreenComponent {
   constructor(private placesService: PlacesService) { }
