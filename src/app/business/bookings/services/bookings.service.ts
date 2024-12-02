@@ -6,7 +6,6 @@ import { Booking, BookingResponse } from '../../../core/interfaces/booking';
 @Injectable({ providedIn: 'root' })
 
 export class BookingsService {
-
     apiUrl = 'http://localhost:8080/api/v1/bookings';
     constructor(private http: HttpClient) { }
 

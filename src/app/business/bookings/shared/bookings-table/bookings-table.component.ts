@@ -29,7 +29,6 @@ export class BookingsTableComponent {
   viewDetails(bookingId: number) {
     this.selectedBooking = this.bookings.find(booking => booking.bookings_id === bookingId) || null;
 
-    // Abre el diálogo
     this.visibility = true;
   }
 }
