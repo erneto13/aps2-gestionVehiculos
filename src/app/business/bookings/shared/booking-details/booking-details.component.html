@@ -1,1 +1,100 @@
-<img [src]="booking?.vehicle?.image_url" alt="hola" class="w-20 h-20">
+<div class="flex flex-col items-center">
+    <div
+        class="w-96 h-48 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center overflow-hidden">
+        @defer (on interaction) {
+        <app-map-booking [origin]="origin" [destination]="destination"></app-map-booking>
+        } @placeholder {
+        <div class="flex items-center justify-center space-x-2 py-4 text-gray-600">
+            <i class="pi pi-spinner pi-spin text-2xl"></i>
+            <span class="text-sm font-medium">Generando terreno...</span>
+        </div>
+        }
+        <ng-template>
+            <div class="text-center">
+                <p class="mt-1 text-sm text-gray-600">Subir imagen</p>
+            </div>
+        </ng-template>
+    </div>
+
+    <div class="w-full max-w-sm mt-2 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
+        <div class="p-4">
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-2xl font-bold text-gray-900">Reserva ID: {{ booking?.bookings_id }}</h3>
+                    <span
+                        class="text-sm font-medium py-1 px-2 rounded-full
+                        {{ booking?.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                        {{ booking?.status }}
+                    </span>
+                </div>
+
+                <div>
+                    <p class="text-sm text-gray-600">Conductor: {{ booking?.driver?.name }}</p>
+                    <p class="text-sm text-gray-600">Contacto: {{ booking?.contact?.name }}</p>
+                </div>
+
+                <div class="flex gap-4">
+                    <div class="flex items-center gap-2">
+                        <i class="pi pi-calendar text-gray-600"></i>
+                        <span class="text-sm">Inicio: {{ booking?.start_date }}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="pi pi-clock text-gray-600"></i>
+                        <span class="text-sm">Fin: {{ booking?.end_date }}</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <i class="pi pi-info-circle text-gray-600"></i>
+                    <span class="text-sm">Propósito: {{ booking?.purpose }}</span>
+                </div>
+
+                <div class="flex gap-4">
+                    <div class="flex items-center gap-2">
+                        <i class="pi pi-map-marker text-gray-600"></i>
+                        <span class="text-sm">Destino: {{ booking?.destination_location }}</span>
+                    </div>
+                </div>
+
+                <div class="flex gap-4">
+                    <div class="flex items-center gap-2">
+                        <i class="pi pi-clock text-gray-600"></i>
+                        <span class="text-sm">Creado: {{ booking?.created_at }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full max-w-sm mt-2 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
+        <div class="p-4">
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900">
+                            {{ booking?.vehicle?.brand }} {{ booking?.vehicle?.model }}
+                            <small>{{ booking?.vehicle?.year }}</small>
+                        </h3>
+                        <p class="text-sm text-gray-500">{{ booking?.vehicle?.license_plate }} - <small
+                                class="font-semibold">CONDUCE {{ booking?.driver?.name }}</small></p>
+                    </div>
+                    <div class="relative w-18 h-14">
+                        <img alt="Vehicle Image" src="{{ booking?.vehicle?.image_url }}"
+                            class="w-18 h-12 rounded-full border border-dashed border-gray-300 object-cover" />
+                    </div>
+                </div>
+
+                <hr class="my-1 border-gray-300" />
+
+                <div class="flex flex-wrap gap-2 mt-4">
+                    <span class="inline-block px-3 py-1 text-xs font-medium text-gray-800 bg-gray-200 rounded-full">{{
+                        booking?.vehicle?.engine_type }}</span>
+                    <span class="inline-block px-3 py-1 text-xs font-medium text-gray-800 bg-gray-200 rounded-full">{{
+                        booking?.vehicle?.type }}</span>
+                    <span class="inline-block px-3 py-1 text-xs font-medium text-gray-800 bg-gray-200 rounded-full">{{
+                        booking?.vehicle?.fuel_type }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
