@@ -9,7 +9,6 @@ import { User } from '../../core/interfaces/user';
   standalone: true,
   imports: [FormsModule, KnobModule],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
 })
 export default class DashboardComponent {
 
