@@ -1,1 +1,7 @@
-<p>statistics works!</p>
+<div class="grid gap-6 md:grid-cols-2 m-8 -mt-4">
+    <div class="card">
+        <p-chart type="line" [data]="fuelChartData" [options]="fuelChartOptions"></p-chart>
+    </div>
+
+    <p-chart type="pie" [data]="data" [options]="options" />
+</div>
