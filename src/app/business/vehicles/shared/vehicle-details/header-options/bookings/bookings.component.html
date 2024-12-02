@@ -1,1 +1,51 @@
-<p>bookings works!</p>
+<div class="grid gap-6 md:grid-cols-2 m-8 -mt-4">
+    <div class="bg-white shadow-md border rounded-lg p-4 sm:p-6 xl:p-8 ">
+        <div class="mb-4 flex items-center justify-between">
+            <div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Últimas reservaciones</h3>
+                <span class="text-base font-normal text-gray-500">Esta es la lista de las últimas
+                    reservaciones</span>
+            </div>
+        </div>
+        <div class="flex flex-col mt-8">
+            <div class="overflow-x-auto rounded-lg">
+                <div class="align-middle inline-block min-w-full">
+                    <div class="shadow overflow-hidden sm:rounded-lg">
+                        <app-bookings-table [bookings]="bookings" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- gasolina -->
+    <div class="bg-white shadow-md border rounded-lg p-4 sm:p-6 xl:p-8 ">
+        <div class="mb-4 flex items-center justify-between">
+            <div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Registros de Gasolina</h3>
+                <span class="text-base font-normal text-gray-500">Lista de las veces que ha cargado gasolina
+                    el vehículo</span>
+            </div>
+            <div class="flex-shrink-0">
+                <a (click)="onChange()"
+                    class="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg p-2 cursor-pointer">Registrar
+                    combustible</a>
+            </div>
+
+            <p-dialog header="Registro de combustible" [draggable]="false" [modal]="true" [(visible)]="visible"
+                [style]="{ width: '40rem' }">
+                <app-fuel-record-form (fuelRecordCreated)="loadFuelRecords()" />
+            </p-dialog>
+
+        </div>
+        <div class="flex flex-col mt-8">
+            <div class="overflow-x-auto rounded-lg">
+                <div class="align-middle inline-block min-w-full">
+                    <div class="shadow overflow-hidden sm:rounded-lg">
+                        <app-fuel-records-table [fuelRecord]="fuelRecord" (addFuelRecord)="onChange()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
