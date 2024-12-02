@@ -33,17 +33,17 @@ export const routes: Routes = [
                             {
                                 path: 'informacion-basica',
                                 loadComponent: () => import('./business/vehicles/shared/vehicle-details/header-options/basic-info/basic-info.component'),
-                                data: { title: 'Información Básica' }
+                                data: { title: 'Detalles del Vehículo' }
                             },
                             {
                                 path: 'reservas',
                                 loadComponent: () => import('./business/vehicles/shared/vehicle-details/header-options/bookings/bookings.component'),
-                                data: { title: 'Reservas' }
+                                data: { title: 'Detalles del Vehículo' }
                             },
                             {
                                 path: 'estadisticas',
                                 loadComponent: () => import('./business/vehicles/shared/vehicle-details/header-options/statistics/statistics.component'),
-                                data: { title: 'Estadísticas' }
+                                data: { title: 'Detalles del Vehículo' }
                             },
                             {
                                 path: '',
