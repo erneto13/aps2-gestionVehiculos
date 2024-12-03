@@ -48,4 +48,8 @@ export class VehicleApiService {
   getRecordsByVehicleId(vehicle_id: number): Observable<FuelRecordResponse[]> {
     return this.http.get<FuelRecordResponse[]>(`${this.apiRecord}/vehicle/${vehicle_id}`);
   }
+
+  getAllFuelRecord(): Observable<FuelRecordResponse[]> {
+    return this.http.get<FuelRecordResponse[]>(`${this.apiRecord}/fuelrecord-list`);
+  }
 }
