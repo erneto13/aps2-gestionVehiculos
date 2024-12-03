@@ -50,6 +50,6 @@ export class VehicleApiService {
   }
 
   getAllFuelRecord(): Observable<FuelRecordResponse[]> {
-    return this.http.get<FuelRecordResponse[]>(`${this.apiRecord}/fuelrecord-list`);
+    return this.http.get<FuelRecordResponse[]>(`${this.apiRecord}/list`);
   }
 }
