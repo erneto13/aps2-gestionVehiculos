@@ -1,0 +1,52 @@
+<div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
+    <div class="mb-4 flex items-center justify-between">
+        <div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Últimas reservaciones</h3>
+            <span class="text-base font-normal text-gray-500">
+                Esta es la lista de las últimas reservaciones
+            </span>
+        </div>
+        <div class="flex-shrink-0">
+            <a href="#" class="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg p-2">
+                View all
+            </a>
+        </div>
+    </div>
+    <div class="flex flex-col mt-8">
+        <div class="overflow-x-auto rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col"
+                            class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Ubicación destino
+                        </th>
+                        <th scope="col"
+                            class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Fecha
+                        </th>
+                        <th scope="col"
+                            class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Conductor
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white">
+                    @for (booking of bookings.slice(0, 4); track $index) {
+                    <tr>
+                        <td class="p-4 whitespace-pre-wrap text-sm font-normal text-gray-900">
+                            Desde SGFA HQ a <span class="font-semibold">{{ booking.destination_location }}</span>
+                        </td>
+                        <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
+                            {{ booking.start_date | date }}
+                        </td>
+                        <td class="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
+                            {{ booking.driver.name }}
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
