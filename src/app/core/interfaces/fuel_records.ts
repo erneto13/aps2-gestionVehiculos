@@ -11,7 +11,7 @@ export interface FuelRecord {
 export interface FuelRecordResponse {
     fuelrecord_id: number,
     cost: number,
-    fuel_date: string,
+    fuelDate: string,
     liters: number,
     notes: string,
     odometer: number,
