@@ -12,7 +12,6 @@ import { IssuesHeaderComponent } from "./shared/issues-header/issues-header.comp
   imports: [CommonModule, FormsModule, IssuesSidebarComponent,
     IssuesHeaderComponent, RouterOutlet],
   templateUrl: './issues.component.html',
-  styleUrl: './issues.component.css'
 })
 export default class IssuesComponent {
 
