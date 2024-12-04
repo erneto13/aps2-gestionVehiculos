@@ -17,6 +17,8 @@ export class Auth {
     private REFRESH_URL = 'http://localhost:8080/api/v1/auth/refresh'
     private REFRESH_TOKEN_KEY = 'refreshToken';
 
+    private DRIVER_DAME = 'driverName'
+
     private userSubject = new BehaviorSubject<User | null>(null);
     user$ = this.userSubject.asObservable();
 
@@ -26,26 +28,31 @@ export class Auth {
     ) { }
 
     login(creds: Credentials) {
-        return this.http.post(this.LOGIN_URL, creds, {
-            observe: 'response'
-        }).pipe(map((response: HttpResponse<any>) => {
-            const body = response.body;
+        return this.http.post(this.LOGIN_URL, creds, { observe: 'response' }).pipe(
+            map((response: HttpResponse<any>) => {
+                const body = response.body;
 
-            if (body && body.token && body.refreshToken) {
-                const token = body.token.replace('Bearer ', '');
-                const refreshToken = body.refreshToken;
+                if (body && body.token && body.refreshToken && body.userDetails) {
+                    const token = body.token;
+                    const refreshToken = body.refreshToken;
 
-                this.setToken(token);
-                this.setRefreshToken(refreshToken);
+                    this.setToken(token);
+                    this.setRefreshToken(refreshToken);
 
-                this.autoRefreshToken();
+                    const driverName = body.userDetails.driver?.name || null;
+                    if (driverName) {
+                        localStorage.setItem('driverName', driverName);
+                    }
 
-                return body;
-            } else {
-                throw new Error("Error: No se recibieron los tokens.");
-            }
-        }));
+                    this.autoRefreshToken();
+                    return driverName;
+                } else {
+                    throw new Error("Error: No se recibieron los datos necesarios.");
+                }
+            })
+        );
     }
+
 
     setToken(token: string): void {
         localStorage.setItem(this.TOKEN_KEY, token);
@@ -125,9 +132,20 @@ export class Auth {
         }
     }
 
+    getDriverName(): string | null {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('driverName');
+        } else {
+            return null;
+        }
+    }
+
     logout(): void {
         localStorage.removeItem(this.TOKEN_KEY);
         localStorage.removeItem(this.REFRESH_TOKEN_KEY);
+        if (this.DRIVER_DAME) {
+            localStorage.removeItem(this.DRIVER_DAME);
+        }
         this.router.navigate(['/login']);
     }
 }
