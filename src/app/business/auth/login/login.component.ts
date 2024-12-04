@@ -13,6 +13,7 @@ import { LoadingService } from '../../../core/services/loading.service';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +31,8 @@ export class LoginComponent {
     private auth: Auth,
     private router: Router,
     private fb: FormBuilder,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private toastService: ToastService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -45,11 +47,19 @@ export class LoginComponent {
         password: this.loginForm.value.password
       };
 
-      this.auth.login(creds).subscribe(() => {
-        this.router.navigate(['/panel'])
+      this.auth.login(creds).subscribe((driverName) => {
+        if (driverName) {
+          this.router.navigate(['/driver/dashboard']);
+        } else {
+          this.router.navigate(['/panel']);
+        }
       });
     } else {
-      console.log('formulario inválido');
+      this.toastService.showToast(
+        'Error',
+        'Debes completar todos los campos para iniciar sesion',
+        'error'
+      )
     }
   }
 }
