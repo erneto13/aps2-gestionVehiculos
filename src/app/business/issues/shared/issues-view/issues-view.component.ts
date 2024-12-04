@@ -26,7 +26,6 @@ import { MessagesModule } from 'primeng/messages';
   ],
   providers: [MessageService],
   templateUrl: './issues-view.component.html',
-  styleUrl: './issues-view.component.css'
 })
 export default class IssuesViewComponent implements OnInit {
 
