@@ -1,8 +1,7 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{html,js}",
-    "./node_modules/flowbite/**/*.js"
+    "./src/**/*.{html,js,ts}",
+    "./node_modules/flowbite/**/*.js",
   ],
   theme: {
     extend: {
@@ -11,21 +10,25 @@ module.exports = {
         divider: '#272A32',
         customgreen: '#DDFFBE',
         customgray: '#7A7B83',
-        anothercg: '#9A9998'
+        anothercg: '#9A9998',
       },
-      keyfrmes: {
+      keyframes: {
         fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        fadeOut: {
+          '0%': { opacity: '1', transform: 'translateY(0)' },
+          '100%': { opacity: '0', transform: 'translateY(10px)' },
         },
       },
       animation: {
-        fadeIn: 'fadeIn 1s ease-in-out',
+        fadeIn: 'fadeIn 0.5s ease-in-out',
+        fadeOut: 'fadeOut 0.5s ease-in-out',
       },
     },
   },
   plugins: [
-    require('flowbite/plugin')
+    require('flowbite/plugin'),
   ],
-}
-
+};
