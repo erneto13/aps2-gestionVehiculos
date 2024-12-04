@@ -1,0 +1,76 @@
+<h2 class="text-md font-semibold -mt-4">INFORMACIÓN</h2>
+<span class="block text-sm font-normal text-gray-700 mb-1">
+    Si tuviste algún problema en el transcurso de tu trabajo, repórtalo para que los administradores lo resuelvan.
+</span>
+<form [formGroup]="issueForm" (ngSubmit)="onSubmit()" class="p-2 bg-white rounded-lg max-w-md mx-auto">
+    <div class="mb-4">
+        <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Título del asunto</label>
+        <div class="relative">
+            <i class="pi pi-pencil absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400"></i>
+            <input id="title" type="text" formControlName="title" placeholder="El foco del auto ABC-1234 está fundido"
+                class="pl-10 w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm"
+                [ngClass]="{'border-red-500': issueForm.get('title')?.invalid && issueForm.get('title')?.touched}" />
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Descripción del asunto</label>
+        <div class="relative">
+            <i class="pi pi-align-left absolute top-2.5 left-3 text-gray-400"></i>
+            <textarea id="description" rows="4" formControlName="description"
+                placeholder="Ayer que le cambiaron el foco al vehículo ABC-1234, el técnico no lo colocó correctamente y se fundió. Por favor, revisar y corregir."
+                class="pl-10 w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm resize-none"
+                [ngClass]="{'border-red-500': issueForm.get('description')?.invalid && issueForm.get('description')?.touched}">
+            </textarea>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <label for="selectedIssueType" class="block text-sm font-medium text-gray-700 mb-1">Categoría de asunto</label>
+        <div class="relative">
+            <i class="pi pi-list absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400"></i>
+            <select id="selectedIssueType" formControlName="selectedIssueType"
+                class="appearance-none pl-10 w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm"
+                [ngClass]="{'border-red-500': issueForm.get('selectedIssueType')?.invalid && issueForm.get('selectedIssueType')?.touched}">
+                <option value="" disabled selected>Selecciona una categoría</option>
+                @for (issueType of issuesType; track $index) {
+                <option [value]="issueType">{{ issueType }}</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <label for="evidences" class="block text-sm font-medium text-gray-700 mb-1">Subir evidencias</label>
+        <div class="relative">
+            <i class="pi pi-upload absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400"></i>
+            <input id="evidences" type="file" (change)="upload($event)" multiple
+                class="pl-10 w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm file:cursor-pointer file:border-0 file:px-4 file:py-2 file:bg-white file:hover:bg-white file:text-gray-500 file:mr-2" />
+        </div>
+        <input type="hidden" formControlName="evidenceValidation">
+        <p class="text-xs text-gray-400 mt-2">Puedes subir archivos PNG o JPG.</p>
+
+        @if (uploadedFiles.length > 0) {
+        <div class="mt-3">
+            <p class="mb-2 text-sm font-semibold">Archivos seleccionados:</p>
+            <ul class="list-disc pl-5 text-gray-600 text-sm">
+                @for (file of uploadedFiles; track $index) {
+                <li>
+                    {{ file.name }}
+                    <i class="pi pi-trash cursor-pointer ml-2 text-red-500 text-sm" (click)="removeFile($index)"></i>
+                </li>
+                }
+            </ul>
+        </div>
+        }
+    </div>
+
+    <div>
+        <button type="submit"
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md text-sm font-semibold transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+            [disabled]="!issueForm.valid">
+            <i class="pi pi-cloud-upload mr-2"></i>
+            Subir reporte
+        </button>
+    </div>
+</form>
