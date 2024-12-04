@@ -13,7 +13,6 @@
         <small class="text-gray-400 block">Hoy es un nuevo día. Es tu día. Tú le das forma.</small>
         <small class="text-gray-400 -mt-1 block">Inicia sesión para comenzar a gestionar tu flotilla.</small>
 
-
         <!-- Form -->
         <form class="mt-4" [formGroup]="loginForm" (ngSubmit)="login()">
           <div class="mb-3">
@@ -35,7 +34,7 @@
 
           <div class="mb-3">
             <button
-              class="mb-1.5 block w-full text-center text-white bg-slate-700 hover:bg-slate-900 px-2 py-1.5 rounded-md"
+              class="mb-1.5 block w-full text-center text-white bg-slate-700 hover:bg-slate-900 px-2 py-1.5 rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed transition"
               [disabled]="loginForm.invalid">Iniciar sesión</button>
           </div>
         </form>
@@ -43,7 +42,8 @@
         <!-- Footer -->
         <div class="text-center">
           <span class="text-xs text-gray-400 font-semibold">¿No cuenta con su servicio?</span>
-          <a routerLink="/landing-page" class="text-xs font-bold text-blue-500 cursor-pointer"> Revise nuestros precios e IA preselectiva.</a>
+          <a routerLink="/landing-page" class="text-xs font-bold text-blue-500 cursor-pointer"> Revise nuestros precios
+            e IA preselectiva.</a>
         </div>
       </div>
     </div>
