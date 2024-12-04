@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Issues, IssueUpdate, NewIssues } from '../../../core/interfaces/issues';
+import { Issue, Issues, IssueUpdate, NewIssues } from '../../../core/interfaces/issues';
 import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
@@ -27,7 +27,7 @@ export class IssuesService {
   }
 
   // pal admin
-  pushIssue(issue: NewIssues): Observable<any> {
+  pushIssue(issue: Issue): Observable<any> {
     return this.http.post(this.apiUrl + '/pull-issue/', issue);
   }
 
