@@ -12,6 +12,16 @@ export interface Issues {
     resolvedDate: string | null;
 }
 
+export interface Issue {
+    title: string;
+    description: string;
+    issue_type: string;
+    status: string;
+    evidence: string[];
+    reportedBy: string;
+    reportDate: string;
+}
+
 export interface NewIssues {
     title: string;
     description: string;
@@ -33,11 +43,11 @@ export interface IssueUpdate {
     comments: string;
 }
 
-export enum IssueType {
-    Vehiculos,
-    Asignacion_de_Vehiculos,
-    Inspecciones,
-    Servicios,
-    Auto_Partes,
-    Combustible
+export enum IssuesType {
+    VEHICULOS = 'Vehículos',
+    ASIGNACION_DE_VEHICULOS = 'Asignación de vehículos',
+    INSPECCIONES = 'Inspecciones',
+    SERVICIOS = 'Servicios',
+    AUTO_PARTES = 'Auto-Partes',
+    COMBUSTIBLE = 'Combustible'
 }
