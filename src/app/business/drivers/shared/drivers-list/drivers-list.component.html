@@ -14,13 +14,13 @@
         </div>
     </div>
 
-    <p-dialog header="'Agregar Conductor'" [draggable]="false" [modal]="true" [(visible)]="visible"
-        [style]="{ width: '40rem' }">
+    <p-dialog header="Agregar Conductor" [draggable]="false" [modal]="true" [(visible)]="visible"
+        [style]="{ width: '25rem' }">
         <app-drivers-form (driverCreated)="loadDrivers()" />
     </p-dialog>
 
     <p-dialog header="Editar Conductor" [draggable]="false" [modal]="true" [(visible)]="editModalVisible"
-        [style]="{ width: '40rem' }">
+        [style]="{ width: '25rem' }">
         <app-drivers-form [driver]="driverToEdit" (driverUpdated)="onDriverUpdated($event)" />
     </p-dialog>
 
