@@ -3,8 +3,7 @@
         <tr>
             @for (header of tableHeaders; track $index) {
             <th scope="col"
-                class="sticky top-0 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50 shadow"
-                >
+                class="sticky top-0 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50 shadow">
                 {{ header }}
             </th>
             }
@@ -14,9 +13,17 @@
         @if (drivers.length > 0) {
         @for (driver of drivers; track $index) {
         <tr class="hover:bg-gray-100 cursor-pointer">
-            <td class="px-6 py-4 text-sm font-medium text-slate-900" style="width: 200px; white-space: nowrap;">
-                {{ driver.name }}
+            <td class="px-6 pt-7 text-sm font-medium text-slate-900"
+                style="width: 200px; white-space: nowrap; display: flex; align-items: center;">
+                <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                    <img [src]="driver.profile_picture" alt="Profile Picture"
+                        style="width: 32px; height: 32px; object-fit: cover;">
+                </div>
+                <div style="max-width: calc(100% - 40px); word-wrap: break-word; overflow-wrap: break-word;">
+                    {{ driver.name }}
+                </div>
             </td>
+
             <td class="px-6 py-4 text-sm text-gray-500" style="width: 200px; white-space: nowrap;">
                 {{ driver.license_number }}
             </td>
