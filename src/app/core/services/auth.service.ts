@@ -44,6 +44,11 @@ export class Auth {
                         localStorage.setItem('driverName', driverName);
                     }
 
+                    const driverPhoto = body.userDetails.driver?.profile_picture || null;
+                    if (driverPhoto) {
+                        localStorage.setItem('driverPhoto', driverPhoto);
+                    }
+
                     this.autoRefreshToken();
                     return driverName;
                 } else {
@@ -135,6 +140,14 @@ export class Auth {
     getDriverName(): string | null {
         if (typeof window !== 'undefined') {
             return localStorage.getItem('driverName');
+        } else {
+            return null;
+        }
+    }
+
+    getDriverPhoto(): string | null {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('driverPhoto');
         } else {
             return null;
         }
