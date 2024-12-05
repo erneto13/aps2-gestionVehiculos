@@ -1,11 +1,29 @@
 <form [formGroup]="driverForm" (ngSubmit)="onSubmit()" class="p-4 -mt-4 rounded-lg">
+    <div class="flex flex-col items-center">
+        <div
+            class="w-44 h-44 border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center overflow-hidden">
+            <img [src]="url" alt="" />
+            <ng-template #uploadPrompt>
+                <div class="text-center">
+                    <p class="mt-1 text-sm text-gray-600">Subir imagen</p>
+                </div>
+            </ng-template>
+        </div>
+        <input type="file" id="profile-image" accept="image/*" class="hidden" (change)="upload($event)" />
+        <label for="profile-image"
+            class="mt-2 cursor-pointer bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Seleccionar imagen
+        </label>
+    </div>
+
     <div class="flex flex-wrap gap-4">
         <!-- Nombre -->
         <div class="flex-1">
             <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
-            <div class="relative group">
+            <div class="relative">
+                <i class="pi pi-user absolute top-2.5 left-3 text-gray-400"></i>
                 <input type="text" id="name" formControlName="name"
-                    class="w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm"
+                    class="pl-10 w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm"
                     [ngClass]="{'border-red-500': driverForm.get('name')?.invalid && driverForm.get('name')?.touched}">
             </div>
         </div>
@@ -13,9 +31,10 @@
         <!-- Número de licencia -->
         <div class="flex-1">
             <label for="license_number" class="block text-sm font-medium text-gray-700 mb-1">Número de Licencia</label>
-            <div class="relative group">
+            <div class="relative">
+                <i class="pi pi-id-card absolute top-2.5 left-3 text-gray-400"></i>
                 <input type="text" id="license_number" formControlName="license_number"
-                    class="w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm"
+                    class="pl-10 w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm"
                     [ngClass]="{'border-red-500': driverForm.get('license_number')?.invalid && driverForm.get('license_number')?.touched}">
             </div>
         </div>
@@ -26,9 +45,10 @@
         <div class="flex-1">
             <label for="license_category" class="block text-sm font-medium text-gray-700 mb-1">Categoría de
                 Licencia</label>
-            <div class="relative group">
+            <div class="relative">
+                <i class="pi pi-list absolute top-2.5 left-3 text-gray-400"></i>
                 <input type="text" id="license_category" formControlName="license_category"
-                    class="w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm"
+                    class="pl-10 w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm"
                     [ngClass]="{'border-red-500': driverForm.get('license_category')?.invalid && driverForm.get('license_category')?.touched}">
             </div>
         </div>
@@ -36,9 +56,10 @@
         <!-- Teléfono -->
         <div class="flex-1">
             <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
-            <div class="relative group">
+            <div class="relative">
+                <i class="pi pi-phone absolute top-2.5 left-3 text-gray-400"></i>
                 <input type="text" id="phone" formControlName="phone"
-                    class="w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm"
+                    class="pl-10 w-full py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm"
                     [ngClass]="{'border-red-500': driverForm.get('phone')?.invalid && driverForm.get('phone')?.touched}">
             </div>
         </div>

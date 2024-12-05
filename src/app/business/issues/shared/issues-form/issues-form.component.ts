@@ -4,7 +4,7 @@ import { MediaService } from '../../../../core/services/media.service';
 import { IssuesService } from '../../services/issues.service';
 import { ToastService } from '../../../../core/services/toast.service';
 import { SharedService } from '../../../../core/services/shared.service';
-import { Issue, IssuesType } from '../../../../core/interfaces/issues';
+import { Issue, IssueType } from '../../../../core/interfaces/issues';
 import { Auth } from '../../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
 
@@ -15,14 +15,13 @@ import { CommonModule } from '@angular/common';
   templateUrl: './issues-form.component.html',
 })
 export class IssuesFormComponent implements OnInit {
-  @Output() issueCreated = new EventEmitter<void>();
   issueForm!: FormGroup;
 
   uploadedFiles: File[] = [];
   previewUrls: string[] = []; 
   driverName: string | null = null;
 
-  issuesType = Object.values(IssuesType);
+  issuesType = Object.values(IssueType);
 
   constructor(
     private auth: Auth,
@@ -68,7 +67,7 @@ export class IssuesFormComponent implements OnInit {
             const issue: Issue = {
               title: this.issueForm.value.title,
               description: this.issueForm.value.description,
-              issue_type: this.issueForm.value.selectedIssueType,
+              issueType: this.issueForm.value.selectedIssueType,
               status: 'PENDING',
               evidence: response.urls,
               reportedBy: this.driverName ?? 'Administrador',
@@ -103,7 +102,7 @@ export class IssuesFormComponent implements OnInit {
           'Se ha creado el asunto correctamente',
           'success'
         );
-        this.issueCreated.emit();
+        this.issueService.notifyIssueCreated();
         this.issueForm.reset();
         this.uploadedFiles = []; 
         this.previewUrls = []; 

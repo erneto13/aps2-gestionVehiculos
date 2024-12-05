@@ -1,4 +1,4 @@
-@if (issues.length === 0) {
+@if (!issues) {
 <div class="flex items-center justify-center h-full">
     <div class="text-center">
         <h1 class="text-2xl font-bold text-gray-700">Sin asuntos</h1>
@@ -8,120 +8,10 @@
 } @else {
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
     @for (issue of issues; track $index) {
-    <div class="max-w-[300px] min-w-[250px] mx-auto bg-white rounded-xl shadow-md overflow-hidden m-4 cursor-pointer"
-        (click)="onCardClick(issue)">
-        <div class="p-4">
-            <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold mb-1">
-                <p>#{{issue.idissues}}</p>
-            </div>
-            <h2 class="block mt-1 text-lg leading-tight font-medium text-black">
-                {{issue.title}}
-            </h2>
-            <p class="mt-2 uppercase tracking-wide text-sm text-indigo-500 font-semibold">Descripción</p>
-            <p class="text-gray-500" style="max-height: 6rem; overflow-y: auto;">
-                {{ issue.description | truncate }}
-            </p>
-            <div class="mt-4 flex justify-between items-center">
-                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
-                    {{issue.status}}
-                </span>
-            </div>
-        </div>
-    </div>
+    <app-issues-card [issue]="issue" (cardClick)="onCardClick($event)" />
     }
-
-    @if (modalData) {
-    <p-dialog header="Detalles del Asunto" [modal]="true" [(visible)]="modalData" [draggable]="false"
-        [style]="{ width: '30rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
-        <!-- header con reportante y fecha -->
-        <p class="flex items-center text-gray-500">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4 mr-1">
-                <path fill-rule="evenodd"
-                    d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
-                    clip-rule="evenodd" />
-            </svg>
-            {{ selectedIssue?.reportedBy }}
-            <span class="mx-2">|</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4 mr-1">
-                <path fill-rule="evenodd"
-                    d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z"
-                    clip-rule="evenodd" />
-            </svg>
-            {{ selectedIssue?.reportDate | date }}
-        </p>
-
-        <!-- cuerpo con detalles del asunto -->
-        <div class="mt-4" style="max-width: 100%; height: 20rem; overflow-y: auto;">
-            <h1 class="text-2xl font-bold text-gray-700 mb-4" style="overflow-wrap: break-word;">{{ selectedIssue?.title
-                }}</h1>
-            <p class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Descripción</p>
-            <p class="text-gray-500" style="height: 5rem; overflow-y: auto; overflow-wrap: break-word;">{{
-                selectedIssue?.description }}</p>
-            <p class="mt-2 uppercase tracking-wide text-sm text-indigo-500 font-semibold">Estado</p>
-            <p class="text-gray-500">{{ selectedIssue?.status }}</p>
-            <p class="mt-4 uppercase tracking-wide text-sm text-indigo-500 font-semibold">Evidencia</p>
-            <div
-                class="flex overflow-x-auto gap-4 p-4 w-full scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 hover:scrollbar-thumb-gray-500">
-                <div class="flex gap-4 min-w-min">
-                    @for (evidence of selectedIssue?.evidence; track $index) {
-                    <div
-                        class="flex-shrink-0 w-[110px] h-[110px] hover:scale-105 transition-transform duration-300 shadow-lg">
-                        <img src="{{ evidence }}" alt="evidence" class="w-full h-full object-cover rounded-lg" />
-                    </div>
-                    }
-                </div>
-            </div>
-            @if (selectedIssue?.comments) {
-            <p class="mt-4 uppercase tracking-wide text-sm text-indigo-500 font-semibold">Comentarios</p>
-            <p class="text-gray-500" style="height: 5rem; overflow-y: auto; overflow-wrap: break-word;">
-                {{ selectedIssue?.comments }}
-            </p>
-            <i class="text-lime-400 pi pi-check" style="font-size: 0.7rem"></i>
-            <small class="text-gray-400 overflow-wrap"> Se ha resuelto el asunto por {{ selectedIssue?.resolvedBy }} el
-                día {{ selectedIssue?.resolvedDate | date }}</small>
-            }
-        </div>
-
-        @if (userRole === 'admin') {
-        <!-- Condiciones de estado con botones y acciones -->
-        @switch (selectedIssue?.status) {
-        @case ('CLOSED') {
-        <div class="mt-4">
-            <button
-                class="mb-1.5 block text-center text-white bg-red-500 hover:bg-red-600 px-2 py-1.5 rounded-md">Borrar
-                Asunto</button>
-        </div>
-        }
-        @case ('IN_PROGRESS') {
-        <form [formGroup]="updateIssues" (ngSubmit)="updateIssueComplete()">
-            <div class="mt-4">
-                <p class="mt-4 uppercase tracking-wide text-sm text-indigo-500 font-semibold">Comentarios</p>
-                <textarea rows="5" cols="20" [autoResize]="false" pInputTextarea formControlName="comments"
-                    class="block w-80 rounded-md border border-gray-300 focus:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-700 py-1 px-1.5 text-gray-500">
-                </textarea>
-            </div>
-            <div class="mt-4">
-                <button [disabled]="updateIssues.invalid"
-                    class="mb-1.5 block w-full text-center text-white bg-slate-700 hover:bg-slate-900 px-2 py-1.5 rounded-md">Resolver
-                    asunto</button>
-            </div>
-        </form>
-
-        }
-        @case ('PENDING') {
-        <div class="mt-4">
-            <button (click)="updateIssueStatus(selectedIssue?.idissues, 'IN_PROGRESS')"
-                class="mb-1.5 block w-full text-center text-white bg-slate-700 hover:bg-slate-900 px-2 py-1.5 rounded-md">Reclamar
-                Asunto</button>
-        </div>
-        }
-        }
-        }
-    </p-dialog>
-    <!-- fin modal popup -->
+    @if (selectedIssue) {
+    <app-issues-detail-modal [issue]="selectedIssue" [userRole]="userRole" [modalData]="modalData" (reloadIssues)="loadIssuesByRoleAndType()" (closeModal)="modalData = false" />
     }
-</div>
-<div>
-    <p-messages />
 </div>
 }

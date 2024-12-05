@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 // Core
 import { DriverResponse, Drivers } from '../../../../core/interfaces/drivers';
 import { DriversService } from '../../services/drivers.service';
+import { MediaService } from '../../../../core/services/media.service';
 
 // MapBox
 
@@ -19,11 +20,14 @@ export class DriversFormComponent implements OnInit, OnChanges {
   @Input() driver: Drivers | null = null;
   @Output() driverUpdated = new EventEmitter<Drivers>();
   driverForm!: FormGroup;
-  drivers: any[] = []
+  drivers: any[] = [];
+  url: string | null = null;
 
-
-  constructor(private fb: FormBuilder, private driverService: DriversService) {
-
+  constructor(
+    private fb: FormBuilder,
+    private driverService: DriversService,
+    private mediaService: MediaService
+  ) {
     this.driverForm = this.fb.group({
       name: ['', [Validators.required]],
       license_number: ['', [Validators.required]],
@@ -44,12 +48,14 @@ export class DriversFormComponent implements OnInit, OnChanges {
         phone: this.driver.phone,
         address: this.driver.address,
       });
+      this.url = this.driver.profile_picture;
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['driver'] && this.driver) {
       this.driverForm.patchValue(this.driver);
+      this.url = this.driver.profile_picture;
     }
   }
 
@@ -58,7 +64,9 @@ export class DriversFormComponent implements OnInit, OnChanges {
       console.error('Form is invalid');
       return;
     }
+
     const driver: DriverResponse = {
+      profile_picture: this.url!,
       name: this.driverForm.value.name,
       license_number: this.driverForm.value.license_number,
       license_category: this.driverForm.value.license_category,
@@ -77,20 +85,37 @@ export class DriversFormComponent implements OnInit, OnChanges {
     this.driverService.addDriver(driver).subscribe(() => {
       this.driverCreated.emit();
       this.driverForm.reset();
-    })
+      this.url = null;
+    });
   }
 
   updateDriver(driver: Drivers): void {
     this.driverService.updateDriver(driver).subscribe((updatedDriver) => {
-      this.driverUpdated.emit(updatedDriver); 
+      this.driverUpdated.emit(updatedDriver);
       this.driverForm.reset();
+      this.url = null;
     });
   }
-  
 
   loadDrivers(): void {
     this.driverService.getDrivers().subscribe((drivers) => {
       this.drivers = drivers;
     });
+  }
+
+  upload(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      this.mediaService.uploadSingleFile(formData).subscribe(
+        res => {
+          this.url = res.url;
+        },
+        error => {
+          console.error('Error uploading image', error);
+        }
+      );
+    }
   }
 }
