@@ -19,7 +19,7 @@ import { DialogModule } from 'primeng/dialog';
   selector: 'app-drivers-list',
   standalone: true,
   imports: [DialogModule, DriversFormComponent,
-    DriversListComponent, DriversPaginationComponent,
+    DriversPaginationComponent,
     DriversSearchbarComponent, DriversTableComponent, CommonModule, SpinnerComponent],
   templateUrl: './drivers-list.component.html',
 })
