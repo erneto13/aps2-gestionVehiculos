@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Auth } from './core/services/auth.service';
+import { LoadingService } from './core/services/loading.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ import { Auth } from './core/services/auth.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private authService: Auth) { }
+  constructor(private authService: Auth, public loadingService: LoadingService) { }
 
   ngOnInit(): void {
     if (this.authService.isAuthenticated()) {
