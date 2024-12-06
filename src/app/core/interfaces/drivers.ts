@@ -16,3 +16,18 @@ export interface DriverResponse {
     phone: string;
     address: string;
 }
+
+export interface UserDriver {
+    id: number,
+    userEmail: string,
+    userRole: string,
+    driverName: string,
+    driverProfilePicture: string,
+    createdAt: string
+}
+
+export interface UserDriverCredentials {
+    driverId: number,
+    email: string,
+    password: string,
+}
