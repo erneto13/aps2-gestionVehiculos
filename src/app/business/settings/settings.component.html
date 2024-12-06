@@ -1,1 +1,22 @@
-<p>settings works!</p>
+<div class="m-8">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-semibold mb-1">Relación de Usuarios y Conductores</h1>
+            <p class="text-sm text-gray-500">Conductores con credenciales de inicio de sesión.</p>
+        </div>
+        <div class="flex justify-between items-center gap-4 mb-6">
+            <app-reminder-searchbar (search)="onSearch($event)" />
+            <button
+                class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2 transition duration-150">
+                <i class="pi pi-clock font-medium"></i>
+                <span>Agregar recordatorio</span>
+            </button>
+        </div>
+    </div>
+
+
+    <div class="overflow-x-auto rounded-lg border border-gray-200">
+        <app-settings-table [relationUD]="allUserDriver" (delete)="deleteCredential($event)" />
+    </div>
+
+</div>

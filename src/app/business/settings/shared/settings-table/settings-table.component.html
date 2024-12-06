@@ -1,0 +1,67 @@
+<table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+        <tr>
+            <th scope="col"
+                class="sticky top-0 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50 shadow">
+                Usuario
+            </th>
+            <th scope="col"
+                class="sticky top-0 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50 shadow">
+                Rol
+            </th>
+            <th scope="col"
+                class="sticky top-0 px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50 shadow">
+                Acciones
+            </th>
+        </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+        @if (relationUD.length > 0) {
+        @for (relation of relationUD; track $index) {
+        <tr class="hover:bg-gray-100 cursor-pointer">
+            <td class="px-6 py-4 text-sm font-medium text-slate-900">
+                <div class="flex items-center space-x-4">
+                    <img [src]="relation.driverProfilePicture" alt="Driver Picture" class="w-10 h-10 rounded-full" />
+                    <div>
+                        <p class="text-sm font-medium text-gray-900">{{ relation.driverName }}</p>
+                        <p class="text-xs text-gray-500">{{ relation.userEmail }}</p>
+                    </div>
+                </div>
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-500">
+                <div class="flex items-center space-x-2">
+                    @if (relation.userRole === 'driver') {
+                    <i class="fas fa-car text-blue-500"></i>
+                    }@else {
+                    <i class="fas fa-user-shield text-red-500"></i>
+                    }
+                    <span>{{ relation.userRole | titlecase }}</span>
+                </div>
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-500">
+                <div class="flex justify-end gap-4 items-center">
+                    <a class="text-sm cursor-pointer flex items-center text-slate-500">
+                        <i class="pi pi-lock-open text-blue-500 text-xl mr-2"></i>
+                        <p class="hover:underline">Reiniciar credenciales</p>
+                    </a>
+                    <i class="pi pi-eye text-blue-500 text-xl cursor-pointer" (click)="editRelation(relation)"></i>
+                    <i class="pi pi-trash text-red-500 text-xl cursor-pointer"
+                        (click)="deleteRelation(relation.id!)"></i>
+                </div>
+            </td>
+
+        </tr>
+        }
+        } @else {
+        <tr>
+            <td colspan="3" class="px-6 py-4 text-center text-gray-500" style="white-space: nowrap;">
+                <div class="flex flex-col items-center">
+                    <i class="pi pi-info-circle text-4xl text-gray-400 mb-2"></i>
+                    <p class="text-xl font-medium text-gray-600">No hay datos disponibles</p>
+                    <p class="text-sm text-gray-400">No se ha encontrado ningún recordatorio</p>
+                </div>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
