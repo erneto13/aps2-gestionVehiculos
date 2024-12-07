@@ -1,15 +1,16 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UserDriver, UserDriverCredentials } from '../../../../core/interfaces/drivers';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Drivers, UserDriverCredentials } from '../../../../core/interfaces/drivers';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastService } from '../../../../core/services/toast.service';
-import e from 'express';
-import { emit } from 'process';
 import { DriversService } from '../../../drivers/services/drivers.service';
+import { CreateCredentials } from '../../../../core/interfaces/credentials';
+import { CommonModule } from '@angular/common';
+import { SettingService } from '../../services/setting.service';
 
 @Component({
   selector: 'app-settings-form',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './settings-form.component.html',
 })
 export class SettingsFormComponent implements OnInit {
@@ -17,31 +18,28 @@ export class SettingsFormComponent implements OnInit {
   @Input() userDriver: UserDriverCredentials | null = null;
   @Output() userDriverUpdated = new EventEmitter<UserDriverCredentials>();
 
+  drivers: Drivers[] = [];
   userDriverForm!: FormGroup;
-  drivers: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private driverService: DriversService,
     private toastService: ToastService,
+    private settingsService: SettingService
   ) {
     this.userDriverForm = this.fb.group({
-      driver: ['', [Validators.required]],
+      driverId: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
+      password: ['', [
+        Validators.required,
+        Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[!$%@^&*?])[A-Za-z\d!$%@^&*?]{8,}$/)  // Al menos una letra, un número y un signo
+      ]],
+      role: ['', [Validators.required]],
     })
   }
 
   ngOnInit(): void {
     this.loadDrivers();
-
-    if (this.userDriver) {
-      this.userDriverForm.patchValue({
-        driver: this.userDriver.driverId,
-        email: this.userDriver.email,
-        password: this.userDriver.password
-      })
-    }
   }
 
   onSubmit(): void {
@@ -54,16 +52,29 @@ export class SettingsFormComponent implements OnInit {
       return
     }
 
-    const data: UserDriverCredentials = {
-      driverId: this.userDriverForm.value.driver,
-      email: this.userDriverForm.value.email,
-      password: this.userDriverForm.value.password
-    }
-
+    const data: CreateCredentials = this.userDriverForm.value;
     this.createUserDriver(data);
   }
 
-  createUserDriver(data: UserDriverCredentials): void {
+  async createUserDriver(data: UserDriverCredentials): Promise<void> {
+    this.settingsService.createCredentials(data).subscribe({
+      next: () => {
+        this.toastService.showToast(
+          'Usuario creado',
+          'El usuario se ha creado correctamente',
+          'success'
+        );
+        this.userDriverForm.reset();
+        this.userDriverCreated.emit();
+      },
+      error: (err) => {
+        this.toastService.showToast(
+          'Error al crear usuario',
+          'Hubo un problema al crear el usuario. Inténtelo de nuevo más tarde.',
+          'error'
+        );
+      }
+    });
   }
 
   loadDrivers(): void {
