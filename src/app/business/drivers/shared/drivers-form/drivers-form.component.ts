@@ -6,8 +6,7 @@ import { CommonModule } from '@angular/common';
 import { DriverResponse, Drivers } from '../../../../core/interfaces/drivers';
 import { DriversService } from '../../services/drivers.service';
 import { MediaService } from '../../../../core/services/media.service';
-
-// MapBox
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-drivers-form',
@@ -26,12 +25,14 @@ export class DriversFormComponent implements OnInit, OnChanges {
   constructor(
     private fb: FormBuilder,
     private driverService: DriversService,
-    private mediaService: MediaService
+    private mediaService: MediaService,
+    private toastService: ToastService
   ) {
     this.driverForm = this.fb.group({
       name: ['', [Validators.required]],
       license_number: ['', [Validators.required]],
       license_category: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required]],
       address: ['', [Validators.required]],
     });
@@ -45,6 +46,7 @@ export class DriversFormComponent implements OnInit, OnChanges {
         name: this.driver.name,
         license_number: this.driver.license_number,
         license_category: this.driver.license_category,
+        email: this.driver.email,
         phone: this.driver.phone,
         address: this.driver.address,
       });
@@ -70,6 +72,7 @@ export class DriversFormComponent implements OnInit, OnChanges {
       name: this.driverForm.value.name,
       license_number: this.driverForm.value.license_number,
       license_category: this.driverForm.value.license_category,
+      email: this.driverForm.value.email,
       phone: this.driverForm.value.phone,
       address: this.driverForm.value.address,
     };
@@ -118,4 +121,32 @@ export class DriversFormComponent implements OnInit, OnChanges {
       );
     }
   }
+
+  formatLicenseNumber(event: any): void {
+    let input = event.target.value;
+    input = input.replace(/[^a-zA-Z0-9]/g, '');
+    input = input.toUpperCase();
+    if (input.length > 4) {
+      input = input.substring(0, 4) + '-' + input.substring(4);
+    }
+    if (input.length > 11) {
+      input = input.substring(0, 11) + '-' + input.substring(11);
+    }
+    event.target.value = input;
+  }
+
+  limitPhoneLength(event: any): void {
+    const input = event.target as HTMLInputElement;
+    if (input.value.length > 10) {
+      input.value = input.value.slice(0, 10);
+    }
+  }
+  
+  preventInvalidKeys(event: KeyboardEvent): void {
+    const invalidKeys = ['e', 'E', '+', '-'];
+    if (invalidKeys.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
+  
 }
