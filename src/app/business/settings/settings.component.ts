@@ -5,11 +5,13 @@ import { SettingsTableComponent } from './shared/settings-table/settings-table.c
 import { UserDriver } from '../../core/interfaces/drivers';
 import { SettingService } from './services/setting.service';
 import { ToastService } from '../../core/services/toast.service';
+import { SettingsFormComponent } from './shared/settings-form/settings-form.component';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [ReminderSearchbarComponent, SettingsTableComponent],
+  imports: [ReminderSearchbarComponent, SettingsTableComponent, SettingsFormComponent, DialogModule],
   templateUrl: './settings.component.html',
 })
 export default class SettingsComponent implements OnInit {

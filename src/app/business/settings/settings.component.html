@@ -6,14 +6,18 @@
         </div>
         <div class="flex justify-between items-center gap-4 mb-6">
             <app-reminder-searchbar (search)="onSearch($event)" />
-            <button
+            <button (click)="onChange()"
                 class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2 transition duration-150">
                 <i class="pi pi-clock font-medium"></i>
-                <span>Agregar recordatorio</span>
+                <span>Crear credenciales</span>
             </button>
         </div>
     </div>
 
+    <p-dialog header="Crear Credenciales" [draggable]="false" [modal]="true" [(visible)]="visible"
+        [style]="{ width: '35rem' }">
+        <app-settings-form (userDriverCreated)="loadCredentials()" />
+    </p-dialog>
 
     <div class="overflow-x-auto rounded-lg border border-gray-200">
         <app-settings-table [relationUD]="allUserDriver" (delete)="deleteCredential($event)" />
