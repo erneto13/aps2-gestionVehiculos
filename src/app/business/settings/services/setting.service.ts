@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserDriver } from '../../../core/interfaces/drivers';
+import { CreateCredentials } from '../../../core/interfaces/credentials';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SettingService {
   private apiUrl = 'http://localhost:8080/api/v1/user-driver';
+  private createCredentialsUrl = 'http://localhost:8080/api/v1/auth/admin/create-credentials';
 
   constructor(private http: HttpClient) { }
 
@@ -26,5 +28,10 @@ export class SettingService {
 
   deleteUserDriver(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  // admin como supremo
+  createCredentials(dto: CreateCredentials): Observable<any> {
+    return this.http.post(this.createCredentialsUrl, dto, { responseType: 'text' });
   }
 }
