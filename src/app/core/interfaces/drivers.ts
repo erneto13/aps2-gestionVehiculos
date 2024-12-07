@@ -4,6 +4,7 @@ export interface Drivers {
     name: string;
     license_number: string;
     license_category: string;
+    email: string;
     phone: string;
     address: string;
 }
@@ -13,6 +14,7 @@ export interface DriverResponse {
     name: string;
     license_number: string;
     license_category: string;
+    email: string;
     phone: string;
     address: string;
 }
