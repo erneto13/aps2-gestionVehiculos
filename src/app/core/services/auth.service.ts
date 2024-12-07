@@ -32,19 +32,16 @@ export class Auth {
             map((response: HttpResponse<any>) => {
                 const body = response.body;
 
-                if (body && body.token && body.refreshToken && body.userDetails) {
-                    const token = body.token;
-                    const refreshToken = body.refreshToken;
+                if (body && body.token && body.refreshToken) {
+                    this.setToken(body.token);
+                    this.setRefreshToken(body.refreshToken);
 
-                    this.setToken(token);
-                    this.setRefreshToken(refreshToken);
-
-                    const driverName = body.userDetails.driver?.name || null;
+                    const driverName = body.userDetails?.driver?.name || null;
                     if (driverName) {
                         localStorage.setItem('driverName', driverName);
                     }
 
-                    const driverPhoto = body.userDetails.driver?.profile_picture || null;
+                    const driverPhoto = body.userDetails?.driver?.profile_picture || null;
                     if (driverPhoto) {
                         localStorage.setItem('driverPhoto', driverPhoto);
                     }
