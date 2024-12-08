@@ -43,4 +43,9 @@ export class BookingsService {
     getBookingsForVehicle(vehicleId: number): Observable<BookingResponse[]> {
         return this.http.get<BookingResponse[]>(`${this.apiUrl}/vehicle/${vehicleId}/bookings`);
     }
+
+    // obtiene los bookings de un vehiculo
+    getOnGoingBookings(): Observable<BookingResponse[]> {
+        return this.http.get<BookingResponse[]>(`${this.apiUrl}/ongoing`);
+    }
 }
