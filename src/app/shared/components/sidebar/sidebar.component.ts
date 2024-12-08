@@ -18,6 +18,10 @@ export class SidebarComponent implements OnInit {
   submenuOpen: boolean = false
   role: string | null = null
 
+  driverPhotoUrl!: string;
+  driverName!: string;
+  asa = ['a', 'b', 'c', 'd', 'e', 'f'];
+
   ngOnInit(): void {
     this.role = this.auth.getUserRole();
 
@@ -29,6 +33,8 @@ export class SidebarComponent implements OnInit {
       const title = data['title'] || 'Panel';
       this.sharedService.changeTitle(title);
     });
+
+    this.getInfoDriver();
   }
 
   // cerrar sesión
@@ -42,5 +48,10 @@ export class SidebarComponent implements OnInit {
 
   selectTitle(title: string) {
     this.sharedService.changeTitle(title);
+  }
+
+  getInfoDriver(): void {
+    this.driverName = this.auth.getDriverName() ?? '';
+    this.driverPhotoUrl = this.auth.getDriverPhoto() ?? '';
   }
 }
