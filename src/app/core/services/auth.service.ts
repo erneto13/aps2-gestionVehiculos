@@ -11,13 +11,13 @@ import { User } from '../interfaces/user';
 
 export class Auth {
 
-    private LOGIN_URL = 'http://localhost:8080/api/v1/auth/login'
+    private LOGIN_URL = 'http://localhost:8080/api/v1/auth/login';
+    private REFRESH_URL = 'http://localhost:8080/api/v1/auth/refresh';
+
     private TOKEN_KEY = 'token';
-
-    private REFRESH_URL = 'http://localhost:8080/api/v1/auth/refresh'
     private REFRESH_TOKEN_KEY = 'refreshToken';
-
-    private DRIVER_DAME = 'driverName'
+    private DRIVER_NAME_KEY = 'driverName';
+    private DRIVER_PHOTO_KEY = 'driverPhoto';
 
     private userSubject = new BehaviorSubject<User | null>(null);
     user$ = this.userSubject.asObservable();
@@ -27,29 +27,35 @@ export class Auth {
         private router: Router
     ) { }
 
-    login(creds: Credentials) {
+    login(creds: Credentials): Observable<string | null> {
         return this.http.post(this.LOGIN_URL, creds, { observe: 'response' }).pipe(
             map((response: HttpResponse<any>) => {
                 const body = response.body;
 
                 if (body && body.token && body.refreshToken) {
-                    this.setToken(body.token);
-                    this.setRefreshToken(body.refreshToken);
+                    const token = body.token;
+                    const refreshToken = body.refreshToken;
 
-                    const driverName = body.userDetails?.driver?.name || null;
-                    if (driverName) {
-                        localStorage.setItem('driverName', driverName);
+                    this.setToken(token);
+                    this.setRefreshToken(refreshToken);
+
+                    if (body.userDetails) {
+                        const driverName = body.userDetails.name || null;
+                        if (driverName) {
+                            localStorage.setItem(this.DRIVER_NAME_KEY, driverName);
+                        }
+
+                        const driverPhoto = body.userDetails.profilePicture || null;
+                        if (driverPhoto) {
+                            localStorage.setItem(this.DRIVER_PHOTO_KEY, driverPhoto);
+                        }
+
+                        return driverName;
+                    } else {
+                        return null;
                     }
-
-                    const driverPhoto = body.userDetails?.driver?.profile_picture || null;
-                    if (driverPhoto) {
-                        localStorage.setItem('driverPhoto', driverPhoto);
-                    }
-
-                    this.autoRefreshToken();
-                    return driverName;
                 } else {
-                    throw new Error("Error: No se recibieron los datos necesarios.");
+                    throw new Error('Error: No se recibieron los datos necesarios.');
                 }
             })
         );
@@ -136,7 +142,7 @@ export class Auth {
 
     getDriverName(): string | null {
         if (typeof window !== 'undefined') {
-            return localStorage.getItem('driverName');
+            return localStorage.getItem(this.DRIVER_NAME_KEY);
         } else {
             return null;
         }
@@ -144,7 +150,7 @@ export class Auth {
 
     getDriverPhoto(): string | null {
         if (typeof window !== 'undefined') {
-            return localStorage.getItem('driverPhoto');
+            return localStorage.getItem(this.DRIVER_PHOTO_KEY);
         } else {
             return null;
         }
@@ -153,9 +159,8 @@ export class Auth {
     logout(): void {
         localStorage.removeItem(this.TOKEN_KEY);
         localStorage.removeItem(this.REFRESH_TOKEN_KEY);
-        if (this.DRIVER_DAME) {
-            localStorage.removeItem(this.DRIVER_DAME);
-        }
+        localStorage.removeItem(this.DRIVER_NAME_KEY);
+        localStorage.removeItem(this.DRIVER_PHOTO_KEY);
         this.router.navigate(['/login']);
     }
 }

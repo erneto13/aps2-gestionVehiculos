@@ -49,7 +49,7 @@ export class LoginComponent {
 
       this.auth.login(creds).subscribe((driverName) => {
         if (driverName) {
-          this.router.navigate(['/driver/dashboard']);
+          this.router.navigate(['/asuntos']);
         } else {
           this.router.navigate(['/panel']);
         }
