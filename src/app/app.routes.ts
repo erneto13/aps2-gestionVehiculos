@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './business/auth/login/login.component';
 import { PreventGuard } from './core/helpers/prevent.guard';
 import { AuthGuard } from './core/helpers/auth.guard';
+import { AuthenticatedGuard } from './core/helpers/authenticated.guard';
 
 export const routes: Routes = [
     { path: 'landing-page', loadComponent: () => import('./shared/components/landing-page/layout/layout.component') },
@@ -14,12 +15,14 @@ export const routes: Routes = [
             {
                 path: 'panel',
                 loadComponent: () => import('./business/dashboard/dashboard.component'),
-                data: { title: 'Panel' }
+                data: { title: 'Panel' },
+                canActivate: [AuthenticatedGuard]
             },
             {
                 path: 'vehiculos',
                 loadComponent: () => import('./business/vehicles/vehicles.component'),
                 data: { title: 'Vehículos' },
+                canActivate: [AuthenticatedGuard],
                 children: [
                     {
                         path: '',
@@ -76,22 +79,26 @@ export const routes: Routes = [
             {
                 path: 'recordatorios',
                 loadComponent: () => import('./business/reminders/reminders.component'),
-                data: { title: 'Recordatorios' }
+                data: { title: 'Recordatorios' },
+                canActivate: [AuthenticatedGuard]
             },
             {
                 path: 'conductores',
                 loadComponent: () => import('./business/drivers/drivers.component'),
-                data: { title: 'Conductores' }
+                data: { title: 'Conductores' },
+                canActivate: [AuthenticatedGuard]
             },
             {
                 path: 'reservas',
                 loadComponent: () => import('./business/bookings/bookings.component'),
-                data: { title: 'Reservas' }
+                data: { title: 'Reservas' },
+                canActivate: [AuthenticatedGuard]
             },
             {
                 path: 'clientes',
                 loadComponent: () => import('./business/contacts/contacts.component'),
-                data: { title: 'Clientes' }
+                data: { title: 'Clientes' },
+                canActivate: [AuthenticatedGuard]
             },
             {
                 path: 'rutas',
@@ -101,7 +108,8 @@ export const routes: Routes = [
             {
                 path: 'ajustes',
                 loadComponent: () => import('./business/settings/settings.component'),
-                data: { title: 'Ajustes' }
+                data: { title: 'Ajustes' },
+                canActivate: [AuthenticatedGuard]
             },
             {
                 path: '', redirectTo: 'panel', pathMatch: 'full'
