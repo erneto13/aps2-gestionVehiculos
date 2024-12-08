@@ -1,5 +1,5 @@
 // Bodriular
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -34,7 +34,8 @@ export default class IssuesViewComponent implements OnInit {
   constructor(
     private is: IssuesService,
     private activeRoute: ActivatedRoute,
-    private authService: Auth
+    private authService: Auth,
+    private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -44,7 +45,6 @@ export default class IssuesViewComponent implements OnInit {
     this.activeRoute.params.subscribe(params => {
       let rawIssueType = params['issue_type'];
       this.issueType = this.formatIssueType(rawIssueType);
-      console.log('issueType', this.issueType);
       this.loadIssuesByRoleAndType();
     });
 
@@ -59,19 +59,19 @@ export default class IssuesViewComponent implements OnInit {
 
   loadIssuesByRoleAndType(): void {
     if (this.userRole === 'admin') {
-      // admin
       this.issueType === 'Closed'
         ? this.getIssueByStatus('closed')
         : this.getIssuesByType(this.issueType);
     } else if (this.driverName) {
-      // driver
       if (this.issueType === 'Closed') {
         this.is.getClosedIssuesByUser(this.driverName).subscribe(issues => {
-          this.issues = issues;
+          this.issues = issues || [];
+          this.changeDetectorRef.detectChanges();
         });
       } else {
         this.is.getIssueByTypePerUser(this.issueType, this.driverName).subscribe(issues => {
-          this.issues = issues;
+          this.issues = issues || [];
+          this.changeDetectorRef.detectChanges();
         });
       }
     }
@@ -79,13 +79,15 @@ export default class IssuesViewComponent implements OnInit {
 
   getIssuesByType(issueType: string): void {
     this.is.getIssueByType(issueType).subscribe(issues => {
-      this.issues = issues;
+      this.issues = issues || [];
+      this.changeDetectorRef.detectChanges();
     });
   }
 
   getIssueByStatus(status: string): void {
     this.is.getIssueByStatus(status).subscribe(issues => {
-      this.issues = issues;
+      this.issues = issues || [];
+      this.changeDetectorRef.detectChanges();
     });
   }
 
