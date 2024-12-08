@@ -1,1 +1,10 @@
-ola
+<div class="m-6 w-auto h-full rounded-xl border border-dashed">
+    @defer (on timer(6s)) {
+    <app-tracking-screen />
+    } @placeholder {
+    <div class="flex items-center justify-center space-x-2 py-4 text-gray-600">
+        <i class="pi pi-spinner pi-spin text-2xl"></i>
+        <span class="text-sm font-medium">Generando terreno...</span>
+    </div>
+    }
+</div>
