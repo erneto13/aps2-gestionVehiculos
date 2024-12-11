@@ -39,3 +39,17 @@ export interface Booking {
     destination_lat: number,
     destination_lng: number,
 }
+
+export interface RouteDetails {
+    id: string;
+    currentLocation?: {
+        latitude: number;
+        longitude: number;
+    };
+    estimatedArrivalTime?: string;
+    status: string;
+    route: {
+        origin: string;
+        destination: string;
+    };
+}
