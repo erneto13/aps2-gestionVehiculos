@@ -7,16 +7,32 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   selector: 'app-toast',
   imports: [CommonModule],
+  styles: [`
+    .toast-container {
+      position: fixed;
+      z-index: 9999; /* Highest z-index to ensure it's on top */
+      top: 0;
+      left: 0;
+      right: 0;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .toast-item {
+      max-width: 24rem;
+      width: 100%;
+      pointer-events: auto;
+      margin-bottom: 0.5rem;
+    }
+  `],
   template: `
-    <div
-      aria-live="assertive"
-      class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6"
-    >
-      <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
+    <div class="toast-container">
       @for (toast of toasts; track $index) {  
-      <div
-          
-          class="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 transform transition"
+        <div
+          class="toast-item overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 transform transition"
           [ngClass]="[
             'animate-fadeIn',
             exitingIndexes.includes($index) ? 'animate-fadeOut' : ''
@@ -24,11 +40,10 @@ import { CommonModule } from '@angular/common';
           (animationend)="onAnimationEnd($index)"
           style="background: rgba(255, 255, 255, 0.9)"
         >
-      
           <div class="p-4">
             <div class="flex items-start">
               <div class="flex-shrink-0">
-              <i
+                <i
                   [ngClass]="getIconClass(toast.type)"
                   class="mr-2"
                   [ngStyle]="{ color: getToastColor(toast.type) }"
@@ -51,7 +66,6 @@ import { CommonModule } from '@angular/common';
           </div>
         </div>
       }
-      </div>
     </div>
   `,
 })
@@ -94,9 +108,5 @@ export class ToastComponent implements OnInit {
       error: 'pi pi-times',
       info: 'pi pi-info',
     }[type];
-  }
-
-  trackByIndex(index: number): number {
-    return index;
   }
 }
