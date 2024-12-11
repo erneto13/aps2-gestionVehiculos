@@ -24,10 +24,18 @@
                 {{ booking.contact.name }}
             </td>
             <td class="px-6 py-4 text-sm text-gray-500" style="width: 300px; max-height: 100px; overflow-y: auto;">
-                {{ booking.start_date | date }} - {{ booking.end_date | date }}
+                {{ booking.end_date | date }}
             </td>
-            <td class="px-6 py-4 text-sm text-gray-500" style="width: 300px; max-height: 100px; overflow-y: auto;">
-                {{ booking.status }}
+            <td class="px-6 py-4 text-sm text-gray-500" style="width: 200px; max-height: 100px; overflow-y: auto;">
+                <span class="w-2 h-2 rounded-full mr-2 animate-pulse" [ngClass]="{
+                    'bg-green-500': booking.status === 'ON_GOING',
+                    'bg-yellow-500': booking.status === 'PENDING',
+                    'bg-red-500': booking.status === 'CANCELLED'
+                  }">
+                </span>
+                <span class="text-gray-600">
+                    {{ booking.status === 'ON_GOING' ? 'En curso' : 'Pendiente' }}
+                </span>
             </td>
             <td class="px-6 py-4 text-sm text-gray-500" style="width: 300px; max-height: 100px; overflow-y: auto;">
                 {{ booking.destination_location }}

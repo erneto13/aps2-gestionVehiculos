@@ -1,35 +1,32 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { BookingResponse } from '../../../../core/interfaces/booking';
 import { MapBooking } from '../../maps/components/map-booking.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-booking-details',
   standalone: true,
-  imports: [MapBooking],
+  imports: [MapBooking, CommonModule],
   templateUrl: './booking-details.component.html',
 })
-export class BookingDetailsComponent implements OnInit {
+export class BookingDetailsComponent implements OnChanges {
   @Input() booking: BookingResponse | null = null;
 
-  get origin(): [number, number] {
-    if (this.booking) {
-      return [this.booking.origin_lng, this.booking.origin_lat];
+  origin: [number, number] = [0, 0];
+  destination: [number, number] = [0, 0];
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['booking'] && this.booking) {
+      this.origin = [this.booking.origin_lng, this.booking.origin_lat];
+      this.destination = [this.booking.destination_lng, this.booking.destination_lat];
     }
-    return [0, 0]; // Coordenadas predeterminadas
   }
 
-  get destination(): [number, number] {
-    if (this.booking) {
-      return [this.booking.destination_lng, this.booking.destination_lat];
-    }
-    return [0, 0]; // Coordenadas predeterminadas
+  get originCoords(): [number, number] {
+    return this.origin;
   }
 
-  ngOnInit(): void {
-    this.loadDetails();
-  }
-
-  loadDetails() {
-
+  get destinationCoords(): [number, number] {
+    return this.destination;
   }
 }
