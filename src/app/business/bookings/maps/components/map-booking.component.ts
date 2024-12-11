@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { Map, GeoJSONSource, AnySourceData, Marker, LngLatBounds } from 'mapbox-gl';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Map, AnySourceData, Marker, LngLatBounds } from 'mapbox-gl';
 import { BehaviorSubject } from 'rxjs';
 import { Geofence } from '../../../../core/interfaces/geofence';
 import { DirectionsApiClient } from '../api/directionsApiClient';
@@ -11,7 +11,7 @@ import { DirectionsResponse } from '../../../../core/interfaces/directions';
     imports: [],
     templateUrl: './map-booking.component.html',
 })
-export class MapBooking implements AfterViewInit {
+export class MapBooking implements AfterViewInit, OnChanges, OnDestroy {
     @ViewChild('mapBooking')
     mapBooking!: ElementRef;
 
@@ -21,9 +21,16 @@ export class MapBooking implements AfterViewInit {
     map!: Map;
     geofence = new BehaviorSubject<Geofence | null>(null);
 
-    constructor(private directionsApi: DirectionsApiClient) { } // Reemplaza con el servicio real
+    // cargamos los marcadores, luego los eliminamos cuando sea necesario
+    private markers: Marker[] = [];
+
+    constructor(private directionsApi: DirectionsApiClient) { }
 
     ngAfterViewInit(): void {
+        this.initializeMap();
+    }
+
+    private initializeMap(): void {
         this.map = new Map({
             container: this.mapBooking.nativeElement,
             style: 'mapbox://styles/mapbox/streets-v12',
@@ -36,6 +43,35 @@ export class MapBooking implements AfterViewInit {
             this.fetchRoute();
             this.addMarkersAndFitBounds();
         });
+    }
+
+    /*
+    Cuándo ya hay cambios se re-acomodan los 
+    marcadores y se vuelve a trazar la ruta
+    */
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['origin'] || changes['destination']) {
+            if (this.map) {
+                // limpia los marcadores y line-string
+                this.clearMarkersAndRoute();
+
+                // traza la ruta y agrega los marcadores
+                this.fetchRoute();
+                this.addMarkersAndFitBounds();
+            }
+        }
+    }
+
+    private clearMarkersAndRoute(): void {
+        // limpiamos la lista de marcadores
+        this.markers.forEach(marker => marker.remove());
+        this.markers = [];
+
+        // removemos las capas de la ruta
+        if (this.map.getSource('route')) {
+            this.map.removeLayer('route');
+            this.map.removeSource('route');
+        }
     }
 
     fetchRoute(): void {
@@ -53,7 +89,7 @@ export class MapBooking implements AfterViewInit {
                     this.geofence.next(geoFence);
                     this.drawLineString(firstRoute);
                 } else {
-                    console.error('No se encontró ninguna ruta en la respuesta.');
+                    // TODO: manejar el error
                 }
             });
     }
@@ -61,50 +97,38 @@ export class MapBooking implements AfterViewInit {
     drawLineString(route: any): void {
         const coordinates = route.geometry.coordinates;
 
-        if (this.map.getSource('route')) {
-            (this.map.getSource('route') as GeoJSONSource).setData({
-                type: 'Feature',
-                properties: {},
-                geometry: {
-                    type: 'LineString',
-                    coordinates: coordinates,
-                },
-            });
-        } else {
+        const sourceData: AnySourceData = {
+            type: 'geojson',
+            data: {
+                type: 'FeatureCollection',
+                features: [
+                    {
+                        type: 'Feature',
+                        properties: {},
+                        geometry: {
+                            type: 'LineString',
+                            coordinates: coordinates,
+                        },
+                    },
+                ],
+            },
+        };
 
-            const sourceData: AnySourceData = {
-                type: 'geojson',
-                data: {
-                    type: 'FeatureCollection',
-                    features: [
-                        {
-                            type: 'Feature',
-                            properties: {},
-                            geometry: {
-                                type: 'LineString',
-                                coordinates: coordinates
-                            }
-                        }
-                    ]
-                }
-            }
+        this.map.addSource('route', sourceData);
 
-            this.map.addSource('route', sourceData);
-
-            this.map.addLayer({
-                id: 'route',
-                type: 'line',
-                source: 'route',
-                layout: {
-                    'line-join': 'round',
-                    'line-cap': 'round',
-                },
-                paint: {
-                    'line-color': 'black',
-                    'line-width': 3,
-                },
-            });
-        }
+        this.map.addLayer({
+            id: 'route',
+            type: 'line',
+            source: 'route',
+            layout: {
+                'line-join': 'round',
+                'line-cap': 'round',
+            },
+            paint: {
+                'line-color': 'black',
+                'line-width': 3,
+            },
+        });
     }
 
     addMarkersAndFitBounds(): void {
@@ -112,15 +136,27 @@ export class MapBooking implements AfterViewInit {
         bounds.extend(this.origin);
         bounds.extend(this.destination);
 
-        new Marker({ color: 'red' })
+        // creamos y almacenamos el marcador de origen y desitno
+        const originMarker = new Marker({ color: 'red' })
             .setLngLat(this.origin)
             .addTo(this.map);
+        this.markers.push(originMarker);
 
-        new Marker({ color: 'green' })
+        const destinationMarker = new Marker({ color: 'green' })
             .setLngLat(this.destination)
             .addTo(this.map);
+        this.markers.push(destinationMarker);
 
-        this.map.fitBounds(bounds, { padding: 50 });
+        // ajustamos el mapa entre los 2 puntos *el padding es para que si
+        // hay un marcador en los bordes estos se vean completos
+        this.map.fitBounds(bounds, { padding: 60 });
     }
 
+    // limpiamos el mapa y eliminamos el mapa
+    ngOnDestroy(): void {
+        if (this.map) {
+            this.clearMarkersAndRoute();
+            this.map.remove();
+        }
+    }
 }

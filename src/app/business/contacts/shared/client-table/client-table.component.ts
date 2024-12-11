@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-    selector: 'app-client-table',
-    standalone: true,
-    imports: [CommonModule],
-    template: `
+  selector: 'app-client-table',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
     <div class="overflow-x-auto rounded-lg border border-gray-200">
       <div class="overflow-y-auto max-h-[400px]">
         <table class="min-w-full divide-y divide-gray-200">
@@ -45,13 +45,16 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
                   {{ contact.status }}
                 </span>
               </td>
-              <td class="px-6 py-4 text-sm text-gray-500" style="width: 150px;">
-                  <button
-                      class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-4 rounded inline-flex items-center"
-                      (click)="deleteContact(contact.contact_id!)">
-                      Eliminar
-                  </button>
-              </td>
+              <td class="px-6 py-4 text-sm text-gray-500">
+                <div class="flex gap-2">
+                    <i class="pi pi-eye text-blue-500 text-xl cursor-pointer mr-4"
+                        title="Ver detalles">
+                    </i>
+                    <i class="pi pi-trash text-red-500 text-xl cursor-pointer" (click)="deleteContact(contact.contact_id!)"
+                        title="Eliminar">
+                    </i>
+                </div>
+            </td>
             </tr>
             }
             } @else {
@@ -72,11 +75,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   `,
 })
 export class ClientTableComponent {
-    @Input() contacts: any[] = [];
-    @Input() columns: string[] = [];
-    @Output() delete = new EventEmitter<number>();
+  @Input() contacts: any[] = [];
+  @Input() columns: string[] = [];
+  @Output() delete = new EventEmitter<number>();
 
-    deleteContact(id: number): void {
-        this.delete.emit(id);
-    }
+  deleteContact(id: number): void {
+    this.delete.emit(id);
+  }
 }

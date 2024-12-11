@@ -22,6 +22,11 @@ export class MapService {
         return !!this.map;
     }
 
+    getMap(): Map {
+        if (!this.map) throw new Error('Map not ready');
+        return this.map;
+    }
+
     getGeofence() {
         return this.geofence.asObservable();
     }
