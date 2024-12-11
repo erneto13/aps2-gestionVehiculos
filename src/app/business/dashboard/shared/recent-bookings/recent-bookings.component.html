@@ -7,8 +7,8 @@
             </span>
         </div>
         <div class="flex-shrink-0">
-            <a href="#" class="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg p-2">
-                View all
+            <a routerLink="/reservas" class="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg p-2">
+                Mirar todas
             </a>
         </div>
     </div>
@@ -34,8 +34,7 @@
                 <tbody class="bg-white">
                     @for (booking of bookings.slice(0, 4); track $index) {
                     <tr>
-                        <td class="p-4 whitespace-pre-wrap text-sm font-normal text-gray-900">
-                            Desde SGFA HQ a <span class="font-semibold">{{ booking.destination_location }}</span>
+                        <td class="p-4 whitespace-pre-wrap text-sm font-normal text-gray-900">Desde SGFA HQ a <span class="font-semibold">{{ booking.destination_location }}</span>
                         </td>
                         <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
                             {{ booking.start_date | date }}
