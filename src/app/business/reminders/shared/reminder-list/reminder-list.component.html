@@ -24,7 +24,7 @@
     }
 
     <div class="overflow-x-auto rounded-lg border border-gray-200">
-        <app-reminder-table [reminders]="displayedReminders" (delete)="deleteReminder($event)" />
+        <app-reminder-table [reminders]="displayedReminders" [isLoading]="isLoadingReminders" (delete)="deleteReminder($event)" />
     </div>
 
     <app-reminder-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)">

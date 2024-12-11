@@ -1,47 +1,106 @@
-<table class="min-w-full divide-y divide-gray-200">
-    <thead class="bg-gray-50">
-        <tr>
-            @for (header of tableHeaders; track $index) {
-            <th scope="col"
-                class="sticky top-0 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50 shadow"
-                style="white-space: nowrap; width: 200px;"> 
-                {{ header }}
-            </th>
-            }
-        </tr>
-    </thead>
-    <tbody class="bg-white divide-y divide-gray-200">
-        @if (reminders.length > 0) {
-        @for (reminder of reminders; track $index) {
-        <tr class="hover:bg-gray-100 cursor-pointer">
-            <td class="px-6 py-4 text-sm font-medium text-slate-900" style="width: 200px; white-space: nowrap;">
-                {{ reminder.vehicle }}
-            </td>
-            <td class="px-6 py-4 text-sm text-gray-500" style="width: 200px; white-space: nowrap;">
-                {{ reminder.due_date }}
-            </td>
-            <td class="px-6 py-4 text-sm text-gray-500" style="width: 300px; max-height: 100px; overflow-y: auto;">
-                {{ reminder.task }}
-            </td>
-            <td class="px-6 py-4 text-sm text-gray-500" style="width: 150px;">
-                <button
-                    class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-4 rounded inline-flex items-center"
-                    (click)="deleteReminder(reminder.reminders_id!)">
-                    Eliminar
-                </button>
-            </td>
-        </tr>
-        }
-        } @else {
-        <tr>
-            <td colspan="4" class="px-6 py-4 text-center text-gray-500" style="white-space: nowrap;">
-                <div class="flex flex-col items-center">
-                    <i class="pi pi-info-circle text-4xl text-gray-400 mb-2"></i>
-                    <p class="text-xl font-medium text-gray-600">No hay datos disponibles</p>
-                    <p class="text-sm text-gray-400">No se ha encontrado ningún recordatorio</p>
+<div class="lg:flex lg:h-full lg:flex-col">
+    <header class="flex items-center justify-between border-b border-gray-200 px-6 py-4 lg:flex-none">
+        <h1 class="text-base font-semibold leading-6 text-gray-900 w-48 text-center">
+            <time datetime="2022-01">{{ monthName | titlecase }} {{ year }}</time>
+        </h1>
+
+        <div class="flex items-center space-x-4">
+            <div class="text-sm text-gray-600">
+                <span class="font-semibold">Hoy:</span> {{ currentDayOfWeek | titlecase }}
+            </div>
+
+            <div class="text-sm text-gray-600">
+                <span class="font-semibold">Día:</span> {{ currentDay }}
+            </div>
+
+            <div class="text-sm text-gray-600">
+                <span class="font-semibold">Semana:</span> {{ currentWeek }}
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <button class="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition duration-300"
+                (click)="previousMonth()">
+                <i class="pi pi-chevron-left text-xl"></i>
+            </button>
+            <button class="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition duration-300"
+                (click)="nextMonth()">
+                <i class="pi pi-chevron-right text-xl"></i>
+            </button>
+        </div>
+    </header>
+
+    @if (isLoading) {
+    <div class="text-center py-4">Cargando recordatorios...</div>
+    }
+
+    @if (!isLoading) {
+    <div class="shadow ring-1 ring-black ring-opacity-5 lg:flex lg:flex-auto lg:flex-col">
+        <div class="flex bg-gray-200 text-xs leading-6 text-gray-700 lg:flex-auto">
+            <div class="w-full lg:grid lg:grid-cols-7 lg:grid-rows-6 lg:gap-px">
+                @for (day of calendarDays; track $index) {
+                <div class="relative hover:bg-gray-50 bg-white px-3 py-2">
+                    <time [attr.datetime]="day.date">
+                        <span [ngClass]="{'bg-blue-100': day.isToday}" class="inline-block px-2 py-1 rounded-full">
+                            {{ day.day }}
+                        </span>
+                    </time>
+                    @if (day.reminders?.length) {
+                    <div
+                        class="reminder-container max-h-24 overflow-y-auto mt-2 scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300">
+                        <ol>
+                            @for (reminder of day.reminders; track $index) {
+                            <li class="cursor-pointer mb-2 last:mb-0">
+                                <div class="group flex flex-col">
+                                    <p (click)="onReminderClick(reminder)"
+                                        class="font-semibold text-gray-900 group-hover:text-indigo-600 truncate">{{
+                                        reminder.task }}</p>
+                                    <time [attr.datetime]="reminder.due_date"
+                                        class="mt-1 text-xs text-gray-500 text-left">{{ reminder.due_date | date:
+                                        'shortTime' }}</time>
+                                    <i class="pi pi-trash text-red-500 cursor-pointer mt-2 ml-auto"
+                                        (click)="deleteReminder(reminder.reminders_id)" title="Eliminar"></i>
+                                </div>
+                            </li>
+                            }
+                        </ol>
+                    </div>
+                    }
+
+                    @if (!day.reminders?.length) {
+                    <div class="h-24 flex items-center justify-center text-gray-500 text-xs">
+
+                    </div>
+                    }
                 </div>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+                }
+            </div>
+        </div>
+    </div>
+    }
+
+    <p-dialog header="Detalles del Recordatorio" [modal]="true" [(visible)]="visible" [draggable]="false"
+        [style]="{ width: '15rem' }">
+        <div class="-mt-4">
+            <section>
+                <label class="block text-sm font-medium text-gray-700 mb-1 uppercase">Recordatorio</label>
+                <p class="text-left block text-sm font-normal text-gray-700 mb-1">{{ selectedReminder?.task }}</p>
+
+                <div class="flex flex-col mt-2">
+                    <small class="text-xs text-gray-600 flex items-center space-x-2">
+                        <i class="pi pi-calendar text-gray-500"></i>
+                        <span>{{ selectedReminder?.due_date | date: 'short' }}</span>
+                    </small>
+                    <small class="text-xs text-gray-600 flex items-center space-x-2 mt-1">
+                        <i class="pi pi-car text-gray-500"></i>
+                        <span>{{ selectedReminder?.vehicle || 'No asignado' }}</span>
+                    </small>
+                </div>
+            </section>
+            <div class="flex justify-end mt-4">
+                <i class="pi pi-trash text-red-500 cursor-pointer mt-2 ml-auto"
+                    (click)="deleteReminder(selectedReminder?.reminders_id!)" title="Eliminar"></i>
+            </div>
+        </div>
+    </p-dialog>
+</div>

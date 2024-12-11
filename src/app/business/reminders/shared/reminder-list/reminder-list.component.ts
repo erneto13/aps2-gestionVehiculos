@@ -29,10 +29,12 @@ export class ReminderListComponent implements OnInit {
   allReminders: Reminder[] = [];
   displayedReminders: Reminder[] = [];
   currentPage = 0;
-  pageSize = 5;
+  pageSize = 200;
   totalPages = 0;
   searchTerm = '';
   visible: boolean = false;
+
+  isLoadingReminders: boolean = true;
 
   constructor(
     private remindersService: RemindersService,
@@ -45,12 +47,14 @@ export class ReminderListComponent implements OnInit {
   }
 
   loadReminders(): void {
+    this.isLoadingReminders = true;
     this.remindersService.getAllReminders()
       .subscribe({
         next: (data) => {
           this.allReminders = data;
           this.filterAndPaginateReminders();
           this.visible = false;
+          this.isLoadingReminders = false;
         },
         error: (error) => {
           this.toastService.showToast(
@@ -58,6 +62,7 @@ export class ReminderListComponent implements OnInit {
             'No se lograron obtener las reservas',
             'error'
           )
+          this.isLoadingReminders = false;
         }
       });
   }

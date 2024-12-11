@@ -17,7 +17,7 @@ export class ReminderPaginationComponent {
   }
 
   getVisiblePages(currentPage: number, totalPages: number): number[] {
-    const maxVisible = 5;
+    const maxVisible = 200;
     const half = Math.floor(maxVisible / 2);
     let start = Math.max(0, currentPage - half);
     let end = Math.min(totalPages - 1, currentPage + half);
