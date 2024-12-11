@@ -51,7 +51,7 @@ export class IssuesHeaderComponent implements OnInit, OnDestroy {
     'Servicios': 'pi pi-wrench',
     'Auto Partes': 'pi pi-box',
     'Combustible': 'pi pi-bolt',
-    'Cerrados': 'pi pi-lock',
+    'Closed': 'pi pi-lock',
   };
 
   onChange() {
