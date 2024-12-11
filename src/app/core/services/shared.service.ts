@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class SharedService {
   titleSource = new BehaviorSubject<string>('Panel');
   currentTitle = this.titleSource.asObservable();
@@ -53,5 +54,22 @@ export class SharedService {
     const seconds = String(date.getSeconds()).padStart(2, '0');
 
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
+
+  /**
+   * Calcula el tiempo restante entre dos fechas.
+   * 
+   * @param currentDate - La fecha y hora actual.
+   * @param endDate - La fecha y hora de finalización.
+   * @returns Una cadena que indica los días, horas y minutos restantes hasta la fecha de finalización.
+   */
+  calculateTimeRemaining(currentDate: Date, endDate: Date): string {
+    const diff = endDate.getTime() - currentDate.getTime();
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+    return `Quedan ${days}d, ${hours}h y ${minutes}m para la finalización de la ruta.`;
   }
 }
