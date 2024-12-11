@@ -1,56 +1,88 @@
-<div class="w-80 border rounded-lg m-2 bg-white h-96 flex fixed top-20 flex-col">
-    <div class="p-4 border-b">
-        <div class="mb-4">
-            <h1 class="text-1xl font-semibold mb-1">Seguimiento de rutas</h1>
-            <p class="text-sm text-gray-500">Rutas en curso en tiempo real.</p>
-        </div>
-        <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
-                <i class="pi pi-search"></i>
-            </span>
-            <input type="text"
-                class="w-[245px] pl-10 pr-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-slate-300 text-sm text-gray-600"
-                placeholder="Buscar por nombre o teléfono" />
-        </div>
-    </div>
-
-    <div class="flex-1 overflow-y-auto">
-        <div class="p-3 hover:bg-gray-50">
-            <div class="flex items-center text-purple-600 mb-2">
-                <i class="ri-arrow-down-s-line mr-2"></i>
-                <span>{{ currentLocalTime }}</span>
+<div class="border rounded-lg m-2 bg-white flex fixed top-20 flex-col transition-all duration-300">
+    <div class="flex-1">
+        <div class="p-4 border-b">
+            <div class="mb-4">
+                <h1 class="text-1xl font-semibold mb-1">
+                    {{ userRole === 'admin' ? 'Seguimiento de rutas' : 'Mis Rutas' }}
+                </h1>
+                <p class="text-sm text-gray-500">
+                    {{ userRole === 'admin' ? 'Rutas en curso en tiempo real' : 'Rutas asignadas' }}
+                </p>
             </div>
-            @if (bookings.length > 0) {
-            @for (booking of bookings; track $index) {
+            <app-fleet-search [placeholder]="'Buscar por marca o placa'" (searchChange)="handleSearchChange($event)">
+            </app-fleet-search>
+        </div>
 
-            <div class="space-y-3">
-                <div class="flex items-center p-2 hover:bg-gray-100 rounded">
-                    <div
-                        class="flex-shrink-0 w-8 h-8 bg-white border border-dashed rounded flex items-center justify-center">
-                        <img [src]="booking.vehicle.image_url" alt="">
-                    </div>
-                    <div class="ml-3 flex-1">
+        <div class="flex items-center text-purple-600 sticky top-0 bg-white z-10 p-3">
+            <i class="ri-arrow-down-s-line mr-2"></i>
+            <span>{{ currentLocalTime }}</span>
+        </div>
 
-                        <div class="flex items-center justify-between">
-                            <span class="font-medium">{{ booking.vehicle.brand }} {{ booking.vehicle.model }}</span>
-                            <span class="text-xs text-gray-500">{{ booking.vehicle.license_plate }}</span>
+        <div class="h-64 overflow-y-auto">
+            <div class="p-3 hover:bg-gray-50">
+                @if (filteredBookings) {
+                @defer (on timer(3s)) {
+                @for (booking of filteredBookings; track $index) {
+                <div class="space-y-3">
+                    <div (click)="userRole === 'admin' ? viewRouteDetails(booking) : initializeRoute(booking)"
+                        [class.cursor-pointer]="true" class="flex items-center p-2 hover:bg-gray-100 rounded">
+                        <div
+                            class="flex-shrink-0 w-8 h-8 bg-white border border-dashed rounded flex items-center justify-center">
+                            <img [src]="booking.vehicle.image_url" alt="">
                         </div>
-                        <div class="flex items-center text-sm">
-                            <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
-                            <span class="text-gray-600">On the Move</span>
+                        <div class="ml-3 flex-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-medium">{{ booking.vehicle.brand }} {{ booking.vehicle.model }}</span>
+                                <span class="text-xs text-gray-500 ml-4">{{ booking.vehicle.license_plate }}</span>
+                            </div>
+                            <div class="flex items-center text-sm">
+                                @if (userRole === 'admin') {
+                                <span class="text-gray-600">
+                                    <span class="font-bold">Conductor:</span> {{ booking.driver.name }}
+                                </span>
+                                } @else {
+                                <span class="w-2 h-2 rounded-full mr-2 animate-pulse" [ngClass]="{
+                                      'bg-green-500': booking.status === 'ON_GOING',
+                                      'bg-yellow-500': booking.status === 'PENDING',
+                                      'bg-red-500': booking.status === 'CANCELLED'
+                                    }">
+                                </span>
+                                <span class="text-gray-600">
+                                    {{ booking.status === 'ON_GOING' ? 'En curso' : 'Pendiente' }}
+                                </span>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            }
-            } @else {
-            <div>
-                <div class="flex flex-col items-center justify-center py-8 text-gray-500">
-                    <i class="pi pi-map-marker text-4xl mb-2"></i>
-                    <span>No se ha iniciado ninguna ruta</span>
+                }
+                } @placeholder {
+                <div>
+                    <div class="flex flex-col items-center justify-center py-8 text-gray-500">
+                        <i class="pi pi-spinner pi-spin text-4xl mb-2"></i>
+                        <span>
+                            Cargando rutas...
+                        </span>
+                    </div>
                 </div>
+                }
+                } @else {
+                <div>
+                    <div class="flex flex-col items-center justify-center py-8 text-gray-500">
+                        <i class="pi pi-map-marker text-4xl mb-2"></i>
+                        <span>
+                            {{ userRole === 'admin' ? 'No hay rutas en curso' : 'No tienes rutas asignadas' }}
+                        </span>
+                    </div>
+                </div>
+                }
             </div>
-            }
         </div>
+
+        <!-- modal con detalles de la ruta -->
+        <p-dialog header="Detalles de la Reserva" [draggable]="true" [modal]="true" [(visible)]="visible"
+            [style]="{ width: '30rem'}">
+            <app-fleet-details [booking]="selectedBooking" (boookingCancelled)="loadBookings()" />
+        </p-dialog>
     </div>
 </div>
