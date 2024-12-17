@@ -100,6 +100,11 @@
             class="w-full mt-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             <i class="pi pi-times mr-2"></i> Cancelar ruta
         </button>
+        } @else if (booking?.status === 'ON_GOING') {
+        <button (click)="finishRoute()"
+            class="w-full mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            <i class="pi pi-check mr-2"></i> Finalizar ruta
+        </button>
         } @else {
         <div class="mt-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
             <i class="pi pi-clock mr-2"></i>

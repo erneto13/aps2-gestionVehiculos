@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Contacts } from '../../../../core/interfaces/contacts';
 
 @Component({
   selector: 'app-client-table',
@@ -47,7 +48,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
               </td>
               <td class="px-6 py-4 text-sm text-gray-500">
                 <div class="flex gap-2">
-                    <i class="pi pi-eye text-blue-500 text-xl cursor-pointer mr-4"
+                    <i class="pi pi-eye text-blue-500 text-xl cursor-pointer mr-4" (click)="editClient(contact)"
                         title="Ver detalles">
                     </i>
                     <i class="pi pi-trash text-red-500 text-xl cursor-pointer" (click)="deleteContact(contact.contact_id!)"
@@ -78,8 +79,14 @@ export class ClientTableComponent {
   @Input() contacts: any[] = [];
   @Input() columns: string[] = [];
   @Output() delete = new EventEmitter<number>();
+  @Output() edit = new EventEmitter<Contacts>();
+
 
   deleteContact(id: number): void {
     this.delete.emit(id);
+  }
+
+  editClient(contact: Contacts): void {
+    this.edit.emit(contact);
   }
 }

@@ -1,22 +1,17 @@
 <div class="pt-6 px-4 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
     @for (card of cards; track $index) {
-    <div class="bg-white border shadow rounded-lg p-4 sm:p-6 xl:p-8">
-        <div class="flex items-center">
-            <div class="flex-shrink-0">
-                <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
-                    {{ card.value }}
-                </span>
-                <h3 class="text-base font-normal text-gray-500">{{ card.label }}</h3>
-            </div>
-            <div class="ml-5 w-0 flex items-center justify-end flex-1 text-base font-bold" [ngClass]="{
-            'text-green-500': card.trend === 'up',
-            'text-red-500': card.trend === 'down'
-          }">
-                {{ card.percentage }}%
-                <i class="pi ml-2" [ngClass]="{
-              'pi-arrow-up': card.trend === 'up',
-              'pi-arrow-down': card.trend === 'down'
-            }"></i>
+    <div>
+        <div class="bg-white border shadow rounded-lg p-4 sm:p-6 xl:p-8">
+            <div class="flex items-center">
+                <div class="flex-shrink-0 mr-4">
+                    <i [ngClass]="card.icon || 'pi pi-info-circle'" class="text-gray-500 text-4xl"></i>
+                </div>
+                <div>
+                    <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
+                        {{ card.value }}
+                    </span>
+                    <h3 class="text-base font-normal text-gray-500">{{ card.label }}</h3>
+                </div>
             </div>
         </div>
     </div>

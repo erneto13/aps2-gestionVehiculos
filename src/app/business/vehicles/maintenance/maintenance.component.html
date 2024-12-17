@@ -1,1 +1,65 @@
-<p>maintenance works!</p>
+<table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+        <tr>
+            @for (header of tableHeaders; track $index) {
+            <th scope="col"
+                class="sticky top-0 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50 shadow">
+                {{ header }}
+            </th>
+            }
+        </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+        @if (maintenance.length > 0) {
+        @for (m of maintenance; track $index) {
+        <tr class="hover:bg-gray-100 cursor-pointer" (click)="openDialog(m)">
+            <td class="px-6 py-4 text-sm text-gray-500" style="width: 200px; white-space: nowrap;">
+                {{ m.created_at }}
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-500" style="width: 300px; max-height: 100px; overflow-y: auto;">
+                {{ m.kilometers }}
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-500" style="width: 300px; max-height: 100px; overflow-y: auto;">
+                {{ m.maintenanceType }}
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-500"
+                style="width: 300px; max-height: 100px; overflow-y: auto; text-wrap: wrap;">
+                {{ m.maintenanceProblemType }}
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-500" style="width: 300px; max-height: 100px; overflow-y: auto;">
+                <div class="flex items-center gap-2">
+                    <span class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" [ngClass]="{
+                                'bg-green-400': m.status === 'COMPLETED',
+                                'bg-yellow-400': m.status === 'PENDING',
+                                'bg-red-400': m.status === 'CANCELLED'
+                            }"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3" [ngClass]="{
+                                'bg-green-400': m.status === 'COMPLETED',
+                                'bg-yellow-400': m.status === 'PENDING',
+                                'bg-red-400': m.status === 'CANCELLED'
+                            }"></span>
+                    </span>
+                    <span>{{ m.status }}</span>
+                </div>
+            </td>
+        </tr>
+        }
+        } @else {
+        <tr>
+            <td colspan="6" class="px-6 py-4 text-center text-gray-500" style="white-space: nowrap;">
+                <div class="flex flex-col items-center">
+                    <i class="pi pi-info-circle text-4xl text-gray-400 mb-2"></i>
+                    <p class="text-xl font-medium text-gray-600">No hay datos disponibles</p>
+                    <p class="text-sm text-gray-400">No se ha programado ningún mantenimiento</p>
+                </div>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<p-dialog header="Detalles del Mantenimiento" [draggable]="false" [modal]="true" [(visible)]="visibilidad"
+    [style]="{ width: '35rem' }">
+    <app-maintenance-details [maintenance]="selectedMaintenance" (maintenanceUpdated)="getMaintenance()" />
+</p-dialog>

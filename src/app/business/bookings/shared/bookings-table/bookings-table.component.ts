@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class BookingsTableComponent {
   @Input() bookings: BookingResponse[] = [];
-  tableHeaders: string[] = ['Vehículo', 'Conductor', 'Cliente', 'Fecha', 'Status', 'Destino', 'Acciones'];
+  tableHeaders: string[] = ['Vehículo', 'Conductor', 'Fecha', 'Status', 'Destino', 'Acciones'];
   @Output() delete = new EventEmitter<number>();
 
   visibility: boolean = false;

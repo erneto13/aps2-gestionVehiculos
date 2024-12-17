@@ -1,4 +1,4 @@
-<table class="min-w-full divide-y divide-gray-200">
+<table class="divide-y divide-gray-200">
     <thead class="bg-gray-50">
         <tr>
             @for (header of tableHeaders; track $index) {
@@ -13,46 +13,67 @@
         @if (bookings.length > 0) {
         @for (booking of bookings; track $index) {
         <tr class="hover:bg-gray-100 cursor-pointer">
-            <td class="px-6 py-4 text-sm font-medium text-slate-900" style="width: 200px;">
-                {{ booking.vehicle.brand }} {{ booking.vehicle.model }}
-                <small class="text-xs text-gray-500">{{ booking.vehicle.license_plate }}</small>
+            <td class="px-3 py-4 text-sm font-medium text-slate-900">
+                <div class="flex items-center max-w-xs overflow-x-auto">
+                    <img src="{{ booking.vehicle.image_url }}" alt="Vehículo"
+                        class="w-10 h-10 rounded-full object-cover mr-4">
+                    <div class="text-left">
+                        <div class="text-sm font-medium">{{ booking.vehicle.brand }} {{ booking.vehicle.model }}</div>
+                        <small class="text-xs text-gray-500">{{ booking.vehicle.license_plate }}</small>
+                    </div>
+                </div>
             </td>
-            <td class="px-6 py-4 text-sm text-gray-500" style="width: 200px; white-space: nowrap;">
-                {{ booking.driver.name }}
+            <td class="px-3 py-4 text-sm text-gray-500">
+                <div class="flex items-center max-w-xs overflow-x-auto">
+                    <img src="{{ booking.driver.profile_picture }}" alt="Conductor"
+                        class="w-10 h-10 rounded-full object-cover mr-4">
+                    <div>
+                        <span class="text-sm font-medium">{{ booking.driver.name }}</span>
+                    </div>
+                </div>
             </td>
-            <td class="px-6 py-4 text-sm text-gray-500" style="width: 200px; white-space: nowrap;">
-                {{ booking.contact.name }}
+
+            <td class="px-6 py-4 text-sm text-gray-500">
+                <div class="overflow-x-auto whitespace-nowrap">
+                    {{ booking.end_date | date }}
+                </div>
             </td>
-            <td class="px-6 py-4 text-sm text-gray-500" style="width: 300px; max-height: 100px; overflow-y: auto;">
-                {{ booking.end_date | date }}
+            <td class="px-6 py-4 text-sm text-gray-500">
+                <div class="overflow-x-auto whitespace-nowrap">
+                    <span class="inline-block w-3 h-3 rounded-full mr-2 animate-pulse"
+                        [class.bg-blue-500]="booking.status === 'ON_GOING'"
+                        [class.bg-yellow-500]="booking.status === 'PENDING'"
+                        [class.bg-red-500]="booking.status === 'CANCELLED'"
+                        [class.bg-green-500]="booking.status === 'COMPLETED'">
+                    </span>
+                    <span class="text-gray-600">
+                        {{
+                        booking.status === 'ON_GOING' ? 'En curso' :
+                        booking.status === 'PENDING' ? 'Pendiente' :
+                        booking.status === 'CANCELLED' ? 'Cancelado' :
+                        booking.status === 'COMPLETED' ? 'Completado' : 'Desconocido'
+                        }}
+                    </span>
+                </div>
             </td>
-            <td class="px-6 py-4 text-sm text-gray-500" style="width: 200px; max-height: 100px; overflow-y: auto;">
-                <span class="w-2 h-2 rounded-full mr-2 animate-pulse" [ngClass]="{
-                    'bg-green-500': booking.status === 'ON_GOING',
-                    'bg-yellow-500': booking.status === 'PENDING',
-                    'bg-red-500': booking.status === 'CANCELLED'
-                  }">
-                </span>
-                <span class="text-gray-600">
-                    {{ booking.status === 'ON_GOING' ? 'En curso' : 'Pendiente' }}
-                </span>
-            </td>
-            <td class="px-6 py-4 text-sm text-gray-500" style="width: 300px; max-height: 100px; overflow-y: auto;">
+            <td class="px-6 py-4 text-sm text-gray-500 max-w-sm overflow-x-auto whitespace-nowrap">
                 {{ booking.destination_location }}
             </td>
-            <td class="px-6 py-4 text-sm text-gray-500" style="width: 200px;">
-                <i class="pi pi-eye text-blue-500 text-xl cursor-pointer mr-4"
-                    (click)="viewDetails(booking.bookings_id!)" title="Ver detalles">
-                </i>
-                <i class="pi pi-trash text-red-500 text-xl cursor-pointer" (click)="deleteBooking(booking.bookings_id!)"
-                    title="Eliminar">
-                </i>
+            <td class="px-6 py-4 text-sm text-gray-500">
+                <div class="overflow-x-auto whitespace-nowrap flex items-center">
+                    <i class="pi pi-eye text-blue-500 text-xl cursor-pointer mr-4"
+                        (click)="viewDetails(booking.bookings_id!)" title="Ver detalles">
+                    </i>
+                    <i class="pi pi-trash text-red-500 text-xl cursor-pointer"
+                        (click)="deleteBooking(booking.bookings_id!)" title="Eliminar">
+                    </i>
+                </div>
             </td>
         </tr>
         }
         } @else {
         <tr>
-            <td colspan="7" class="px-6 py-4 text-center text-gray-500" style="white-space: nowrap;">
+            <td colspan="6" class="px-6 py-4 text-center text-gray-500 whitespace-nowrap">
                 <div class="flex flex-col items-center">
                     <i class="pi pi-info-circle text-4xl text-gray-400 mb-2"></i>
                     <p class="text-xl font-medium text-gray-600">No hay datos disponibles</p>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ChartData, ChartOptions } from '../../../../core/interfaces/dashboard';
@@ -15,4 +15,10 @@ export class ExpenseChartComponent {
   @Input() percentageChange: number = 0;
   @Input() chartData!: ChartData;
   @Input() chartOptions!: ChartOptions;
+
+  @Output() chartSwitch = new EventEmitter<void>();
+
+  onSwitchChart() {
+    this.chartSwitch.emit();
+  }
 }

@@ -24,36 +24,8 @@
                     class="hover:bg-gray-500 hover:bg-opacity-10 hover:text-customgreen flex items-center text-customgray py-1.5 px-4 rounded space-x-2 cursor-pointer"
                     routerLink="/vehiculos" routerLinkActive="text-customgreen font-semibold">
                     <i class="pi pi-truck" style="font-size: 1.2rem"></i>
-                    <div class="flex w-full justify-between items-center">
-                        <span class="flex-1">Vehículos</span>
-                        <button type="button" (click)="toggleSubmenu()" class="focus:outline-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 transform transition-transform"
-                                [class.rotate-180]="submenuOpen" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                    </div>
+                    <span class="flex-1">Vehículos</span>
                 </a>
-
-                @if (submenuOpen) {
-                <ul class="pl-8 mt-2 space-y-2 transition-transform duration-300 transform ease-in-out opacity-100">
-                    <li>
-                        <a (click)="selectTitle('Mantenimiento')"
-                            class="hover:bg-gray-500 hover:bg-opacity-10 hover:text-customgreen flex items-center text-customgray py-1.5 px-4 rounded space-x-2 cursor-pointer"
-                            routerLink="/vehiculos/mantenimiento" routerLinkActive="text-customgreen font-semibold">
-                            <span>Mantenimiento</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a (click)="selectTitle('Documentación')"
-                            class="hover:bg-gray-500 hover:bg-opacity-10 hover:text-customgreen flex items-center text-customgray py-1.5 px-4 rounded space-x-2 cursor-pointer"
-                            routerLink="/vehiculos/documentacion" routerLinkActive="text-customgreen font-semibold">
-                            <span>Documentación</span>
-                        </a>
-                    </li>
-                </ul>
-                }
             </li>
             <li>
                 <a (click)="selectTitle('Asuntos')"

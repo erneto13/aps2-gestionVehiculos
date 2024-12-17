@@ -42,28 +42,21 @@ export class MapViewComponent implements AfterViewInit {
       map.resize();
     });
 
-    // Agregar marcador en la ubicación inicial
     new Marker({ color: 'red' })
       .setLngLat(this.placesService.useLocation!)
       .addTo(map);
 
-    // Evento de clic en el mapa
     map.on('click', (event) => {
       const { lng, lat } = event.lngLat;
 
-      // Agregar la nueva ubicación seleccionada al arreglo
       this.selectedLocations.push({ lng, lat });
 
-      // Crear un marcador en el mapa
       new Marker({ color: 'blue' })
         .setLngLat([lng, lat])
         .addTo(map);
 
-      // Mostrar la cantidad de ubicaciones seleccionadas (opcional)
-      console.log('Ubicaciones seleccionadas:', this.selectedLocations);
     });
 
-    // Establecer el mapa en el servicio
     this.mapService.setMap(map);
   }
 }

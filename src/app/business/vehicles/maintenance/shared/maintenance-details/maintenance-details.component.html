@@ -1,0 +1,74 @@
+<div class="max-w-md mx-auto bg-white overflow-hidden md:max-w-2xl -mt-4">
+    <div>
+        <div class="grid grid-cols-1 gap-2 md:grid-cols-2 mb-4">
+            <p class="flex items-center text-gray-500">
+                <i class="pi pi-tag text-gray-400 font-medium mr-2"></i> Tipo:
+                <span id="maintenanceType" class="text-gray-700 ml-1">{{ maintenance?.maintenanceType }}</span>
+            </p>
+            <p class="flex items-center text-gray-500">
+                <i class="pi pi-exclamation-circle font-medium text-gray-400 mr-2"></i> Problema:
+                <span id="maintenanceProblemType" class="text-gray-700 ml-1">{{ maintenance?.maintenanceProblemType
+                    }}</span>
+            </p>
+        </div>
+
+        <div class="mb-4">
+            <p class="text-gray-700 text-sm">
+                <i class="pi pi-align-left text-gray-400 mr-2"></i> Descripción:
+                <span id="description" class="ml-1">{{ maintenance?.description }}</span>
+            </p>
+        </div>
+
+        <div class="mb-4 flex justify-between items-center">
+            <span class="text-gray-700 font-semibold flex items-center">
+                <i class="pi pi-wallet text-gray-400 mr-2"></i> Costo:
+                <span id="cost" class="ml-1">{{ maintenance?.cost | currency }}</span>
+            </span>
+            <span class="text-gray-500 text-sm flex items-center">
+                <i class="pi pi-compass text-gray-400 mr-2"></i> Kilómetros:
+                <span id="kilometers" class="ml-1">{{ maintenance?.kilometers }}</span> km
+            </span>
+        </div>
+
+        <div class="mb-4 flex justify-between items-center">
+            <span class="text-sm font-medium flex items-center">
+                <i class="pi pi-info-circle text-gray-400 mr-2"></i> Estado:
+                <span id="status" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full" [ngClass]="{
+                        'bg-green-50 text-green-800': maintenance?.status === 'COMPLETED',
+                        'bg-yellow-50 text-yellow-800': maintenance?.status === 'PENDING',
+                        'bg-red-50 text-red-800': maintenance?.status === 'CANCELLED'
+                    }">
+                    {{ maintenance?.status }}
+                </span>
+            </span>
+            <span class="text-sm flex items-center text-gray-500">
+                <i class="pi pi-user text-gray-400 mr-2"></i> Mecánico:
+                <span id="mechanic" class="ml-1">{{ maintenance?.mechanic }}</span>
+            </span>
+        </div>
+
+        <div class="mb-4 flex justify-between items-center">
+            <div class="text-sm text-gray-500">
+                <p class="flex items-center">
+                    <i class="pi pi-calendar text-gray-400 mr-2"></i> Programado para el:
+                    <span id="created_at" class="ml-1">{{ maintenance?.created_at | date }}</span>
+                </p>
+            </div>
+            <div>
+                @if (maintenance?.status === 'COMPLETED') {
+                <div class="text-sm text-gray-500">
+                    <p class="flex items-center">
+                        <i class="pi pi-calendar text-gray-400 mr-2"></i> Finalizado el:
+                        <span id="updated_at" class="ml-1">{{ maintenance?.updated_at | date }}</span>
+                    </p>
+                </div>
+                }
+                @if (maintenance?.status === 'PENDING') {
+                <button (click)="finalizeMaintenance()" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg shadow">
+                    <i class="pi pi-check mr-2"></i> Terminar Mantenimiento
+                </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

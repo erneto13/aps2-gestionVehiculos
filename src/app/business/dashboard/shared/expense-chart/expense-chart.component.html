@@ -18,7 +18,8 @@
                     'pi-arrow-down text-red-500': percentageChange < 0
                 }" class="pi ml-2 mr-2">
             </i>
-            <button class="h-8 w-8 flex items-center justify-center rounded-md border border-gray-300 bg-white">
+            <button (click)="onSwitchChart()"
+                class="h-8 w-8 flex items-center justify-center rounded-md border border-gray-300 bg-white">
                 <i class="pi pi-sync text-gray-500"></i>
             </button>
         </div>

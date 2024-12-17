@@ -1,12 +1,17 @@
 <main>
-    <app-overview-cards></app-overview-cards>
+    <app-overview-cards [cards]="overviewCards" />
 
     <div class="pt-4 px-4">
         <div class="w-full grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
+            @if (isFuelChart) {
             <app-expense-chart [totalExpense]="_$combustible" [percentageChange]="percentageChange"
-                [chartData]="fuelChartData" [chartOptions]="fuelChartOptions">
+                [chartData]="fuelChartData" [chartOptions]="fuelChartOptions" (chartSwitch)="toggleChart()">
             </app-expense-chart>
-
+            } @else if (!isFuelChart) {
+            <app-expense-chart [title]="'Tendencias de problemas reportados'" [chartData]="issueChartData"
+                [chartOptions]="issueChartOptions" (chartSwitch)="toggleChart()">
+            </app-expense-chart>
+            }
             <app-recent-bookings [bookings]="bookings">
             </app-recent-bookings>
         </div>

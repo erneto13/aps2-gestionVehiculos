@@ -12,10 +12,16 @@
         <app-client-form (clientCreated)="loadContacts()" />
     </p-dialog>
 
+    <p-dialog header="Detalles del Cliente" [draggable]="false" [modal]="true" [(visible)]="editModalVisible"
+        [style]="{ width: '30rem' }">
+        <app-client-form [contact]="contactToEdit" (contactUpdated)="onContactUpdated($event)" />
+    </p-dialog>
+
     @if (loadingService.loading$ | async) {
     <app-spinner />
     }
 
-    <app-client-table [contacts]="pagedContacts" [columns]="columnas" (delete)="deleteContact($event)">
+    <app-client-table [contacts]="pagedContacts" [columns]="columnas" (delete)="deleteContact($event)"
+        (edit)="onEditContact($event)">
     </app-client-table>
 </div>

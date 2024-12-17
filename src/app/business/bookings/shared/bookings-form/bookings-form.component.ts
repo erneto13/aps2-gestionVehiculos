@@ -127,7 +127,7 @@ export class BookingsFormComponent implements OnInit {
 
   loadVehicles(): void {
     this.vehicleApiService.getVehicles().subscribe((vehicles) => {
-      this.vehicles = vehicles;
+      this.vehicles = vehicles.filter(vehicle => vehicle.status === 'Active');
     });
   }
 
@@ -139,7 +139,7 @@ export class BookingsFormComponent implements OnInit {
 
   loadClients(): void {
     this.contactService.getContacts().subscribe((clients) => {
-      this.clients = clients;
+      this.clients = clients.filter(client => client.status === 'Activo');
     });
   }
 }

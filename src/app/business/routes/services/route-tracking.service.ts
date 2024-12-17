@@ -14,6 +14,9 @@ export class RouteTrackingService {
 
   private startRouteSource = new BehaviorSubject<RouteStartData | null>(null);
 
+  private locationSource = new Subject<{ latitude: number; longitude: number }>();
+  location$ = this.locationSource.asObservable();
+
   constructor(private http: HttpClient) { }
 
   currentLocation$: Observable<RoutePoint | null> = this.currentLocationSubject.asObservable();
@@ -37,5 +40,9 @@ export class RouteTrackingService {
 
   triggerStartRoute(data: RouteStartData): void {
     this.startRouteSource.next(data);
+  }
+
+  sendLocation(latitude: number, longitude: number) {
+    this.locationSource.next({ latitude, longitude });
   }
 }

@@ -12,10 +12,11 @@ import { SharedService } from '../../../core/services/shared.service';
 })
 export class SidebarComponent implements OnInit {
 
-  constructor(private auth: Auth, private sharedService: SharedService,
+  constructor(
+    private auth: Auth,
+    private sharedService: SharedService,
     private activatedRoute: ActivatedRoute) { }
 
-  submenuOpen: boolean = false
   role: string | null = null
 
   driverPhotoUrl!: string;
@@ -40,10 +41,6 @@ export class SidebarComponent implements OnInit {
   // cerrar sesión
   logout(): void {
     this.auth.logout();
-  }
-
-  toggleSubmenu() {
-    this.submenuOpen = !this.submenuOpen;
   }
 
   selectTitle(title: string) {

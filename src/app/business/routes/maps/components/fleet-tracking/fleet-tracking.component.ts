@@ -1,5 +1,5 @@
 // Bodriular
-import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -15,6 +15,7 @@ import { FleetSearchComponent } from '../fleet-search/fleet-search.component';
 import { DialogModule } from 'primeng/dialog';
 import { FleetDetailsComponent } from '../../../shared/components/fleet-details/fleet-details.component';
 import { RouteTrackingService } from '../../../services/route-tracking.service';
+import { TrackingMapComponent } from '../tracking-map/tracking-map.component';
 
 @Component({
   selector: 'app-fleet-tracking',
@@ -39,13 +40,15 @@ export class FleetTrackingComponent implements OnInit, OnDestroy {
 
   // test
   visible: boolean = false;
+  @ViewChild(TrackingMapComponent) trackingMapComponent!: TrackingMapComponent;
+
 
   constructor(
     private sharedService: SharedService,
     private bookingService: BookingsService,
     private toastService: ToastService,
     private authService: Auth,
-    private routeService: RouteTrackingService
+    private routeService: RouteTrackingService,
   ) { }
 
   ngOnInit(): void {
@@ -151,12 +154,10 @@ export class FleetTrackingComponent implements OnInit, OnDestroy {
 
     this.routeService.getCurrentLocation(booking.bookings_id).subscribe({
       next: (response) => {
-        console.log(response.latitude, response.longitude);
-        this.toastService.showToast(
-          'Ubicación actual cargada',
-          'Se cargó la ubicación actual del vehículo',
-          'success'
-        )
+        const { latitude, longitude } = response;
+        this.routeService.sendLocation(latitude, longitude);
+
+        this.trackingMapComponent.startAdminTracking(booking.bookings_id);
       },
       error: (error) => {
         this.toastService.showToast(
@@ -165,7 +166,7 @@ export class FleetTrackingComponent implements OnInit, OnDestroy {
           'error'
         );
       }
-    })
+    });
   }
 
   ngOnDestroy(): void {

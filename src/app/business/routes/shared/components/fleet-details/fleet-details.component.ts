@@ -143,11 +143,33 @@ export class FleetDetailsComponent implements OnChanges {
     });
   }
 
+  finishRoute(): void {
+    if (!this.booking) throw new Error('Booking not found');
+
+    this.bookingService.updateBookingStatus(this.booking.bookings_id, 'COMPLETED').subscribe({
+      next: () => {
+        this.toastService.showToast(
+          'Reserva finalizada',
+          'Puede iniciar otra ruta o volver al cuartel.',
+          'success'
+        );
+        this.boookingCancelled.emit();
+      },
+      error: (err) => {
+        this.toastService.showToast(
+          'Error al finalizar la ruta',
+          'Hubo un problema al finalizar la reserva. Por favor, inténtelo de nuevo más tarde.',
+          'error'
+        );
+      },
+    });
+  }
+
   stopRoute(): void {
     this.pollingSubscription?.unsubscribe();
   }
 
-  private getCoordinates(origin: [number, number], destination: [number, number]): Promise<[number, number][]> {
+  getCoordinates(origin: [number, number], destination: [number, number]): Promise<[number, number][]> {
     return new Promise((resolve, reject) => {
       this.directionsApi
         .get<DirectionsResponse>(`/${origin.join(',')};${destination.join(',')}`)

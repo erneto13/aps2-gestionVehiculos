@@ -8,6 +8,7 @@ import { RouteTrackingService } from '../../../services/route-tracking.service';
 import { RoutePoint } from '../../../../../core/interfaces/geofence';
 import { DirectionsApiClient } from '../../../../bookings/maps/api/directionsApiClient';
 import { DirectionsResponse } from '../../../../../core/interfaces/directions';
+import { Auth } from '../../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-tracking-map',
@@ -21,9 +22,11 @@ export class TrackingMapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private map!: Map;
   private marker!: Marker;
+
   private locationSubscription: Subscription | null = null;
   private pollingSubscription: Subscription | null = null;
   private routeStartSubscription: Subscription | null = null;
+  private adminTrackingSubscription: Subscription | null = null;
 
   // Propiedades para la ruta
   private routeCoordinates: number[][] = [];
@@ -31,25 +34,41 @@ export class TrackingMapComponent implements OnInit, AfterViewInit, OnDestroy {
   private layerId = 'route-layer';
   private initialRouteCoordinates: number[][] = [];
 
+  public routeDistance: number | null = null;
+  public routeDuration: number | null = null;
+  private destinationCoordinate: [number, number] | null = null;
+  private isRouteCompleted: boolean = false;
+  private currentPosition: [number, number] | null = null;
+
+  private currentMarker: Marker | null = null;
+  private intervalId: any;
+  private currentBookingId: number | null = null;
+
   constructor(
     private mapService: MapService,
     private routeService: RouteTrackingService,
-    private directionsApi: DirectionsApiClient
+    private directionsApi: DirectionsApiClient,
   ) { }
 
   ngOnInit(): void {
+    this.routeService.location$.subscribe((coords) => {
+      const { latitude, longitude } = coords;
+
+      this.addMarker(latitude, longitude);
+    });
+
     this.routeStartSubscription = this.routeService.startRoute$.subscribe((data) => {
       if (data) {
         const { originLat, originLng, destinationLat, destinationLng, bookingId } = data;
 
-        // Obtiene la ruta usando la API de direcciones de Mapbox
+        this.destinationCoordinate = [destinationLng, destinationLat];
         this.fetchRoute(
           [originLng, originLat],
           [destinationLng, destinationLat]
         );
 
-        // Inicia el polling para ubicaciones en tiempo real
         this.startPolling(bookingId);
+        this.isRouteCompleted = false;
       }
     });
   }
@@ -86,6 +105,44 @@ export class TrackingMapComponent implements OnInit, AfterViewInit, OnDestroy {
           this.drawRoute(this.initialRouteCoordinates);
         }
       });
+  }
+
+  startAdminTracking(bookingId: number): void {
+    this.stopAdminTracking();
+
+    this.currentBookingId = bookingId;
+
+    this.adminTrackingSubscription = interval(5000).subscribe(() => {
+      if (this.currentBookingId) {
+        this.routeService.getCurrentLocation(this.currentBookingId).subscribe({
+          next: (point: RoutePoint) => {
+            this.updateMap(point);
+          },
+          error: (err) => {
+            console.error('Error obteniendo punto de ruta:', err);
+            this.stopAdminTracking();
+          },
+        });
+      }
+    });
+  }
+
+  stopAdminTracking(): void {
+    if (this.adminTrackingSubscription) {
+      this.adminTrackingSubscription.unsubscribe();
+      this.adminTrackingSubscription = null;
+    }
+    this.currentBookingId = null;
+  }
+
+  addMarker(latitude: number, longitude: number) {
+    if (this.currentMarker) {
+      this.currentMarker.remove();
+    }
+
+    this.currentMarker = new Marker()
+      .setLngLat([longitude, latitude])
+      .addTo(this.map);
   }
 
   private initializeRouteLayer(): void {
@@ -137,43 +194,90 @@ export class TrackingMapComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.pollingSubscription = interval(5000).subscribe(() => {
-      this.routeService.getCurrentLocation(bookingId).subscribe({
-        next: (point: RoutePoint) => {
-          this.routeService.updateCurrentLocation(point);
-        },
-        error: (err) => {
-          console.error('Error obteniendo punto de ruta:', err);
-        },
-      });
+      if (!this.isRouteCompleted) {
+        this.routeService.getCurrentLocation(bookingId).subscribe({
+          next: (point: RoutePoint) => {
+            this.routeService.updateCurrentLocation(point);
+          },
+          error: (err) => {
+            console.error('Error obteniendo punto de ruta:', err);
+          },
+        });
+      }
     });
   }
 
   updateMap(point: RoutePoint): void {
     const newCoordinate: [number, number] = [point.longitude, point.latitude];
+    this.currentPosition = newCoordinate;
 
+    // crear un marcador personalizado con imagen de auto
     if (!this.marker) {
-      this.marker = new Marker()
+      const carMarkerElement = document.createElement('div');
+      carMarkerElement.style.backgroundImage = 'url(./assets/test.png)';
+      carMarkerElement.style.width = '40px';
+      carMarkerElement.style.height = '40px';
+      carMarkerElement.style.backgroundSize = 'cover';
+
+      this.marker = new Marker({ element: carMarkerElement })
         .setLngLat(newCoordinate)
         .addTo(this.map);
     } else {
       this.marker.setLngLat(newCoordinate);
     }
 
+    // eliminar puntos de la ruta ya recorridos
     this.routeCoordinates = this.routeCoordinates.filter(coord => {
-      const distance = this.calculateDistance(coord, newCoordinate);
-      return distance > 0.005;
+      const distance = this.calculateDistance(newCoordinate, coord);
+      return distance > 0.09;
     });
 
-    (this.map.getSource(this.sourceId) as mapboxgl.GeoJSONSource).setData({
-      type: 'Feature',
-      properties: {},
-      geometry: {
-        type: 'LineString',
-        coordinates: this.routeCoordinates
-      }
-    });
+    // actualizar la ruta
+    if (this.routeCoordinates.length > 0) {
+      (this.map.getSource(this.sourceId) as mapboxgl.GeoJSONSource).setData({
+        type: 'Feature',
+        properties: {},
+        geometry: {
+          type: 'LineString',
+          coordinates: this.routeCoordinates
+        }
+      });
+    } else {
+      // si no quedan más coordenadas eliminar la ruta
+      (this.map.getSource(this.sourceId) as mapboxgl.GeoJSONSource).setData({
+        type: 'Feature',
+        properties: {},
+        geometry: {
+          type: 'LineString',
+          coordinates: []
+        }
+      });
+    }
 
     this.map.flyTo({ center: newCoordinate, zoom: 14 });
+
+    // verificar si se ha llegado al destino
+    if (this.destinationCoordinate) {
+      const distanceToDestination = this.calculateDistance(newCoordinate, this.destinationCoordinate);
+      if (distanceToDestination < 0.01) {
+        this.isRouteCompleted = true;
+
+        if (this.pollingSubscription) {
+          this.pollingSubscription.unsubscribe();
+        }
+
+        (this.map.getSource(this.sourceId) as mapboxgl.GeoJSONSource).setData({
+          type: 'Feature',
+          properties: {},
+          geometry: {
+            type: 'LineString',
+            coordinates: []
+          }
+        });
+
+        console.log('Ruta completada');
+      }
+    }
   }
 
   private calculateDistance(coord1: number[], coord2: number[]): number {
@@ -201,5 +305,6 @@ export class TrackingMapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.locationSubscription?.unsubscribe();
     this.pollingSubscription?.unsubscribe();
     this.routeStartSubscription?.unsubscribe();
+    this.adminTrackingSubscription?.unsubscribe();
   }
 }

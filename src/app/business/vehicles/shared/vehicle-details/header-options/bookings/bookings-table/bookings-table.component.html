@@ -13,7 +13,7 @@
         </tr>
     </thead>
     <tbody class="bg-white">
-        @if (bookings?.length > 0) {
+        @if (bookings?.length! > 0) {
         @for (booking of bookings.slice(0, 3); track $index) {
         <tr>
             <td class="p-4 whitespace-pre-wrap text-sm font-normal text-gray-900">Desde SGFA HQ

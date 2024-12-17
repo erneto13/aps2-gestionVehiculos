@@ -55,16 +55,6 @@ export const routes: Routes = [
                             }
                         ]
                     },
-                    {
-                        path: 'documentacion',
-                        loadComponent: () => import('./business/vehicles/documentation/documentation.component'),
-                        data: { title: 'Documentación de Vehículos' }
-                    },
-                    {
-                        path: 'mantenimiento',
-                        loadComponent: () => import('./business/vehicles/maintenance/maintenance.component'),
-                        data: { title: 'Mantenimiento de Vehículos' }
-                    }
                 ]
             },
             {

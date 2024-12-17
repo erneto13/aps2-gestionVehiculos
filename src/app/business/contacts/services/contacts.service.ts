@@ -7,9 +7,9 @@ import { ClientResponse, Contacts } from '../../../core/interfaces/contacts';
   providedIn: 'root',
 })
 export class ContactsService {
-  private apiUrl = 'http://localhost:8080/api/v1/contacts';
+  private apiUrl = 'http://localhost:8080/api/contacts';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getContacts(): Observable<Contacts[]> {
     return this.http.get<Contacts[]>(`${this.apiUrl}`);
@@ -27,7 +27,12 @@ export class ContactsService {
     return this.http.put<Contacts>(`${this.apiUrl}/${id}`, contact);
   }
 
+  updateContactStatus(id: number, status: string): Observable<Contacts> {
+    return this.http.patch<Contacts>(`${this.apiUrl}/${id}/status?status=${status}`, {});
+  }
+
   deleteContact(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+  
 }

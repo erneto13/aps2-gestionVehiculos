@@ -17,11 +17,12 @@
                         </span>
                     </div>
                     <div class="flex items-center space-x-1 text-sm text-gray-600 mb-2">
-                        <span class="h-2 w-2 rounded-full" [ngClass]="{
-                            'bg-green-500': vehicle.status === 'Active',
-                            'bg-red-500': vehicle.status === 'Under Maintenance',
-                            'bg-yellow-500': vehicle.status === 'Retired'
-                        }"></span>
+                        <span class="h-2 w-2 rounded-full animate-pulse" [ngClass]="{
+                          'bg-green-500': vehicle.status === 'Active',
+                          'bg-red-500': vehicle.status === 'Maintenance',
+                          'bg-yellow-500': vehicle.status === 'Retired'
+                        }">
+                        </span>
                         <span>{{ vehicle.status }}</span>
                     </div>
                 </div>

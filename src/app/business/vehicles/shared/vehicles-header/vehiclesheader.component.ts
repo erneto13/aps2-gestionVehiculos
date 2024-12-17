@@ -11,7 +11,6 @@ import { VehicleAddComponent } from "../vehicle-add/vehicle-add.component";
   templateUrl: './vehiclesheader.component.html',
 })
 export class VehiclesheaderComponent {
-  // Variables
   display: boolean = false;
   position: string = 'center';
 

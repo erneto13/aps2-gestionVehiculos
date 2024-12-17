@@ -43,6 +43,9 @@ export default class ContactsComponent implements OnInit {
   initials: string = '';
   visible: boolean = false;
 
+  editModalVisible: boolean = false;
+  contactToEdit: Contacts | null = null;
+
   constructor(
     private cs: ContactsService,
     public loadingService: LoadingService
@@ -106,5 +109,19 @@ export default class ContactsComponent implements OnInit {
           console.error('Error deleting contact:', error);
         }
       });
+  }
+
+  onEditContact(contact: Contacts): void {
+    this.contactToEdit = { ...contact };
+    this.editModalVisible = true;
+  }
+
+  onContactUpdated(updatedContact: Contacts): void {
+    const index = this.contacts.findIndex(c => c.contact_id === updatedContact.contact_id);
+    if (index !== -1) {
+      this.contacts[index] = updatedContact;
+      this.updatePageContacts();
+    }
+    this.editModalVisible = false;
   }
 }
