@@ -9,7 +9,7 @@ import { RoutePoint, RouteStartData } from '../../../core/interfaces/geofence';
 })
 export class RouteTrackingService {
 
-  private apiUrl = 'http://localhost:8080/api/v1/routes';
+  private apiUrl = 'https://sgfa-backend-latest.onrender.com/api/v1/routes';
   private currentLocationSubject = new BehaviorSubject<RoutePoint | null>(null);
 
   private startRouteSource = new BehaviorSubject<RouteStartData | null>(null);

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class MediaService {
 
-  private readonly baseUrl = `http://localhost:8080/api/v1/media`;
+  private readonly baseUrl = `https://sgfa-backend-latest.onrender.com/api/v1/media`;
   constructor(private http: HttpClient) { }
 
   // sube un solo archivo

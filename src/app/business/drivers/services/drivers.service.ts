@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DriversService {
-  api = 'http://localhost:8080/api/v1/drivers';
+  api = 'https://sgfa-backend-latest.onrender.com/api/v1/drivers';
 
   constructor(private http: HttpClient) { }
 

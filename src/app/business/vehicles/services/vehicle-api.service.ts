@@ -11,8 +11,8 @@ import { FuelRecord, FuelRecordResponse } from '../../../core/interfaces/fuel_re
 export class VehicleApiService {
 
   constructor(private http: HttpClient) { }
-  private apiUrl = 'http://localhost:8080/api/v1/vehicles'
-  private apiRecord = 'http://localhost:8080/api/v1/fuel-records'
+  private apiUrl = 'https://sgfa-backend-latest.onrender.com/api/v1/vehicles'
+  private apiRecord = 'https://sgfa-backend-latest.onrender.com/api/v1/fuel-records'
 
   vehicleAddedSource = new Subject<void>();
   vehicleAdded$ = this.vehicleAddedSource.asObservable();

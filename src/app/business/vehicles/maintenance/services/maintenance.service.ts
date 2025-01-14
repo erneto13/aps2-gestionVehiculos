@@ -9,7 +9,7 @@ import { MaintenanceResponse } from "../../../../core/interfaces/maintenance";
 })
 
 export class MaintenanceService {
-    private apiUrl = 'http://localhost:8080/api/v1/maintenance';
+    private apiUrl = 'https://sgfa-backend-latest.onrender.com/api/v1/maintenance';
 
     constructor(private http: HttpClient) { }
 

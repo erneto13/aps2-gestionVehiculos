@@ -11,8 +11,8 @@ import { User } from '../interfaces/user';
 
 export class Auth {
 
-    private LOGIN_URL = 'http://localhost:8080/api/v1/auth/login';
-    private REFRESH_URL = 'http://localhost:8080/api/v1/auth/refresh';
+    private LOGIN_URL = 'https://sgfa-backend-latest.onrender.com/api/v1/auth/login';
+    private REFRESH_URL = 'https://sgfa-backend-latest.onrender.com/api/v1/auth/refresh';
 
     private TOKEN_KEY = 'token';
     private REFRESH_TOKEN_KEY = 'refreshToken';

@@ -7,7 +7,7 @@ import { ClientResponse, Contacts } from '../../../core/interfaces/contacts';
   providedIn: 'root',
 })
 export class ContactsService {
-  private apiUrl = 'http://localhost:8080/api/contacts';
+  private apiUrl = 'https://sgfa-backend-latest.onrender.com/api/contacts';
 
   constructor(private http: HttpClient) { }
 

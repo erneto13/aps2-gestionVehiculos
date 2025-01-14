@@ -7,7 +7,7 @@ import { catchError, Observable, Subject, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class IssuesService {
-  private apiUrl = 'http://localhost:8080/api/v1/issues';
+  private apiUrl = 'https://sgfa-backend-latest.onrender.com/api/v1/issues';
 
   private issueCreatedSource = new Subject<void>();
   issueCreated$ = this.issueCreatedSource.asObservable();

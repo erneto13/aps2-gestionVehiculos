@@ -8,7 +8,7 @@ import { NewReminder, Reminder } from '../../../core/interfaces/reminders';
 })
 export class RemindersService {
 
-  api = 'http://localhost:8080/api/v1/reminders';
+  api = 'https://sgfa-backend-latest.onrender.com/api/v1/reminders';
 
   constructor(private http: HttpClient) { }
 

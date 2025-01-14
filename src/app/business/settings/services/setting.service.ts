@@ -8,8 +8,8 @@ import { CreateCredentials } from '../../../core/interfaces/credentials';
   providedIn: 'root'
 })
 export class SettingService {
-  private apiUrl = 'http://localhost:8080/api/v1/user-driver';
-  private createCredentialsUrl = 'http://localhost:8080/api/v1/auth/admin/create-credentials';
+  private apiUrl = 'https://sgfa-backend-latest.onrender.com/api/v1/user-driver';
+  private createCredentialsUrl = 'https://sgfa-backend-latest.onrender.com/api/v1/auth/admin/create-credentials';
 
   constructor(private http: HttpClient) { }
 
