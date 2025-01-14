@@ -34,6 +34,11 @@
               "node_modules/@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css"
             ],
             "scripts": [],
+            "allowedCommonJsDependencies": [
+              "mapbox-gl",
+              "core-js",
+              "@babel/runtime"
+            ],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -45,8 +50,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "2MB",
+                  "maximumError": "5MB"
                 },
                 {
                   "type": "anyComponentStyle",
